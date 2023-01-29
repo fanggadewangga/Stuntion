@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.killjoy.stuntion"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -140,4 +140,8 @@ dependencies {
 
     // Icon
     "androidx.compose.material:material-icons-extended:$compose_ui_version"
+
+    // date picker
+    implementation 'com.maxkeppeler.sheets-compose-dialogs:core:1.0.2'
+    implementation 'com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2'
 }

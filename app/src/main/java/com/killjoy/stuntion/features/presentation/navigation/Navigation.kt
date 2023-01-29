@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.killjoy.stuntion.features.presentation.screen.auth.general_information.GeneralInformationScreen
 import com.killjoy.stuntion.features.presentation.screen.auth.login.LoginScreen
 import com.killjoy.stuntion.features.presentation.screen.auth.signup.SignupScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
@@ -12,7 +13,7 @@ import com.killjoy.stuntion.features.presentation.utils.Screen
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.SignupScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.GeneralInformationScreen.route) {
 
         composable(route = Screen.SplashScreen.route) {
 
@@ -28,6 +29,10 @@ fun Navigation() {
 
         composable(route = Screen.LoginScreen.route) {
             LoginScreen(navController = navController)
+        }
+
+        composable(route = Screen.GeneralInformationScreen.route) {
+            GeneralInformationScreen(navController = navController)
         }
     }
 }

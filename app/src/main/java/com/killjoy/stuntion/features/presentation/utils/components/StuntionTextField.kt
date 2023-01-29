@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
@@ -54,6 +55,7 @@ fun StuntionTextField(
     maxLines: Int = Int.MAX_VALUE,
     textColor: Color = Color.Black,
     placeHolderColor: Color = Color.Gray,
+    disablePlaceHolderColor: Color = Color.Gray,
     disabledTextColor: Color = Color.Gray,
     backgroundColor: Color = if (enabled) Color.White else Color.Gray,
     cursorColor: Color = Color.Black,
@@ -64,8 +66,8 @@ fun StuntionTextField(
     errorIndicatorColor: Color = Color.Red,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(contentSpacing)) {
-        if (isPassword) {
 
+        if (isPassword) {
             val passwordVisibility = remember { mutableStateOf(false) }
             val icon = if (passwordVisibility.value)
                 painterResource(id = R.drawable.ic_password_visibility_on)
@@ -137,7 +139,9 @@ fun StuntionTextField(
                     focusedIndicatorColor = focusedIndicatorColor,
                     unfocusedIndicatorColor = unfocusedIndicatorColor,
                     disabledIndicatorColor = disabledIndicatorColor,
-                    errorIndicatorColor = errorIndicatorColor
+                    errorIndicatorColor = errorIndicatorColor,
+                    placeholderColor = placeHolderColor,
+                    disabledPlaceholderColor = disablePlaceHolderColor
                 ),
                 label = {
                     StuntionText(
