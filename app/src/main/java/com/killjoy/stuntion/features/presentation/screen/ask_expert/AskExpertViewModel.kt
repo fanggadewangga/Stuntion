@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.consultation.ask_expert.questions
+package com.killjoy.stuntion.features.presentation.screen.ask_expert
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

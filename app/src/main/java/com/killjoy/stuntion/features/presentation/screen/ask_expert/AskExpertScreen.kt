@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.screen.ask_expert.AskExpertViewModel
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionCategoryChip
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItem

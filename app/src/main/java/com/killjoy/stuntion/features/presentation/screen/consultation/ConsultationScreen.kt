@@ -38,7 +38,7 @@ fun ConsultationScreen(navController: NavController) {
     ) {
 
         // Top Bar
-        StuntionTopBar(title = "Consultation")
+        StuntionTopBar(title = "Consultation", onBackPressed = {})
 
         // Tab Row
         TabRow(

@@ -21,7 +21,12 @@ sealed class Screen(val route: String) {
     // Ask
     object AskExpertScreen: Screen("ask_expert_screen")
     object AddQuestionScreen: Screen("add_question_screen")
+    object AskExpertDetailScreen : Screen("ask_expert_detail_screen")
 
     // Chat
     object ChatExpertScreen: Screen("chat_expert_screen")
+
+    // Article
+    object ArticlesScreen: Screen("articles_screen")
+    object ArticleDetailScreen: Screen("article_deetail_screen")
 }

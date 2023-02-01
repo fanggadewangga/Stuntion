@@ -10,7 +10,8 @@ import com.killjoy.stuntion.features.presentation.screen.auth.signup.SignupScree
 import com.killjoy.stuntion.features.presentation.screen.calculator.CalculatorScreen
 import com.killjoy.stuntion.features.presentation.screen.consultation.ConsultationScreen
 import com.killjoy.stuntion.features.presentation.screen.consultation.ask_expert.questions.AskExpertScreen
-import com.killjoy.stuntion.features.presentation.screen.consultation.ask_expert.add_question.AddQuestionScreen
+import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
+import com.killjoy.stuntion.features.presentation.screen.ask_expert_detail.AskExpertDetailScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
 
 @Composable
@@ -55,6 +56,7 @@ fun Navigation() {
         composable(route = Screen.ProfileScreen.route) {
         }
 
+        // Ask
         composable(route = Screen.AskExpertScreen.route) {
             AskExpertScreen(navController = navController)
         }
@@ -63,7 +65,22 @@ fun Navigation() {
             AddQuestionScreen(navController = navController)
         }
 
+        composable(route = Screen.AskExpertDetailScreen.route) {
+            AskExpertDetailScreen(navController = navController)
+        }
+
+
+        // Chat
+
         composable(route = Screen.ChatExpertScreen.route) {
+
+        }
+
+        // Article
+        composable(route = Screen.ArticlesScreen.route) {
+
+        }
+        composable(route = Screen.ArticleDetailScreen.route) {
 
         }
     }
