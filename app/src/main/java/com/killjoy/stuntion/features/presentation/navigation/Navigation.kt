@@ -8,13 +8,16 @@ import com.killjoy.stuntion.features.presentation.screen.auth.general_informatio
 import com.killjoy.stuntion.features.presentation.screen.auth.login.LoginScreen
 import com.killjoy.stuntion.features.presentation.screen.auth.signup.SignupScreen
 import com.killjoy.stuntion.features.presentation.screen.calculator.CalculatorScreen
+import com.killjoy.stuntion.features.presentation.screen.consultation.ConsultationScreen
+import com.killjoy.stuntion.features.presentation.screen.consultation.ask_expert.questions.AskExpertScreen
+import com.killjoy.stuntion.features.presentation.screen.consultation.ask_expert.add_question.AddQuestionScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.CalculatorScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
 
         composable(route = Screen.SplashScreen.route) {
 
@@ -24,10 +27,10 @@ fun Navigation() {
 
         }
 
+        // Auth
         composable(route = Screen.SignupScreen.route) {
             SignupScreen(navController = navController)
         }
-
         composable(route = Screen.LoginScreen.route) {
             LoginScreen(navController = navController)
         }
@@ -35,9 +38,33 @@ fun Navigation() {
         composable(route = Screen.GeneralInformationScreen.route) {
             GeneralInformationScreen(navController = navController)
         }
-        
-        composable(route = Screen.CalculatorScreen.route) {
+
+        // Main screen
+        composable(route = Screen.HomeScreen.route) {
+
+        }
+        composable(route = Screen.ConsultScreen.route) {
+            ConsultationScreen(navController = navController)
+        }
+        composable(route = Screen.CheckScreen.route) {
             CalculatorScreen(navController = navController)
+        }
+        composable(route = Screen.ActivityScreen.route) {
+
+        }
+        composable(route = Screen.ProfileScreen.route) {
+        }
+
+        composable(route = Screen.AskExpertScreen.route) {
+            AskExpertScreen(navController = navController)
+        }
+
+        composable(route = Screen.AddQuestionScreen.route) {
+            AddQuestionScreen(navController = navController)
+        }
+
+        composable(route = Screen.ChatExpertScreen.route) {
+
         }
     }
 }

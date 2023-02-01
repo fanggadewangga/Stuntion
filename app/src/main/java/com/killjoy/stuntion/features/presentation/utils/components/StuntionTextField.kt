@@ -55,7 +55,7 @@ fun StuntionTextField(
     maxLines: Int = Int.MAX_VALUE,
     textColor: Color = Color.Black,
     placeHolderColor: Color = Color.Gray,
-    disablePlaceHolderColor: Color = Color.Gray,
+    disablePlaceHolderColor: Color = Color.Transparent,
     disabledTextColor: Color = Color.Gray,
     backgroundColor: Color = if (enabled) Color.White else Color.Gray,
     cursorColor: Color = Color.Black,

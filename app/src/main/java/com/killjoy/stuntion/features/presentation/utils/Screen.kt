@@ -14,7 +14,14 @@ sealed class Screen(val route: String) {
     // Main screen
     object HomeScreen: Screen("home_screen")
     object ConsultScreen: Screen("consult_screen")
-    object CalculatorScreen: Screen("calculator_screen")
+    object CheckScreen: Screen("check_screen")
     object ActivityScreen: Screen("activity_screen")
     object ProfileScreen: Screen("profile_screen")
+
+    // Ask
+    object AskExpertScreen: Screen("ask_expert_screen")
+    object AddQuestionScreen: Screen("add_question_screen")
+
+    // Chat
+    object ChatExpertScreen: Screen("chat_expert_screen")
 }
