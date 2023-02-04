@@ -11,6 +11,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -34,6 +35,7 @@ import com.killjoy.stuntion.ui.theme.Type
 fun LoginScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<LoginViewModel>()
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -138,7 +140,9 @@ fun LoginScreen(navController: NavController) {
                 // Button
                 Spacer(modifier = Modifier.height(32.dp))
                 StuntionButton(
-                    onClick = { }, modifier = Modifier.fillMaxWidth()
+                    onClick = {
+                        viewModel.login()
+                    }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(
                         text = "Log in", color = Color.White, textStyle = Type.labelLarge()

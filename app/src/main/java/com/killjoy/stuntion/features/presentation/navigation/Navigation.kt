@@ -18,7 +18,7 @@ import com.killjoy.stuntion.features.presentation.utils.Screen
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.LoginScreen.route) {
 
         composable(route = Screen.SplashScreen.route) {
 

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,12 +29,14 @@ import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignupScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<SignupViewModel>()
     val checkedState = remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -161,7 +164,9 @@ fun SignupScreen(navController: NavController) {
                 // Button
                 Spacer(modifier = Modifier.height(32.dp))
                 StuntionButton(
-                    onClick = { }, modifier = Modifier.fillMaxWidth()
+                    onClick = {
+                              viewModel.signUp()
+                    }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(
                         text = "Sign up", color = Color.White, textStyle = Type.labelLarge()
