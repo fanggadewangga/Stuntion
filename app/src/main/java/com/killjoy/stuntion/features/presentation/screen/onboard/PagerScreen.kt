@@ -1,13 +1,12 @@
 package com.killjoy.stuntion.features.presentation.screen.onboard
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.killjoy.stuntion.features.presentation.utils.OnBoardingPage
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -15,13 +14,28 @@ import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
 fun PagerScreen(onBoardingPage: OnBoardingPage) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.wrapContentHeight()) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .wrapContentHeight()
+            .padding(start = 16.dp, top = 32.dp, end = 16.dp)
+    ) {
+        // Onboard image
         Image(
             painter = painterResource(id = onBoardingPage.image),
-            contentDescription = "Onboard image",
-            modifier = Modifier.size(100.dp)
+            contentDescription = "Onboard image"
         )
+
+        // Title
+        Spacer(modifier = Modifier.height(24.dp))
         StuntionText(text = onBoardingPage.title, textStyle = Type.titleLarge())
-        StuntionText(text = onBoardingPage.description, textStyle = Type.bodyMedium())
+
+        // Description
+        Spacer(modifier = Modifier.height(16.dp))
+        StuntionText(
+            text = onBoardingPage.description,
+            textAlign = TextAlign.Center,
+            textStyle = Type.bodyLarge()
+        )
     }
 }

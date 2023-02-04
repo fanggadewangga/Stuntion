@@ -1,11 +1,13 @@
 package com.killjoy.stuntion.features.presentation.screen.onboard
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -24,39 +26,63 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun OnboardScreen(navController: NavController) {
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val pages = listOf(
         OnBoardingPage.First,
         OnBoardingPage.Second,
         OnBoardingPage.Third,
+        OnBoardingPage.Fourth,
     )
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-    ) {
-        HorizontalPager(
-            count = pages.size,
-            state = pagerState,
-            verticalAlignment = Alignment.Top
-        ) { position ->
-            PagerScreen(onBoardingPage = pages[position])
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, top = screenHeight/9, end = 16.dp)
+        ) {
+            HorizontalPager(
+                count = pages.size,
+                state = pagerState,
+                verticalAlignment = Alignment.Top
+            ) { position ->
+                PagerScreen(onBoardingPage = pages[position])
+            }
         }
 
-        HorizontalPagerIndicator(pagerState = pagerState)
+        // Indicator
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = screenHeight/5)
+        )
+
+
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(start = 32.dp, end = 32.dp, bottom = screenHeight/10)
         ) {
-            StuntionText(text = "Skip", color = PrimaryBlue, textStyle = Type.labelLarge())
 
+            // Skip
+            StuntionText(
+                text = "Skip",
+                color = PrimaryBlue,
+                textStyle = Type.labelLarge(),
+                modifier = Modifier.clickable { })
+
+
+            // Next Button
             StuntionButton(
                 onClick = {
-                    if (pagerState.currentPage != 2)
+                    if (pagerState.currentPage != 3)
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                         }
@@ -64,7 +90,7 @@ fun OnboardScreen(navController: NavController) {
                 modifier = Modifier.width(96.dp)
             ) {
                 StuntionText(
-                    text = if (pagerState.currentPage != 2) "Skip"
+                    text = if (pagerState.currentPage != 3) "Next"
                     else "Finish",
                     color = Color.White,
                     textStyle = Type.labelLarge()
@@ -74,7 +100,7 @@ fun OnboardScreen(navController: NavController) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun OnboardPreview() {
     OnboardScreen(navController = rememberNavController())

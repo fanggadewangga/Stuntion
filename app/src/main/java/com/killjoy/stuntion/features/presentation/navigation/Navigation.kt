@@ -12,20 +12,22 @@ import com.killjoy.stuntion.features.presentation.screen.consultation.Consultati
 import com.killjoy.stuntion.features.presentation.screen.consultation.ask_expert.questions.AskExpertScreen
 import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert_detail.AskExpertDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
+import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.LoginScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
 
         composable(route = Screen.SplashScreen.route) {
-
+            SplashScreen(navController = navController)
         }
 
         composable(route = Screen.OnboardScreen.route) {
-
+            OnboardScreen(navController = navController)
         }
 
         // Auth
