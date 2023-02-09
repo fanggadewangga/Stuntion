@@ -15,6 +15,7 @@ import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.Type
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.ProfileSetting
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 
 @Composable

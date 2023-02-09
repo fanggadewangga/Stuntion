@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.utils.components
+package com.killjoy.stuntion.features.presentation.utils
 
 import androidx.annotation.DrawableRes
 

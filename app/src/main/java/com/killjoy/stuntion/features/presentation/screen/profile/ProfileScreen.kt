@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.LinearProgressIndicator
@@ -28,11 +27,10 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.R
-import com.killjoy.stuntion.features.presentation.utils.components.ProfileSetting
+import com.killjoy.stuntion.features.presentation.utils.ProfileSetting
 import com.killjoy.stuntion.features.presentation.utils.components.ProfileSettingItem
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
-import com.killjoy.stuntion.ui.theme.Pink
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
