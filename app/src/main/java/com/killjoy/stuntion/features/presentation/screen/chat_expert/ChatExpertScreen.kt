@@ -2,24 +2,20 @@ package com.killjoy.stuntion.features.presentation.screen.chat_expert
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
+import com.killjoy.stuntion.features.presentation.utils.components.ExpertCategoryItem
 import com.killjoy.stuntion.features.presentation.utils.components.ExpertChatItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -30,12 +26,12 @@ import com.killjoy.stuntion.ui.theme.Type
 fun ChatExpertsScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<ChatExpertViewModel>()
-    val listOfExpertCategory = viewModel.listOfExpertCategory
 
     Column(
         Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
 
         // Search field
@@ -102,31 +98,59 @@ fun ChatExpertsScreen(navController: NavController) {
             )
         }
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            content = {
-                items(items = listOfExpertCategory) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        AsyncImage(
-                            model = it.image,
-                            contentDescription = "Category icon",
-                            modifier = Modifier
-                                .size(88.dp)
-                                .clip(
-                                    CircleShape
-                                )
+        // Nutritionist
+        Spacer(modifier = Modifier.height(6.dp))
+        ExpertCategoryItem(
+            category = "Nutritionist",
+            onClick = {
 
-                        )
-                        StuntionText(text = it.title, textStyle = Type.bodyMedium())
-                    }
-                }
             },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // General Practitioner
+        ExpertCategoryItem(
+            category = "General Practitioner",
+            onClick = {
+
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // Midwife
+        ExpertCategoryItem(
+            category = "Midwife",
+            onClick = {
+
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // Pediatrician
+        ExpertCategoryItem(
+            category = "Pediatrician",
+            onClick = {
+
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // Obgyn
+        ExpertCategoryItem(
+            category = "Obgyn",
+            onClick = {
+
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // Obstetricians
+        ExpertCategoryItem(
+            category = "Obstetricians",
+            onClick = {
+
+            },
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
