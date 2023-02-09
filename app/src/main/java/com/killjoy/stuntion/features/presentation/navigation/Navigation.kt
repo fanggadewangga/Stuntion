@@ -12,6 +12,8 @@ import com.killjoy.stuntion.features.presentation.screen.consultation.Consultati
 import com.killjoy.stuntion.features.presentation.screen.consultation.ask_expert.questions.AskExpertScreen
 import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert_detail.AskExpertDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
+import com.killjoy.stuntion.features.presentation.screen.expert.ExpertDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
@@ -75,7 +77,7 @@ fun Navigation() {
         // Chat
 
         composable(route = Screen.ChatExpertScreen.route) {
-
+            ChatExpertsScreen(navController = navController)
         }
 
         // Article
@@ -84,6 +86,11 @@ fun Navigation() {
         }
         composable(route = Screen.ArticleDetailScreen.route) {
 
+        }
+
+        // Expert
+        composable(route = Screen.ExpertDetailScreen.route) {
+            ExpertDetailScreen(navController = navController)
         }
     }
 }

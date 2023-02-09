@@ -1,8 +1,5 @@
 package com.killjoy.stuntion.features.presentation.screen.ask_expert_detail
 
-import android.graphics.Paint.Style
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -27,7 +24,9 @@ import com.killjoy.stuntion.features.presentation.utils.components.QuestionItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
-import com.killjoy.stuntion.ui.theme.*
+import com.killjoy.stuntion.ui.theme.Gray
+import com.killjoy.stuntion.ui.theme.LightGray
+import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
 fun AskExpertDetailScreen(navController: NavController) {
@@ -148,7 +147,7 @@ fun AskExpertDetailScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(8.dp))
             Card(
-                elevation = 10.dp,
+                elevation = 2.dp,
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
                     .fillMaxWidth()
