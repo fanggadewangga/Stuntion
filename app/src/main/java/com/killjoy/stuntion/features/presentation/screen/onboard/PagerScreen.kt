@@ -28,7 +28,12 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
 
         // Title
         Spacer(modifier = Modifier.height(24.dp))
-        StuntionText(text = onBoardingPage.title, textStyle = Type.titleLarge())
+        StuntionText(
+            text = onBoardingPage.title,
+            textAlign = TextAlign.Center,
+            textStyle = Type.titleLarge(),
+            modifier = Modifier.padding(horizontal = 24.dp)
+        )
 
         // Description
         Spacer(modifier = Modifier.height(16.dp))

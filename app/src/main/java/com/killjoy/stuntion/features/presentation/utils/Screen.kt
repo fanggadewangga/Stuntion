@@ -29,4 +29,7 @@ sealed class Screen(val route: String) {
     // Article
     object ArticlesScreen: Screen("articles_screen")
     object ArticleDetailScreen: Screen("article_deetail_screen")
+
+    // Expert
+    object ExpertDetailScreen : Screen("expert_detail_screen")
 }

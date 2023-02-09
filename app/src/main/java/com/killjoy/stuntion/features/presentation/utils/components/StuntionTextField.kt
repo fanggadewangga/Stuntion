@@ -38,6 +38,7 @@ fun StuntionTextField(
     showWarningMessage: Boolean = false,
     warningMessage: String = "",
     placeHolder: String,
+    label: String? = "",
     textStyle: TextStyle = Type.bodyMedium(),
     value: String,
     onValueChange: (String) -> Unit,
@@ -144,10 +145,10 @@ fun StuntionTextField(
                     disabledPlaceholderColor = disablePlaceHolderColor
                 ),
                 label = {
-                    StuntionText(
-                        text = placeHolder,
-                        color = if (isError) errorIndicatorColor else placeHolderColor
-                    )
+                        StuntionText(
+                            text = placeHolder,
+                            color = if (isError) errorIndicatorColor else placeHolderColor
+                        )
                 },
                 textStyle = textStyle
             )

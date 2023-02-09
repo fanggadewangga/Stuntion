@@ -30,7 +30,7 @@ fun BottomNavigationBar(navController: NavController) {
         NavigationItem.Home,
         NavigationItem.Consult,
         NavigationItem.Check,
-        NavigationItem.Activity,
+        NavigationItem.Support,
         NavigationItem.Profile
     )
 
@@ -83,10 +83,4 @@ fun BottomNavigationBar(navController: NavController) {
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BottNavBar() {
-    BottomNavigationBar(navController = rememberNavController())
 }

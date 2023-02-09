@@ -58,7 +58,7 @@ object Type {
     )
 
     fun titleSmall() = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+        fontFamily = FontFamily(Font(R.font.roboto_bold)),
         fontSize = 14.sp,
         lineHeight = 20.sp
     )
