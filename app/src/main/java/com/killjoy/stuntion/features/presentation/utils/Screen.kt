@@ -35,4 +35,7 @@ sealed class Screen(val route: String) {
 
     // Avatar
     object AvatarScreen : Screen("avatar_screen")
+
+    // Location permission
+    object LocationPermission : Screen("location_permission_screen")
 }

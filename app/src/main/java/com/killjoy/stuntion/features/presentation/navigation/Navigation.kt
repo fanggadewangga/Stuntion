@@ -15,7 +15,9 @@ import com.killjoy.stuntion.features.presentation.screen.ask_expert_detail.AskEx
 import com.killjoy.stuntion.features.presentation.screen.avatar.AvatarScreen
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
 import com.killjoy.stuntion.features.presentation.screen.expert.ExpertDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.location_permission.LocationPermissionScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
+import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
 
@@ -59,6 +61,7 @@ fun Navigation() {
 
         }
         composable(route = Screen.ProfileScreen.route) {
+            ProfileScreen(navController = navController)
         }
 
         // Ask
@@ -97,6 +100,11 @@ fun Navigation() {
         // Avatar
         composable(route = Screen.AvatarScreen.route) {
             AvatarScreen(navController = navController)
+        }
+        
+        // Location Permission
+        composable(route = Screen.LocationPermission.route) {
+            LocationPermissionScreen(navController = navController)
         }
     }
 }
