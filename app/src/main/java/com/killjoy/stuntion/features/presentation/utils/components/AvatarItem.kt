@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.utils.components
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,16 +24,16 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 @Composable
 fun AvatarItem(
     avatar: Avatar,
-    currentSelectedAvatar: MutableState<String>,
+    currentSelectedAvatar: MutableState<Avatar>,
 ) {
     Surface(
         shape = CircleShape,
-        border = if (currentSelectedAvatar.value == avatar.id)
+        border = if (currentSelectedAvatar.value == avatar)
             BorderStroke(
                 width = 3.dp,
                 color = PrimaryBlue
             ) else null,
-        modifier = Modifier.wrapContentSize().clickable { currentSelectedAvatar.value = avatar.id }
+        modifier = Modifier.wrapContentSize().clickable { currentSelectedAvatar.value = avatar }
     ) {
         AsyncImage(
             model = avatar.avatarUrl,

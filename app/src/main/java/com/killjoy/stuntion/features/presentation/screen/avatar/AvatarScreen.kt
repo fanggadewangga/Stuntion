@@ -35,7 +35,7 @@ fun AvatarScreen(navController: NavController) {
     val viewModel = hiltViewModel<AvatarViewModel>()
     val listOfAvatar: List<Avatar> = viewModel.listOfAvatar
     val selectedAvatar = remember {
-        mutableStateOf("avatar_1")
+        mutableStateOf(listOfAvatar[0])
     }
 
     Column(
@@ -96,7 +96,7 @@ fun AvatarScreen(navController: NavController) {
                 )
 
                 // Button
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(32.dp))
                 StuntionButton(
                     onClick = { }, modifier = Modifier.fillMaxWidth()
                 ) {
@@ -107,7 +107,7 @@ fun AvatarScreen(navController: NavController) {
 
 
                 // Skip
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     StuntionText(
                         text = "Skip",
