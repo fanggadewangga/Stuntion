@@ -8,13 +8,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -26,28 +31,58 @@ import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextF
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
-import com.maxkeppeker.sheets.core.models.base.rememberSheetState
-import com.maxkeppeler.sheets.calendar.CalendarDialog
-import com.maxkeppeler.sheets.calendar.models.CalendarConfig
-import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun CalculatorScreen(navController: NavController) {
-    val calendarState = rememberSheetState()
+    val calendarState = rememberMaterialDialogState()
     val viewModel = hiltViewModel<CalculatorViewModel>()
-
-    CalendarDialog(
-        state = calendarState,
-        config = CalendarConfig(
-            monthSelection = true,
-            yearSelection = true
-        ),
-        selection = CalendarSelection.Date { date ->
-            val formatted = DateTimeFormatter.ofPattern("MM/dd/yyy").format(date)
-            viewModel.dateState.value = formatted
+    val pickedDate = remember {
+        mutableStateOf(LocalDate.now())
+    }
+    val formattedDate = remember {
+        derivedStateOf {
+            DateTimeFormatter.ofPattern("MM/dd/yyy").format(pickedDate.value)
         }
-    )
+    }
+
+    MaterialDialog(
+        shape = RoundedCornerShape(28.dp),
+        dialogState = calendarState,
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true
+        ),
+        buttons = {
+            positiveButton(text = "Ok", textStyle = TextStyle(color = PrimaryBlue)) {
+                viewModel.dateState.value = formattedDate.value
+                calendarState.hide()
+            }
+            negativeButton(text = "Cancel", textStyle = TextStyle(color = PrimaryBlue)) {
+                calendarState.hide()
+            }
+        }
+    ) {
+        datepicker(
+            title = "Select date",
+            initialDate = LocalDate.now(),
+            waitForPositiveButton = true,
+            colors = DatePickerDefaults.colors(
+                headerBackgroundColor = PrimaryBlue,
+                headerTextColor = Color.White,
+                dateActiveBackgroundColor = PrimaryBlue,
+                dateActiveTextColor = Color.White
+            )
+        ) {
+            pickedDate.value = it
+            viewModel.dateState.value = formattedDate.value
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -118,6 +153,30 @@ fun CalculatorScreen(navController: NavController) {
                     )
                 }
 
+                // Name
+                Spacer(modifier = Modifier.height(16.dp))
+                StuntionText(
+                    text = "Child Name",
+                    textStyle = Type.titleMedium()
+                )
+                StuntionTextField(
+                    placeHolder = "Enter your child name",
+                    value = viewModel.nameState.value,
+                    onValueChange = {
+                        viewModel.apply {
+                            isNameFieldClicked.value = true
+                            nameState.value = it
+                        }
+                    },
+                    shape = RoundedCornerShape(100.dp),
+                    singleLine = true,
+                    focusedIndicatorColor = PrimaryBlue,
+                    isError = viewModel.isNameValid.value,
+                    showWarningMessage = viewModel.isNameValid.value,
+                    warningMessage = "Field cannot be empty",
+                    modifier = Modifier.fillMaxWidth()
+                )
+
                 // Date
                 Spacer(modifier = Modifier.height(16.dp))
                 StuntionText(
@@ -165,7 +224,7 @@ fun CalculatorScreen(navController: NavController) {
                     // Height
                     Column {
                         StuntionText(
-                            text = "Height",
+                            text = "Height (Cm)",
                             textStyle = Type.titleMedium()
                         )
                         StuntionTextField(
@@ -190,7 +249,7 @@ fun CalculatorScreen(navController: NavController) {
                     // Weight
                     Column {
                         StuntionText(
-                            text = "Weight",
+                            text = "Weight (Kg)",
                             textStyle = Type.titleMedium()
                         )
                         StuntionTextField(
@@ -214,75 +273,16 @@ fun CalculatorScreen(navController: NavController) {
                     }
                 }
 
-                // Head and arm
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    // Head
-                    Column {
-                        StuntionText(
-                            text = "Height Circumference",
-                            textStyle = Type.titleMedium()
-                        )
-                        StuntionTextField(
-                            placeHolder = "Enter head",
-                            value = viewModel.headState.value,
-                            onValueChange = {
-                                viewModel.apply {
-                                    isHeadFieldClicked.value = true
-                                    headState.value = it
-                                }
-                            },
-                            shape = RoundedCornerShape(100.dp),
-                            singleLine = true,
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            focusedIndicatorColor = PrimaryBlue,
-                            isError = viewModel.isHeadValid.value,
-                            showWarningMessage = viewModel.isHeadValid.value,
-                            warningMessage = "Field cannot be empty",
-                            modifier = Modifier.width(170.dp)
-                        )
-                    }
-
-                    // Arm
-                    Column {
-                        StuntionText(
-                            text = "Arm Circumference",
-                            textStyle = Type.titleMedium()
-                        )
-                        StuntionTextField(
-                            placeHolder = "Enter arm",
-                            value = viewModel.armState.value,
-                            onValueChange = {
-                                viewModel.apply {
-                                    isArmFieldClicked.value = true
-                                    armState.value = it
-                                }
-                            },
-                            shape = RoundedCornerShape(100.dp),
-                            singleLine = true,
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            focusedIndicatorColor = PrimaryBlue,
-                            isError = viewModel.isArmValid.value,
-                            showWarningMessage = viewModel.isArmValid.value,
-                            warningMessage = "Field cannot be empty",
-                            modifier = Modifier.width(170.dp)
-                        )
-                    }
-                }
-
                 // Button
-                Spacer(modifier = Modifier.height(32.dp))
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.height(24.dp))
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
                     StuntionButton(
                         onClick = {
 
                         }, modifier = Modifier.width(180.dp)
                     ) {
                         StuntionText(
-                            text = "Next", color = Color.White, textStyle = Type.labelLarge()
+                            text = "Calculate", color = Color.White, textStyle = Type.labelLarge()
                         )
                     }
                 }

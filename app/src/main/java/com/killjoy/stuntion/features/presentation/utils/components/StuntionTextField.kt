@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
-import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable

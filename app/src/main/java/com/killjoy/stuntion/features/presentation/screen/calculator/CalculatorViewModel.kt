@@ -29,16 +29,9 @@ class CalculatorViewModel @Inject constructor() : ViewModel() {
         isWeightFieldClicked.value && weightState.value.isEmpty()
     }
 
-    val headState = mutableStateOf("")
-    val isHeadFieldClicked = mutableStateOf(false)
-    val isHeadValid = derivedStateOf {
-        isHeadFieldClicked.value && headState.value.isEmpty()
+    val nameState = mutableStateOf("")
+    val isNameFieldClicked = mutableStateOf(false)
+    val isNameValid = derivedStateOf {
+        isNameFieldClicked.value && nameState.value.isEmpty()
     }
-
-    val armState = mutableStateOf("")
-    val isArmFieldClicked = mutableStateOf(false)
-    val isArmValid = derivedStateOf {
-        isArmFieldClicked.value && armState.value.isEmpty()
-    }
-
 }

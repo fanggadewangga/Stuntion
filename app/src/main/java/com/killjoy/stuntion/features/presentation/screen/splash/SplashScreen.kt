@@ -48,23 +48,5 @@ fun SplashScreen(navController: NavController) {
                 .padding(horizontal = 32.dp)
                 .align(Alignment.Center)
         )
-
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(bottom = screenHeight / 8)
-        ) {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                StuntionText(
-                    text = "In collaboration with:",
-                    textStyle = Type.bodyLarge(),
-                    modifier = Modifier
-                        .padding(bottom = 8.dp)
-                        .align(Alignment.BottomCenter)
-                )
-            }
-
-        }
     }
 }
