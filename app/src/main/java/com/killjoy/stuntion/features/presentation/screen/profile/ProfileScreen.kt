@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -45,8 +46,14 @@ fun ProfileScreen(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height((LocalConfiguration.current.screenHeightDp / 4).dp)
-                        .background(PrimaryBlue)
-                )
+                ) {
+                    AsyncImage(
+                        model = R.drawable.ic_profile_bg,
+                        contentDescription = "Profile background",
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier.height((LocalConfiguration.current.screenHeightDp / 4).dp)
+                    )
+                }
 
                 // Profile Section
                 Column(
@@ -100,14 +107,16 @@ fun ProfileScreen(navController: NavController) {
                                 .size(32.dp)
                                 .background(color = LightBlue, shape = RoundedCornerShape(6.dp))
                         ) {
-                            Image(imageVector = Icons.Default.Settings,
-                                contentDescription = "Setting Icon",
+                            Image(painter = painterResource(id = R.drawable.ic_pen),
+                                contentDescription = "Pen Icon",
                                 colorFilter = ColorFilter.tint(
                                     PrimaryBlue
                                 ),
-                                modifier = Modifier.clickable {
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clickable {
 
-                                }
+                                    }
                             )
                         }
                     }
@@ -140,7 +149,7 @@ fun ProfileScreen(navController: NavController) {
                                 // Information
                                 Image(
                                     imageVector = Icons.Default.Info,
-                                    contentDescription = "Setting Icon",
+                                    contentDescription = "Info Icon",
                                     colorFilter = ColorFilter.tint(
                                         PrimaryBlue
                                     ),
@@ -204,17 +213,17 @@ fun ProfileScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "Baby Notes"),
+                item = ProfileSetting(icon = R.drawable.ic_child_notes, title = "Child Notes"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "Baby Notes"),
+                item = ProfileSetting(icon = R.drawable.ic_activity, title = "Activity List"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "Baby Notes"),
+                item = ProfileSetting(icon = R.drawable.ic_bookmark_filled, title = "Favorite Experts"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
@@ -229,17 +238,17 @@ fun ProfileScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "Level & Reward"),
+                item = ProfileSetting(icon = R.drawable.ic_chest, title = "Level & Reward"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "Settings"),
+                item = ProfileSetting(icon = R.drawable.ic_setting, title = "Settings"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "Payment Methods"),
+                item = ProfileSetting(icon = R.drawable.ic_wallet, title = "Payment Methods"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
@@ -254,22 +263,22 @@ fun ProfileScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "Term & Privacy"),
+                item = ProfileSetting(icon = R.drawable.ic_terms, title = "Term & Privacy"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "Rate Stuntion App"),
+                item = ProfileSetting(icon = R.drawable.ic_star, title = "Rate Stuntion App"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "Help Centre"),
+                item = ProfileSetting(icon = R.drawable.ic_help, title = "Help Centre"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             ProfileSettingItem(
-                item = ProfileSetting(icon = R.drawable.ic_support, title = "About Us"),
+                item = ProfileSetting(icon = R.drawable.ic_about, title = "About Us"),
                 onClick = { /*TODO*/ },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )

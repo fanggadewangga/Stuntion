@@ -30,14 +30,14 @@ fun ProfileSettingItem(
         modifier = modifier.clickable { onClick() }
     ) {
         Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .background(color = LightBlue, shape = RoundedCornerShape(8.dp))
-                .padding(4.dp)
+                .size(48.dp)
         ) {
             AsyncImage(
                 model = item.icon,
                 contentDescription = "Item",
-                colorFilter = ColorFilter.tint(PrimaryBlue),
                 modifier = Modifier.size(32.dp)
             )
         }
