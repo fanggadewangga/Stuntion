@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.auth.general_information
+package com.killjoy.stuntion.features.presentation.screen.general_information
 
 import android.util.Log
 import androidx.compose.runtime.derivedStateOf

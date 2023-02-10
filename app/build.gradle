@@ -153,4 +153,7 @@ dependencies {
     // firebase
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
+
+    // Glide
+    implementation "com.github.skydoves:landscapist-glide:2.0.2"
 }

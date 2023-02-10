@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.killjoy.stuntion.features.presentation.screen.auth.general_information.GeneralInformationScreen
+import com.killjoy.stuntion.features.presentation.screen.general_information.GeneralInformationScreen
 import com.killjoy.stuntion.features.presentation.screen.auth.login.LoginScreen
 import com.killjoy.stuntion.features.presentation.screen.auth.signup.SignupScreen
 import com.killjoy.stuntion.features.presentation.screen.calculator.CalculatorScreen
@@ -12,6 +12,7 @@ import com.killjoy.stuntion.features.presentation.screen.consultation.Consultati
 import com.killjoy.stuntion.features.presentation.screen.consultation.ask_expert.questions.AskExpertScreen
 import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert_detail.AskExpertDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.avatar.AvatarScreen
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
 import com.killjoy.stuntion.features.presentation.screen.expert.ExpertDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
@@ -22,7 +23,7 @@ import com.killjoy.stuntion.features.presentation.utils.Screen
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.AvatarScreen.route) {
 
         composable(route = Screen.SplashScreen.route) {
             SplashScreen(navController = navController)
@@ -91,6 +92,11 @@ fun Navigation() {
         // Expert
         composable(route = Screen.ExpertDetailScreen.route) {
             ExpertDetailScreen(navController = navController)
+        }
+
+        // Avatar
+        composable(route = Screen.AvatarScreen.route) {
+            AvatarScreen(navController = navController)
         }
     }
 }

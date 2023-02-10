@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.data.source.remote.firebase
 
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
@@ -45,4 +46,15 @@ class FirebaseDataSource @Inject constructor(
     }.catch {
         emit(FirebaseResponse.Error(it.message.toString()))
     }.flowOn(Dispatchers.IO)
+
+    fun getAvatar(): Flow<FirebaseResponse<Uri>> = flow {
+        val avatar = firebaseStorage.reference.child("avatar/avatar_9.png").downloadUrl.await()
+        if (avatar != null) {
+            emit(FirebaseResponse.Success(avatar))
+            Log.d("GET AVATAR : ", "Masuk success $avatar")
+        } else
+            emit(FirebaseResponse.Empty)
+    }.catch {
+        emit(FirebaseResponse.Error(it.message.toString()))
+    }
 }
