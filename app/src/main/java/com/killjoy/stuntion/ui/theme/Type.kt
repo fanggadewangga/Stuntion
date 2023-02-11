@@ -52,7 +52,7 @@ object Type {
     )
 
     fun titleMedium() = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_bold)),
+        fontFamily = FontFamily(Font(R.font.roboto_medium)),
         fontSize = 18.sp,
         lineHeight = 24.sp
     )

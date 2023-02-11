@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.domain.model
+package com.killjoy.stuntion.features.domain.model.expert
 
 import androidx.annotation.DrawableRes
 import com.killjoy.stuntion.R

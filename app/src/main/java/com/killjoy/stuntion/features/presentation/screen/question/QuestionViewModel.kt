@@ -1,7 +1,7 @@
 package com.killjoy.stuntion.features.presentation.screen.question
 
 import androidx.lifecycle.ViewModel
-import com.killjoy.stuntion.features.domain.model.StuntingQuestion
+import com.killjoy.stuntion.features.domain.model.stunting_question.StuntingQuestion
 
 class QuestionViewModel : ViewModel() {
     val listOfQuestion = listOf(

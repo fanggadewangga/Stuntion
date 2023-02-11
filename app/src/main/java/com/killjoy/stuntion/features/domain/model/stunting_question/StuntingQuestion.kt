@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.domain.model
+package com.killjoy.stuntion.features.domain.model.stunting_question
 
 data class StuntingQuestion(
     val question: String,

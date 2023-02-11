@@ -37,5 +37,8 @@ sealed class Screen(val route: String) {
     object AvatarScreen : Screen("avatar_screen")
 
     // Location permission
-    object LocationPermission : Screen("location_permission_screen")
+    object LocationPermissionScreen : Screen("location_permission_screen")
+
+    // Child profile
+    object ChildProfileScreen : Screen("child_profile_screen")
 }

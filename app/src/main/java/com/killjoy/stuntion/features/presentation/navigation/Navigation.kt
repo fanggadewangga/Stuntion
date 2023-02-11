@@ -14,6 +14,7 @@ import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestio
 import com.killjoy.stuntion.features.presentation.screen.ask_expert_detail.AskExpertDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.avatar.AvatarScreen
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
+import com.killjoy.stuntion.features.presentation.screen.child_profile.ChildProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.expert.ExpertDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.location_permission.LocationPermissionScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
@@ -103,8 +104,13 @@ fun Navigation() {
         }
         
         // Location Permission
-        composable(route = Screen.LocationPermission.route) {
+        composable(route = Screen.LocationPermissionScreen.route) {
             LocationPermissionScreen(navController = navController)
+        }
+
+        // Child Profile
+        composable(route = Screen.ChildProfileScreen.route) {
+            ChildProfileScreen(navController = navController)
         }
     }
 }
