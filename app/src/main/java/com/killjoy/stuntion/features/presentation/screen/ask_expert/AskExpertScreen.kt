@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.consultation.ask_expert.questions
+package com.killjoy.stuntion.features.presentation.screen.ask_expert
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -16,6 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
-import com.killjoy.stuntion.features.presentation.screen.ask_expert.AskExpertViewModel
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionCategoryChip
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItem
@@ -58,10 +59,12 @@ fun AskExpertScreen(navController: NavController) {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_pen),
-                    contentDescription = "Pen icon"
+                    contentDescription = "Pen icon",
+                    colorFilter = ColorFilter.tint(Color.White)
                 )
             }
-        }
+        },
+        modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 15).dp)
     ) {
         Column(
             Modifier

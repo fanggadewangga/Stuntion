@@ -10,7 +10,7 @@ sealed class NavigationItem(
 ) {
     object Home: NavigationItem("home_screen", R.drawable.ic_home, R.drawable.ic_home, "Home" )
     object Consult: NavigationItem("consult_screen", R.drawable.ic_consult, R.drawable.ic_consult, "Consult")
-    object Check : NavigationItem("calculator_screen", R.drawable.ic_check, R.drawable.ic_check, "Check")
+    object Check : NavigationItem("check_screen", R.drawable.ic_check, R.drawable.ic_check, "Check")
     object Support: NavigationItem("support_screen", R.drawable.ic_support, R.drawable.ic_activity, "Support")
     object Profile: NavigationItem("profile_screen", R.drawable.ic_profile, R.drawable.ic_profile, "Profile")
 }

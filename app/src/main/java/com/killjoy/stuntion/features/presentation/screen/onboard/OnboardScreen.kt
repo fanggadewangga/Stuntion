@@ -17,6 +17,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.killjoy.stuntion.features.presentation.utils.OnBoardingPage
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -86,6 +87,7 @@ fun OnboardScreen(navController: NavController) {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                         }
+                    else navController.navigate(Screen.SignupScreen.route)
                 },
                 modifier = Modifier.width(96.dp)
             ) {

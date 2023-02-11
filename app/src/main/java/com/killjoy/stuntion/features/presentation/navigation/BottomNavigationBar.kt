@@ -13,15 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 
 @Composable
@@ -37,9 +36,8 @@ fun BottomNavigationBar(navController: NavController) {
     BottomNavigation(
         backgroundColor = Color.White,
         contentColor = Color.LightGray,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(topStart = 22.dp, topEnd = 22.dp))
+        elevation = 24.dp,
+        modifier = Modifier.fillMaxWidth()
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -79,7 +77,7 @@ fun BottomNavigationBar(navController: NavController) {
                 selected = currentRoute == item.route,
                 selectedContentColor = PrimaryBlue,
                 unselectedContentColor = Color.LightGray,
-                modifier = Modifier.height(88.dp)
+                modifier = Modifier.height(56.dp)
             )
         }
     }

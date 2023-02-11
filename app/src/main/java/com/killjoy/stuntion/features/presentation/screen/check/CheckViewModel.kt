@@ -1,11 +1,11 @@
-package com.killjoy.stuntion.features.presentation.screen.calculator
+package com.killjoy.stuntion.features.presentation.screen.check
 
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
-class CalculatorViewModel @Inject constructor() : ViewModel() {
+class CheckViewModel @Inject constructor() : ViewModel() {
     val genderState = mutableStateOf("")
     val isGenderValid = derivedStateOf {
         genderState.value.isEmpty()

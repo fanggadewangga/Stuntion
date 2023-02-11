@@ -260,14 +260,14 @@ fun SignupScreen(navController: NavController) {
                         .align(Alignment.CenterHorizontally)
                 ) {
                     StuntionText(
-                        text = "Already have and account? ",
+                        text = "Already have an account? ",
                         textStyle = Type.bodyMedium()
                     )
                     StuntionText(
-                        text = "Sign up ",
+                        text = "Log in ",
                         color = PrimaryBlue,
                         textStyle = Type.bodyMedium(),
-                        modifier = Modifier.clickable { navController.navigate(Screen.SignupScreen.route) }
+                        modifier = Modifier.clickable { navController.navigate(Screen.LoginScreen.route) }
                     )
                 }
             }

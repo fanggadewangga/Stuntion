@@ -195,7 +195,7 @@ fun GeneralInformationScreen(navController: NavController) {
                         text = "Skip",
                         color = PrimaryBlue,
                         textStyle = Type.bodyMedium(),
-                        modifier = Modifier.clickable { navController.navigate(Screen.SignupScreen.route) }
+                        modifier = Modifier.clickable { navController.navigate(Screen.AvatarScreen.route) }
                     )
                 }
             }

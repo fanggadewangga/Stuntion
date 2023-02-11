@@ -169,7 +169,9 @@ fun LoginScreen(navController: NavController) {
                 // Google Button
                 Spacer(modifier = Modifier.height(24.dp))
                 StuntionButton(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        navController.navigate(Screen.GeneralInformationScreen.route)
+                    },
                     backgroundColor = Color.White,
                     borderColor = Color.Gray,
                     modifier = Modifier.fillMaxWidth()

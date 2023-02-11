@@ -15,7 +15,7 @@ import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun StuntionTopBar(title: String, onBackPressed: () -> Unit) {
+fun StuntionTopBar(title: String, onBackPressed: () -> Unit, isWithDivider: Boolean = true) {
     Column(Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(24.dp))
         Box(
@@ -37,8 +37,10 @@ fun StuntionTopBar(title: String, onBackPressed: () -> Unit) {
             )
             StuntionText(text = title, textStyle = Type.titleLarge())
         }
-        Spacer(modifier = Modifier.height(24.dp))
-        Divider(color = LightGray, modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(8.dp))
+        if (isWithDivider){
+            Spacer(modifier = Modifier.height(16.dp))
+            Divider(color = LightGray, modifier = Modifier.fillMaxWidth())
+        }
     }
-
 }
