@@ -152,9 +152,9 @@ fun CheckScreen(navController: NavController) {
                     .background(
                         Color.White, RoundedCornerShape(topStart = 48.dp, topEnd = 48.dp)
                     )
-                    .padding(horizontal = 16.dp, vertical = 24.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
             ) {
-                Column(modifier = Modifier.matchParentSize()) {
+                Column(modifier = Modifier.matchParentSize() .verticalScroll(rememberScrollState()).padding(vertical = 24.dp)) {
 
                     // Gender
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
@@ -188,8 +188,8 @@ fun CheckScreen(navController: NavController) {
                         shape = RoundedCornerShape(100.dp),
                         singleLine = true,
                         focusedIndicatorColor = PrimaryBlue,
-                        isError = viewModel.isNameValid.value,
-                        showWarningMessage = viewModel.isNameValid.value,
+                        isError = viewModel.isNameNotValid.value,
+                        showWarningMessage = viewModel.isNameNotValid.value,
                         warningMessage = "Field cannot be empty",
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -226,8 +226,8 @@ fun CheckScreen(navController: NavController) {
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         focusedIndicatorColor = PrimaryBlue,
-                        isError = viewModel.isDateValid.value,
-                        showWarningMessage = viewModel.isDateValid.value,
+                        isError = viewModel.isDateNotValid.value,
+                        showWarningMessage = viewModel.isDateNotValid.value,
                         warningMessage = "Field cannot be empty",
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -257,8 +257,8 @@ fun CheckScreen(navController: NavController) {
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 focusedIndicatorColor = PrimaryBlue,
-                                isError = viewModel.isHeightValid.value,
-                                showWarningMessage = viewModel.isHeightValid.value,
+                                isError = viewModel.isHeightNotValid.value,
+                                showWarningMessage = viewModel.isHeightNotValid.value,
                                 warningMessage = "Field cannot be empty",
                                 modifier = Modifier.width(170.dp)
                             )
@@ -282,8 +282,8 @@ fun CheckScreen(navController: NavController) {
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 focusedIndicatorColor = PrimaryBlue,
-                                isError = viewModel.isWeightValid.value,
-                                showWarningMessage = viewModel.isWeightValid.value,
+                                isError = viewModel.isWeightNotValid.value,
+                                showWarningMessage = viewModel.isWeightNotValid.value,
                                 warningMessage = "Field cannot be empty",
                                 modifier = Modifier.width(170.dp)
                             )
@@ -315,7 +315,7 @@ fun CheckScreen(navController: NavController) {
                                 }
                             },
                             modifier = Modifier.width(180.dp),
-                            //enabled = viewModel.isFormValid.value
+                            enabled = viewModel.isFormValid.value
                         ) {
                             StuntionText(
                                 text = "Calculate",

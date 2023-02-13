@@ -23,29 +23,34 @@ class CheckViewModel @Inject constructor() : ViewModel() {
 
     val dateState = mutableStateOf("")
     val isDateFieldClicked = mutableStateOf(false)
-    val isDateValid = derivedStateOf {
+    val isDateNotValid = derivedStateOf {
         isDateFieldClicked.value && dateState.value.isEmpty()
     }
 
     val heightState = mutableStateOf("")
     val isHeightFieldClicked = mutableStateOf(false)
-    val isHeightValid = derivedStateOf {
+    val isHeightNotValid = derivedStateOf {
         isHeightFieldClicked.value && heightState.value.isEmpty()
     }
 
     val weightState = mutableStateOf("")
     val isWeightFieldClicked = mutableStateOf(false)
-    val isWeightValid = derivedStateOf {
+    val isWeightNotValid = derivedStateOf {
         isWeightFieldClicked.value && weightState.value.isEmpty()
     }
 
     val nameState = mutableStateOf("")
     val isNameFieldClicked = mutableStateOf(false)
-    val isNameValid = derivedStateOf {
+    val isNameNotValid = derivedStateOf {
         isNameFieldClicked.value && nameState.value.isEmpty()
     }
 
     val isFormValid = derivedStateOf {
-        isGenderValid.value && isNameValid.value && isDateValid.value && isWeightValid.value && isHeightValid.value
+        Log.d("GENDER", isGenderValid.value.toString())
+        Log.d("DATE", isDateNotValid.value.toString())
+        Log.d("NAME", isNameNotValid.value.toString())
+        Log.d("WEIGHT", isWeightNotValid.value.toString())
+        Log.d("HEIGHT", isHeightNotValid.value.toString())
+        !isGenderValid.value && !isNameNotValid.value && !isDateNotValid.value && !isWeightNotValid.value && !isHeightNotValid.value
     }
 }
