@@ -2,6 +2,7 @@ package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -19,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
@@ -37,6 +40,7 @@ fun StuntionSegmentedControl(
 
     Row(
         modifier = Modifier
+            .background(color = LightBlue, shape = RoundedCornerShape(100.dp))
     ) {
         items.forEachIndexed { index, item ->
             OutlinedButton(
@@ -79,17 +83,17 @@ fun StuntionSegmentedControl(
                      */
                     0 -> RoundedCornerShape(
                         topStartPercent = cornerRadius,
-                        topEndPercent = 0,
+                        topEndPercent = cornerRadius,
                         bottomStartPercent = cornerRadius,
-                        bottomEndPercent = 0
+                        bottomEndPercent = cornerRadius
                     )
                     /**
                      * right outer button
                      */
                     items.size - 1 -> RoundedCornerShape(
-                        topStartPercent = 0,
+                        topStartPercent = cornerRadius,
                         topEndPercent = cornerRadius,
-                        bottomStartPercent = 0,
+                        bottomStartPercent = cornerRadius,
                         bottomEndPercent = cornerRadius
                     )
                     /**
@@ -102,13 +106,7 @@ fun StuntionSegmentedControl(
                         bottomEndPercent = 0
                     )
                 },
-                border = BorderStroke(
-                    1.dp, if (selectedIndex.value == index) {
-                        color
-                    } else {
-                        color.copy(alpha = 0.75f)
-                    }
-                ),
+                border = BorderStroke(0.dp, Color.Transparent),
                 colors = if (selectedIndex.value == index) {
                     /**
                      * selected colors
@@ -120,7 +118,7 @@ fun StuntionSegmentedControl(
                     /**
                      * not selected colors
                      */
-                    ButtonDefaults.outlinedButtonColors(backgroundColor = Color.Transparent)
+                    ButtonDefaults.outlinedButtonColors(backgroundColor = LightBlue)
                 },
             ) {
                 Image(

@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -320,7 +321,8 @@ fun AddQuestionScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
-        }
+        },
+        modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 15).dp)
     )
 }
 

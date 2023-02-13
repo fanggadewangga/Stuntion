@@ -7,14 +7,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,6 +29,8 @@ import com.killjoy.stuntion.features.presentation.utils.Constants
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSegmentedControl
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
+import com.killjoy.stuntion.features.presentation.utils.countZScoreByHeight
+import com.killjoy.stuntion.features.presentation.utils.countZScoreByWeight
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -38,6 +38,7 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -51,6 +52,7 @@ fun CheckScreen(navController: NavController) {
     }
     val calendarState = rememberMaterialDialogState()
     val viewModel = hiltViewModel<CheckViewModel>()
+    val coroutineScope = rememberCoroutineScope()
     val pickedDate = remember {
         mutableStateOf(LocalDate.now())
     }
@@ -59,6 +61,8 @@ fun CheckScreen(navController: NavController) {
             DateTimeFormatter.ofPattern("MM/dd/yyy").format(pickedDate.value)
         }
     }
+
+    val context = LocalContext.current
 
     MaterialDialog(
         shape = RoundedCornerShape(28.dp),
@@ -288,16 +292,35 @@ fun CheckScreen(navController: NavController) {
 
                     // Button
                     Spacer(modifier = Modifier.height(8.dp))
-                    Box(contentAlignment = Alignment.Center, modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()) {
+                    Box(
+                        contentAlignment = Alignment.Center, modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                    ) {
                         StuntionButton(
                             onClick = {
-
-                            }, modifier = Modifier.width(180.dp)
+                                coroutineScope.launch {
+                                    countZScoreByWeight(
+                                        context = context,
+                                        birthDate = viewModel.dateState.value,
+                                        gender = viewModel.genderState.value,
+                                        weight = viewModel.weightState.value.toDouble()
+                                    )
+                                    countZScoreByHeight(
+                                        context = context,
+                                        birthDate = viewModel.dateState.value,
+                                        gender = viewModel.genderState.value,
+                                        height = viewModel.heightState.value.toDouble()
+                                    )
+                                }
+                            },
+                            modifier = Modifier.width(180.dp),
+                            //enabled = viewModel.isFormValid.value
                         ) {
                             StuntionText(
-                                text = "Calculate", color = Color.White, textStyle = Type.labelLarge()
+                                text = "Calculate",
+                                color = Color.White,
+                                textStyle = Type.labelLarge()
                             )
                         }
                     }
