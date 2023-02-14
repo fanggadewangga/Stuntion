@@ -1,6 +1,8 @@
 package com.killjoy.stuntion.features.presentation.screen.check
 
 import android.annotation.SuppressLint
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,14 +25,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.gson.Gson
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.utils.Constants
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSegmentedControl
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
-import com.killjoy.stuntion.features.presentation.utils.countZScoreByHeight
-import com.killjoy.stuntion.features.presentation.utils.countZScoreByWeight
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -38,7 +41,6 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -61,8 +63,6 @@ fun CheckScreen(navController: NavController) {
             DateTimeFormatter.ofPattern("MM/dd/yyy").format(pickedDate.value)
         }
     }
-
-    val context = LocalContext.current
 
     MaterialDialog(
         shape = RoundedCornerShape(28.dp),
@@ -154,7 +154,12 @@ fun CheckScreen(navController: NavController) {
                     )
                     .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
             ) {
-                Column(modifier = Modifier.matchParentSize() .verticalScroll(rememberScrollState()).padding(vertical = 24.dp)) {
+                Column(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(vertical = 24.dp)
+                ) {
 
                     // Gender
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
@@ -188,8 +193,8 @@ fun CheckScreen(navController: NavController) {
                         shape = RoundedCornerShape(100.dp),
                         singleLine = true,
                         focusedIndicatorColor = PrimaryBlue,
-                        isError = viewModel.isNameNotValid.value,
-                        showWarningMessage = viewModel.isNameNotValid.value,
+                        isError = !viewModel.isNameValid.value,
+                        showWarningMessage = !viewModel.isNameValid.value,
                         warningMessage = "Field cannot be empty",
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -226,8 +231,8 @@ fun CheckScreen(navController: NavController) {
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         focusedIndicatorColor = PrimaryBlue,
-                        isError = viewModel.isDateNotValid.value,
-                        showWarningMessage = viewModel.isDateNotValid.value,
+                        isError = !viewModel.isDateValid.value,
+                        showWarningMessage = !viewModel.isDateValid.value,
                         warningMessage = "Field cannot be empty",
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -257,8 +262,8 @@ fun CheckScreen(navController: NavController) {
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 focusedIndicatorColor = PrimaryBlue,
-                                isError = viewModel.isHeightNotValid.value,
-                                showWarningMessage = viewModel.isHeightNotValid.value,
+                                isError = !viewModel.isHeightValid.value,
+                                showWarningMessage = !viewModel.isHeightValid.value,
                                 warningMessage = "Field cannot be empty",
                                 modifier = Modifier.width(170.dp)
                             )
@@ -270,7 +275,7 @@ fun CheckScreen(navController: NavController) {
                                 textStyle = Type.titleMedium()
                             )
                             StuntionTextField(
-                                placeHolder = "Enter height",
+                                placeHolder = "Enter weight",
                                 value = viewModel.weightState.value,
                                 onValueChange = {
                                     viewModel.apply {
@@ -282,8 +287,8 @@ fun CheckScreen(navController: NavController) {
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 focusedIndicatorColor = PrimaryBlue,
-                                isError = viewModel.isWeightNotValid.value,
-                                showWarningMessage = viewModel.isWeightNotValid.value,
+                                isError = !viewModel.isWeightValid.value,
+                                showWarningMessage = !viewModel.isWeightValid.value,
                                 warningMessage = "Field cannot be empty",
                                 modifier = Modifier.width(170.dp)
                             )
@@ -299,23 +304,18 @@ fun CheckScreen(navController: NavController) {
                     ) {
                         StuntionButton(
                             onClick = {
-                                coroutineScope.launch {
-                                    countZScoreByWeight(
-                                        context = context,
-                                        birthDate = viewModel.dateState.value,
-                                        gender = viewModel.genderState.value,
-                                        weight = viewModel.weightState.value.toDouble()
-                                    )
-                                    countZScoreByHeight(
-                                        context = context,
-                                        birthDate = viewModel.dateState.value,
-                                        gender = viewModel.genderState.value,
-                                        height = viewModel.heightState.value.toDouble()
-                                    )
-                                }
+                                val child = Child(
+                                    name = viewModel.nameState.value,
+                                    gender = viewModel.genderState.value,
+                                    birthDate = viewModel.dateState.value,
+                                    height = viewModel.heightState.value.toDouble(),
+                                    weight = viewModel.weightState.value.toDouble()
+                                )
+                                val childJson = Uri.encode(Gson().toJson(child))
+                                navController.navigate("${Screen.ChildProfileScreen.route}/$childJson")
                             },
                             modifier = Modifier.width(180.dp),
-                            enabled = viewModel.isFormValid.value
+                            enabled = viewModel.isFormNotValid.value
                         ) {
                             StuntionText(
                                 text = "Calculate",

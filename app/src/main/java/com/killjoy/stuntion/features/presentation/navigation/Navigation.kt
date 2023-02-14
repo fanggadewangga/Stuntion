@@ -4,20 +4,23 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.killjoy.stuntion.features.presentation.screen.general_information.GeneralInformationScreen
-import com.killjoy.stuntion.features.presentation.screen.auth.login.LoginScreen
-import com.killjoy.stuntion.features.presentation.screen.auth.signup.SignupScreen
-import com.killjoy.stuntion.features.presentation.screen.check.CheckScreen
-import com.killjoy.stuntion.features.presentation.screen.consultation.ConsultationScreen
-import com.killjoy.stuntion.features.presentation.screen.ask_expert.AskExpertScreen
+import androidx.navigation.navArgument
+import com.google.gson.Gson
+import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.article.articles.ArticleScreen
 import com.killjoy.stuntion.features.presentation.screen.article.detail.ArticleDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.ask_expert.AskExpertScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert_detail.AskExpertDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.auth.login.LoginScreen
+import com.killjoy.stuntion.features.presentation.screen.auth.signup.SignupScreen
 import com.killjoy.stuntion.features.presentation.screen.avatar.AvatarScreen
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
+import com.killjoy.stuntion.features.presentation.screen.check.CheckScreen
 import com.killjoy.stuntion.features.presentation.screen.child_profile.ChildProfileScreen
+import com.killjoy.stuntion.features.presentation.screen.consultation.ConsultationScreen
 import com.killjoy.stuntion.features.presentation.screen.expert.ExpertDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.general_information.GeneralInformationScreen
 import com.killjoy.stuntion.features.presentation.screen.home.HomeScreen
 import com.killjoy.stuntion.features.presentation.screen.location_permission.LocationPermissionScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
@@ -25,6 +28,7 @@ import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.screen.support.SupportScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
+import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArgType
 
 @Composable
 fun Navigation() {
@@ -106,15 +110,23 @@ fun Navigation() {
         composable(route = Screen.AvatarScreen.route) {
             AvatarScreen(navController = navController)
         }
-        
+
         // Location Permission
         composable(route = Screen.LocationPermissionScreen.route) {
             LocationPermissionScreen(navController = navController)
         }
 
         // Child Profile
-        composable(route = Screen.ChildProfileScreen.route) {
-            ChildProfileScreen(navController = navController)
+        composable(
+            route = "${Screen.ChildProfileScreen.route}/{child}",
+            arguments = listOf(
+                navArgument("child") {
+                    type = ChildArgType()
+                }
+            )
+        ) { navBackStackEntry ->
+            val child = navBackStackEntry.arguments?.getParcelable<Child>("child")
+            child?.let { ChildProfileScreen(navController = navController, child = it) }
         }
     }
 }

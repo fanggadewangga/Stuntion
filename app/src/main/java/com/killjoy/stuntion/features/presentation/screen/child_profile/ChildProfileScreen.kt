@@ -16,8 +16,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ChildProfileSectionItem
 import com.killjoy.stuntion.features.presentation.utils.components.HealthyTipsItem
@@ -29,7 +29,7 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun ChildProfileScreen(navController: NavController) {
+fun ChildProfileScreen(navController: NavController, child: Child) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +56,7 @@ fun ChildProfileScreen(navController: NavController) {
                     .background(color = LightBlue, shape = RoundedCornerShape(100.dp))
             ) {
                 StuntionText(
-                    text = "Hanna Andriana",
+                    text = child.name,
                     textStyle = Type.titleMedium(),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)
                 )
@@ -70,7 +70,7 @@ fun ChildProfileScreen(navController: NavController) {
                     .background(color = LightBlue, shape = RoundedCornerShape(100.dp))
             ) {
                 StuntionText(
-                    text = "Female",
+                    text = child.gender,
                     textStyle = Type.titleMedium(),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)
                 )
@@ -120,7 +120,7 @@ fun ChildProfileScreen(navController: NavController) {
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             StuntionText(
-                                text = "68.7 cm",
+                                text = "${child.height} cm",
                                 textStyle = Type.titleMedium(),
                                 modifier = Modifier.padding(
                                     start = 16.dp,
@@ -156,7 +156,7 @@ fun ChildProfileScreen(navController: NavController) {
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             StuntionText(
-                                text = "7 Kg",
+                                text = "${child.weight} Kg",
                                 textStyle = Type.titleMedium(),
                                 modifier = Modifier.padding(
                                     start = 12.dp,
@@ -372,6 +372,6 @@ fun ChildProfileScreen(navController: NavController) {
 @Preview
 @Composable
 fun ChildProfileScreenPreview() {
-    ChildProfileScreen(navController = rememberNavController())
+
 }
 
