@@ -26,6 +26,7 @@ fun StuntionSearchField(
     trailingIcon: (@Composable () -> Unit)? = null,
     valueState: String,
     placeholder: String,
+    borderColor: Color = LightGray,
     textStyle: TextStyle = Type.bodyLarge(),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -34,7 +35,7 @@ fun StuntionSearchField(
     Card(
         shape = RoundedCornerShape(100.dp),
         backgroundColor = Color.White,
-        border = BorderStroke(width = 1.dp, color = LightGray),
+        border = BorderStroke(width = 1.dp, color = borderColor),
         modifier = modifier
             .fillMaxWidth()
     ) {
