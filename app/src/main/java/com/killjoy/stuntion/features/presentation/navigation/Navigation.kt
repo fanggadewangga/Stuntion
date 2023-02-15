@@ -28,6 +28,9 @@ import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.screen.support.SupportScreen
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.support_request.SupportRequestSuccessScreen
+import com.killjoy.stuntion.features.presentation.screen.support_tutorial.SupportTutorialScreen
+import com.killjoy.stuntion.features.presentation.screen.verification.VerificationSuccessScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArgType
 
@@ -131,8 +134,21 @@ fun Navigation() {
         }
 
         // Support detail
-        composable(Screen.SupportDetailScreen.route) {
+        composable(route = Screen.SupportDetailScreen.route) {
             SupportDetailScreen(navController = navController)
+        }
+
+        // Support Request
+        composable(route = Screen.SupportRequestTutorialScreen.route) {
+            SupportTutorialScreen(navController = navController)
+        }
+        composable(route = Screen.SupportRequestSuccessScreen.route) {
+            SupportRequestSuccessScreen(navController = navController)
+        }
+        
+        // Verification success
+        composable(route = Screen.VerificationSuccessScreen.route) {
+            VerificationSuccessScreen(navController = navController)
         }
     }
 }
