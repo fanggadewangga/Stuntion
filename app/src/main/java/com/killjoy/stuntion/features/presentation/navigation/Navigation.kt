@@ -5,7 +5,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.google.gson.Gson
 import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.article.articles.ArticleScreen
@@ -31,6 +30,8 @@ import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportD
 import com.killjoy.stuntion.features.presentation.screen.support_request.SupportRequestSuccessScreen
 import com.killjoy.stuntion.features.presentation.screen.support_tutorial.SupportTutorialScreen
 import com.killjoy.stuntion.features.presentation.screen.verification.VerificationSuccessScreen
+import com.killjoy.stuntion.features.presentation.screen.verification.card.CardVerificationScreen
+import com.killjoy.stuntion.features.presentation.screen.verification.identity.IdentityVerificationScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArgType
 
@@ -129,7 +130,7 @@ fun Navigation() {
                 }
             )
         ) { navBackStackEntry ->
-            val child = navBackStackEntry.arguments?.getParcelable<Child>("child")
+            @Suppress("DEPRECATION") val child = navBackStackEntry.arguments?.getParcelable<Child>("child")
             child?.let { ChildProfileScreen(navController = navController, child = it) }
         }
 
@@ -149,6 +150,12 @@ fun Navigation() {
         // Verification success
         composable(route = Screen.VerificationSuccessScreen.route) {
             VerificationSuccessScreen(navController = navController)
+        }
+        composable(route = Screen.IdentityVerificationScreen.route) {
+            IdentityVerificationScreen(navController = navController)
+        }
+        composable(route = Screen.CardVerificationScreen.route) {
+            CardVerificationScreen(navController = navController)
         }
     }
 }
