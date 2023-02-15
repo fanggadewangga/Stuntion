@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
+import com.killjoy.stuntion.features.presentation.screen.support.supports.SupportViewModel
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionCategoryChip
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
 import com.killjoy.stuntion.features.presentation.utils.components.SupportItem

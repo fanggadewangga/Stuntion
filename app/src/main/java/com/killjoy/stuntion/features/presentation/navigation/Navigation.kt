@@ -27,6 +27,7 @@ import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
 import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.screen.support.SupportScreen
+import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArgType
 
@@ -66,7 +67,7 @@ fun Navigation() {
         composable(route = Screen.CheckScreen.route) {
             CheckScreen(navController = navController)
         }
-        composable(route = Screen.Support.route) {
+        composable(route = Screen.SupportScreen.route) {
             SupportScreen(navController = navController)
         }
         composable(route = Screen.ProfileScreen.route) {
@@ -127,6 +128,11 @@ fun Navigation() {
         ) { navBackStackEntry ->
             val child = navBackStackEntry.arguments?.getParcelable<Child>("child")
             child?.let { ChildProfileScreen(navController = navController, child = it) }
+        }
+
+        // Support detail
+        composable(Screen.SupportDetailScreen.route) {
+            SupportDetailScreen(navController = navController)
         }
     }
 }

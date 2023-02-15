@@ -15,7 +15,7 @@ sealed class Screen(val route: String) {
     object HomeScreen: Screen("home_screen")
     object ConsultScreen: Screen("consult_screen")
     object CheckScreen: Screen("check_screen")
-    object Support: Screen("support_screen")
+    object SupportScreen: Screen("support_screen")
     object ProfileScreen: Screen("profile_screen")
 
     // Ask
@@ -28,7 +28,7 @@ sealed class Screen(val route: String) {
 
     // Article
     object ArticlesScreen: Screen("articles_screen")
-    object ArticleDetailScreen: Screen("article_deetail_screen")
+    object ArticleDetailScreen: Screen("article_detail_screen")
 
     // Expert
     object ExpertDetailScreen : Screen("expert_detail_screen")
@@ -41,4 +41,7 @@ sealed class Screen(val route: String) {
 
     // Child profile
     object ChildProfileScreen : Screen("child_profile_screen")
+
+    // Support detail
+    object SupportDetailScreen : Screen("support_detail_screen")
 }

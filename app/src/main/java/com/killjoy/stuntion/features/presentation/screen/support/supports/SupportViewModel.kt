@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.support
+package com.killjoy.stuntion.features.presentation.screen.support.supports
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
