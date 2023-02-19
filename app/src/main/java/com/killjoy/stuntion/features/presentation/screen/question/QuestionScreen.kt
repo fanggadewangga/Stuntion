@@ -65,7 +65,6 @@ fun QuestionScreen(navController: NavController) {
                     color = Color.Gray,
                     textStyle = Type.labelLarge(),
                     modifier = Modifier.clickable {
-
                     }
                 )
             }

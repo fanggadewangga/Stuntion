@@ -17,7 +17,7 @@ fun StepsProgressBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         for (step in 0..numberOfSteps) {
-            StuntionStepper(isComplete = step < currentStep)
+            StuntionStepper(isCurrent = step == currentStep, isComplete = step < currentStep)
         }
     }
 }

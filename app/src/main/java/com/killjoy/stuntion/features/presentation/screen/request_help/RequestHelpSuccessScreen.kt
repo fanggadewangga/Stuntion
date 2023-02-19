@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.support_request
+package com.killjoy.stuntion.features.presentation.screen.request_help
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -18,7 +18,7 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun SupportRequestSuccessScreen(navController: NavController) {
+fun RequestHelpSuccessScreen(navController: NavController) {
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
@@ -73,6 +73,6 @@ fun SupportRequestSuccessScreen(navController: NavController) {
 
 @Preview
 @Composable
-fun SupportRequestSuccess() {
-    SupportRequestSuccessScreen(navController = rememberNavController())
+fun  RequestHelpSuccessPreview() {
+    RequestHelpSuccessScreen(navController = rememberNavController())
 }

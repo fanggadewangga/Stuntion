@@ -47,10 +47,13 @@ sealed class Screen(val route: String) {
 
     // Support request
     object SupportRequestTutorialScreen : Screen("support_request_tutorial_screen")
-    object SupportRequestSuccessScreen : Screen("support_request_success_screen")
+    object RequestHelpSuccessScreen : Screen("request_help_success_screen")
 
     // Verification
     object IdentityVerificationScreen : Screen("identity_verification_screen")
     object CardVerificationScreen : Screen("card_verification_screen")
     object VerificationSuccessScreen : Screen("verification_success_screen")
+
+    // Question
+    object QuestionScreen : Screen("question_screen")
 }

@@ -28,7 +28,7 @@ sealed class OnBoardingPage(
 
     object Fourth : OnBoardingPage(
         image = R.drawable.ic_onboard_4,
-        title = "Onboarding 3",
-        description = "Onboarding 3 desc"
+        title = "Uniting forces to ensure a future for generations untouched by stunting",
+        description = "You can help each other by providing extra food for babies if your location allows it and if not you can give money to families in need"
     )
 }

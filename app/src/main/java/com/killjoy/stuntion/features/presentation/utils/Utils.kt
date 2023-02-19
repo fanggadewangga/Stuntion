@@ -104,7 +104,7 @@ fun countZScoreByHeight(
         CSVFormat.DEFAULT
     )
 
-    val currentDate = DateTimeFormatter.ofPattern("MM/dd/yyy").format(LocalDateTime.now())
+    val currentDate = DateTimeFormatter.ofPattern("MM/dd/yyyy").format(LocalDateTime.now())
     val period = Period.between(
         LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
         LocalDate.parse(currentDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
