@@ -139,3 +139,29 @@ fun countZScoreByHeight(
     }
     return null
 }
+
+fun countPeriod(
+    startDate: String? = null,
+    finishDate: String,
+    datePattern: String = "MM/dd/yyy",
+    showYear: Boolean = true,
+    showMonth: Boolean = false,
+    showDay: Boolean = false,
+): Int {
+    val currentDate = DateTimeFormatter.ofPattern(datePattern).format(LocalDateTime.now())
+    var dayPeriod = Period.between(
+        LocalDate.parse(currentDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
+        LocalDate.parse(finishDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+    )
+
+    if (startDate != null) {
+        dayPeriod = Period.between(
+            LocalDate.parse(startDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
+            LocalDate.parse(finishDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+        )
+    }
+
+    return if (showMonth) dayPeriod.months
+    else if (showDay) dayPeriod.days
+    else dayPeriod.years
+}

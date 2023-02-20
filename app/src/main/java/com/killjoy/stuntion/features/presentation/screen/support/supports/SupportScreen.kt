@@ -34,7 +34,7 @@ import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.screen.support.supports.SupportViewModel
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionCategoryChip
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
-import com.killjoy.stuntion.features.presentation.utils.components.SupportItem
+import com.killjoy.stuntion.features.presentation.utils.components.DonationItem
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -190,7 +190,7 @@ fun SupportScreen(navController: NavController) {
             }
 
             items(2) {
-                SupportItem(
+                DonationItem(
                     title = "Milk For Babies Aged 1 Year",
                     location = "Malang, Jawa Timur",
                     currentValue = 1,
@@ -234,7 +234,7 @@ fun SupportScreen(navController: NavController) {
             }
 
             items(2) {
-                SupportItem(
+                DonationItem(
                     title = "Milk For Babies Aged 1 Year",
                     location = "Malang, Jawa Timur",
                     currentValue = 1,
@@ -274,7 +274,7 @@ fun SupportScreen(navController: NavController) {
 
             items(2) {
                 Spacer(modifier = Modifier.height(8.dp))
-                SupportItem(
+                DonationItem(
                     title = "Milk For Babies Aged 1 Year",
                     location = "Malang, Jawa Timur",
                     currentValue = 1,

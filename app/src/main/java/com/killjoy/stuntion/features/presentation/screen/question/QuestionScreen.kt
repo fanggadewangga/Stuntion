@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.utils.components.MultipleChoiceItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionStepper
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -56,10 +58,15 @@ fun QuestionScreen(navController: NavController) {
                         .size(24.dp)
                         .clickable { if (currentStep.value > 1) currentStep.value -= 1 }
                 )
-                StepsProgressBar(
-                    numberOfSteps = listOfQuestions.size - 1,
-                    currentStep = currentStep.value
-                )
+                LazyRow(verticalAlignment = Alignment.CenterVertically) {
+                    items(listOfQuestions.size) {
+                        StuntionStepper(
+                            index = it,
+                            currentStep = currentStep.value-1,
+                            numberOfSteps = listOfQuestions.size
+                        )
+                    }
+                }
                 StuntionText(
                     text = "Skip",
                     color = Color.Gray,

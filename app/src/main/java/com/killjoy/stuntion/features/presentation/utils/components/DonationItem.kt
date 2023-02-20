@@ -1,6 +1,7 @@
 package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -29,7 +30,7 @@ import java.time.Period
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun SupportItem(
+fun DonationItem(
     modifier: Modifier = Modifier,
     title: String,
     location: String,
@@ -108,7 +109,10 @@ fun SupportItem(
                         .clip(shape = RoundedCornerShape(16.dp))
                 )
 
-                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.65).dp)) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.65).dp)
+                ) {
                     // Fee
                     Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                         AsyncImage(
@@ -144,16 +148,103 @@ fun SupportItem(
     }
 }
 
+@Composable
+fun HomeDonationItem(
+    modifier: Modifier = Modifier,
+    title: String,
+    location: String,
+    currentValue: Int,
+    maxValue: Int,
+    deadlineDate: String,
+    imageUrl: String? = null,
+    fee: Int,
+) {
+    Card(
+        elevation = 3.dp,
+        shape = RoundedCornerShape(16.dp),
+        modifier = modifier
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(bottom = 6.dp)
+        ) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                AsyncImage(
+                    model = R.drawable.iv_donation,
+                    contentDescription = "Donation item image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(98.dp)
+                )
+                Box(
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .background(
+                            shape = RoundedCornerShape(topStart = 16.dp, bottomStart = 16.dp),
+                            color = PrimaryBlue
+                        )
+                        .align(Alignment.TopEnd)
+                ) {
+                    StuntionText(
+                        text = "10 days more",
+                        textStyle = Type.labelMedium(),
+                        color = Color.White,
+                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
+                    )
+                }
+            }
+
+            // Title
+            StuntionText(
+                text = title,
+                textStyle = Type.labelMedium(),
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+
+            // Location
+            StuntionText(
+                text = location,
+                textStyle = Type.bodySmall(),
+                color = Color.LightGray,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+
+            // Progress Bar
+            LinearProgressIndicator(
+                progress = (currentValue / maxValue.toFloat()),
+                backgroundColor = Color.LightGray,
+                color = PrimaryBlue,
+                modifier = Modifier
+                    .width((LocalConfiguration.current.screenWidthDp * 0.65).dp)
+                    .height(8.dp)
+                    .padding(horizontal = 8.dp)
+                    .clip(shape = RoundedCornerShape(16.dp))
+            )
+
+            // Collected
+            Row(modifier = Modifier.padding(horizontal = 8.dp)) {
+                StuntionText(
+                    text = "Collected ",
+                    textStyle = Type.bodySmall(),
+                    color = Color.LightGray
+                )
+                StuntionText(text = "IDR 10.000", textStyle = Type.labelMedium())
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun SupportItemPreview() {
-    SupportItem(
+    HomeDonationItem(
         title = "Milk For Babies Aged 1 Year",
         location = "Malang, Jawa Timur",
         currentValue = 1,
         maxValue = 5,
         deadlineDate = "02/15/2023",
         fee = 50000,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.width(196.dp)
     )
 }
