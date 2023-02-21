@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.article.detail
+package com.killjoy.stuntion.features.presentation.screen.video.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -29,8 +29,8 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun ArticleDetailScreen(navController: NavController) {
-    val viewModel = hiltViewModel<ArticleDetailViewModel>()
+fun VideoDetailScreen(navController: NavController) {
+    val viewModel = hiltViewModel<VideoDetailViewModel>()
 
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
 
@@ -219,5 +219,5 @@ fun ArticleDetailScreen(navController: NavController) {
 @Preview
 @Composable
 fun ArticleDetailPreview() {
-    ArticleDetailScreen(navController = rememberNavController())
+    VideoDetailScreen(navController = rememberNavController())
 }

@@ -27,8 +27,8 @@ sealed class Screen(val route: String) {
     object ChatExpertScreen: Screen("chat_expert_screen")
 
     // Article
-    object ArticlesScreen: Screen("articles_screen")
-    object ArticleDetailScreen: Screen("article_detail_screen")
+    object VideosScreen: Screen("videos_screen")
+    object VideoDetailScreen: Screen("video_detail_screen")
 
     // Expert
     object ExpertDetailScreen : Screen("expert_detail_screen")

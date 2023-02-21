@@ -8,6 +8,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HelpTargetViewModel @Inject constructor() : ViewModel() {
+    val listOfStep = listOf(
+        "Personal Data",
+        "Help Targets",
+        "Tittle",
+        "Information",
+    )
+
     val foodState = mutableStateOf("")
     val isFoodFieldClicked = mutableStateOf(false)
     val isValidFood = derivedStateOf {

@@ -74,7 +74,7 @@ fun HomeScreen(navController: NavController) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 16.dp, top = 24.dp, end = 16.dp)
+                        .padding(start = 16.dp, top = 56.dp, end = 16.dp)
                 ) {
 
                     // Logo and notification icon
@@ -160,7 +160,7 @@ fun HomeScreen(navController: NavController) {
 
                 // Child notes
                 Card(
-                    elevation = 1.dp,
+                    elevation = 4.dp,
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier.clickable {
 
@@ -168,7 +168,7 @@ fun HomeScreen(navController: NavController) {
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
+                        modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp)
                     ) {
                         Box(
                             contentAlignment = Alignment.Center,
@@ -195,7 +195,7 @@ fun HomeScreen(navController: NavController) {
 
                 // Activity list
                 Card(
-                    elevation = 1.dp,
+                    elevation = 4.dp,
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier.clickable {
 
@@ -203,7 +203,7 @@ fun HomeScreen(navController: NavController) {
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
+                        modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp)
                     ) {
                         Box(
                             contentAlignment = Alignment.Center,
@@ -230,28 +230,32 @@ fun HomeScreen(navController: NavController) {
             }
 
             // My Healthy Tips
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     StuntionText(text = "My Healty Tips", textStyle = Type.titleMedium())
                     StuntionText(
-                        text = "The healthy tips are based on your baby's nutritional calculations",
-                        textStyle = Type.bodySmall(),
-                        color = LightGray
+                        text = "View All",
+                        textStyle = Type.labelMedium(),
+                        color = PrimaryBlue,
+                        modifier = Modifier.clickable {
+
+                        }
                     )
                 }
 
                 StuntionText(
-                    text = "View All",
-                    textStyle = Type.labelMedium(),
-                    color = PrimaryBlue,
-                    modifier = Modifier.clickable {
-
-                    }
+                    text = "The healthy tips are based on your baby's nutritional calculations",
+                    textStyle = Type.bodySmall(),
+                    color = LightGray
                 )
             }
 
@@ -341,7 +345,7 @@ fun HomeScreen(navController: NavController) {
 
             // Information
             StuntionText(
-                text = "Let's Support With Additional Food",
+                text = "Information For You",
                 textStyle = Type.titleMedium(),
                 modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
             )
@@ -359,28 +363,35 @@ fun HomeScreen(navController: NavController) {
             }
 
             // Article
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    StuntionText(text = "Article Recommendation", textStyle = Type.titleMedium())
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     StuntionText(
-                        text = "Many informative articles that are suitable for you",
-                        textStyle = Type.bodySmall(),
-                        color = LightGray
+                        text = "SmartStun Video Recommendation",
+                        textStyle = Type.titleMedium()
+                    )
+                    StuntionText(
+                        text = "View All",
+                        textStyle = Type.labelMedium(),
+                        color = PrimaryBlue,
+                        modifier = Modifier.clickable {
+
+                        }
                     )
                 }
 
                 StuntionText(
-                    text = "View All",
-                    textStyle = Type.labelMedium(),
-                    color = PrimaryBlue,
-                    modifier = Modifier.clickable {
-
-                    }
+                    text = "Many informative videos that are suitable for you",
+                    textStyle = Type.bodySmall(),
+                    color = LightGray
                 )
             }
             LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {

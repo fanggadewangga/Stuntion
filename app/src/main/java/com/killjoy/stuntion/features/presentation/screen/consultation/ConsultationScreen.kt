@@ -44,7 +44,7 @@ fun ConsultationScreen(navController: NavController) {
         modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 17).dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp)
         ) {
 
             // Top Bar

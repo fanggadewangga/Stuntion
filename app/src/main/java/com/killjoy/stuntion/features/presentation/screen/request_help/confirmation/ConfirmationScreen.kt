@@ -1,10 +1,9 @@
-package com.killjoy.stuntion.features.presentation.screen.request_help.detail_information
+package com.killjoy.stuntion.features.presentation.screen.request_help.confirmation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,16 +15,18 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
+import com.killjoy.stuntion.features.presentation.screen.request_help.personal_data.PersonalDataViewModel
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun DetailInformationScreen(navController: NavController) {
-    val viewModel = hiltViewModel<DetailInformationViewModel>()
+fun ConfirmationScreen(navController: NavController) {
 
-    Column{
+    val viewModel = hiltViewModel<ConfirmationViewModel>()
+
+    Column {
+        Spacer(modifier = Modifier.height(32.dp))
 
         // Indicator
         Box(
@@ -52,7 +53,6 @@ fun DetailInformationScreen(navController: NavController) {
             ) {
                 viewModel.listOfStep.forEachIndexed { index, step ->
                     val currentStepIndex = index + 2
-                    val backgroundColor = if (currentStepIndex == 5) Color.White else PrimaryBlue
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -62,12 +62,12 @@ fun DetailInformationScreen(navController: NavController) {
                             modifier = Modifier
                                 .size(40.dp)
                                 .border(width = 0.5.dp, color = PrimaryBlue, shape = CircleShape)
-                                .background(color = backgroundColor, shape = CircleShape)
+                                .background(color = PrimaryBlue, shape = CircleShape)
                         ) {
                             StuntionText(
                                 text = currentStepIndex.toString(),
                                 textStyle = Type.titleMedium(),
-                                color = if (backgroundColor == PrimaryBlue) Color.White else PrimaryBlue
+                                color = Color.White
                             )
                         }
                         StuntionText(
@@ -79,47 +79,27 @@ fun DetailInformationScreen(navController: NavController) {
                 }
             }
         }
+
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             StuntionText(
-                text = "Detail Information",
+                text = "Confirmation",
                 textStyle = Type.titleMedium(),
                 modifier = Modifier.padding(top = 32.dp)
             )
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Title
-            Row(modifier = Modifier.padding(bottom = 8.dp)) {
-                StuntionText(
-                    text = "Write a Story About a Request For Help",
-                    textStyle = Type.labelLarge()
-                )
-                StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
-            }
-            StuntionBasicTextField(
-                placeHolder = "Write down some request reasons",
-                textFieldHeight = 160.dp,
-                value = viewModel.storyState.value,
-                onValueChange = {
-                    viewModel.isStoryFieldClicked.value = true
-                    viewModel.storyState.value = it
-                },
-                shape = RoundedCornerShape(32.dp),
-                singleLine = true,
-                isError = !viewModel.isValidStory.value,
-                showWarningMessage = !viewModel.isValidStory.value,
-                warningMessage = "Field could not be empty.",
-                verticalAlignment = Alignment.Top,
-                modifier = Modifier.fillMaxWidth()
+            StuntionText(
+                text = "Make sure the data you enter is correct so that the process can run quickly",
+                textStyle = Type.bodyMedium()
             )
         }
+
     }
 }
 
 @Preview
 @Composable
-fun DetailInformationPreview() {
-    DetailInformationScreen(navController = rememberNavController())
+fun ConfirmationScreenPreview() {
+    ConfirmationScreen(navController = rememberNavController())
 }

@@ -28,14 +28,24 @@ fun ArticleItem() {
     Column(Modifier.fillMaxWidth()) {
         Row(Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
             // Image
-            AsyncImage(
-                model = R.drawable.iv_article_item,
-                contentDescription = "Article item",
-                modifier = Modifier
-                    .width(80.dp)
-                    .height(98.dp)
-                    .clip(RoundedCornerShape(8.dp))
-            )
+            Box {
+                AsyncImage(
+                    model = R.drawable.iv_article_item,
+                    contentDescription = "Article item",
+                    modifier = Modifier
+                        .width(80.dp)
+                        .height(98.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                )
+                AsyncImage(
+                    model = R.drawable.ic_button_play,
+                    contentDescription = "Play icon",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
             Spacer(modifier = Modifier.width(16.dp))
 
 
@@ -97,14 +107,24 @@ fun HomeArticleItem(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(bottom = 6.dp)
         ) {
-            AsyncImage(
-                model = R.drawable.iv_article_detail,
-                contentDescription = "Article image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(98.dp)
-            )
+            Box{
+                AsyncImage(
+                    model = R.drawable.iv_article_detail,
+                    contentDescription = "Article image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(98.dp)
+                )
+                AsyncImage(
+                    model = R.drawable.ic_button_play,
+                    contentDescription = "Play icon",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
 
             // Title
             StuntionText(
