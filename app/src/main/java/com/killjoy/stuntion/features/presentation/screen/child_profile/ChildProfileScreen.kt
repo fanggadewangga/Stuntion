@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.child_profile
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,11 +8,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +26,9 @@ import com.killjoy.stuntion.features.presentation.utils.components.ChildProfileS
 import com.killjoy.stuntion.features.presentation.utils.components.HealthyTipsItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
+import com.killjoy.stuntion.features.presentation.utils.countPeriod
+import com.killjoy.stuntion.features.presentation.utils.countZScoreByHeight
+import com.killjoy.stuntion.features.presentation.utils.countZScoreByWeight
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -30,10 +36,39 @@ import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
 fun ChildProfileScreen(navController: NavController, child: Child) {
+    val context = LocalContext.current
+
+    val ageInYear = remember {
+        countPeriod(child.birthDate)
+    }
+    val ageInMonth = remember {
+        countPeriod(child.birthDate, showYear = false, showMonth = true)
+    }
+    val ageInDay = remember {
+        countPeriod(child.birthDate, showYear = false, showDay = true)
+    }
+    val heightZScoreDescription = remember {
+        countZScoreByHeight(
+            context = context,
+            birthDate = child.birthDate,
+            gender = child.gender,
+            height = child.height
+        )
+    }
+    val weightZScoreDescription = remember {
+        countZScoreByWeight(
+            context = context,
+            birthDate = child.birthDate,
+            gender = child.gender,
+            weight = child.weight
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .padding(vertical = 24.dp)
     ) {
         StuntionTopBar(
             title = "Child Profile",
@@ -85,12 +120,12 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
             ) {
                 Row {
                     StuntionText(
-                        text = "13 months",
+                        text = "${(ageInYear * 12 + ageInMonth)} months",
                         textStyle = Type.titleMedium(),
                         modifier = Modifier.padding(start = 16.dp, top = 14.dp, bottom = 14.dp)
                     )
                     StuntionText(
-                        text = "(1 year 1 month 8 days)",
+                        text = "($ageInYear years $ageInMonth months $ageInDay days)",
                         textStyle = Type.bodyLarge(),
                         color = Color.Gray,
                         modifier = Modifier.padding(start = 12.dp, top = 14.dp, bottom = 14.dp)
@@ -100,81 +135,75 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
 
             // Height and Weight
             Spacer(modifier = Modifier.height(2.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
 
-                // Height
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    StuntionText(
-                        text = "Height (cm)",
-                        textStyle = Type.bodyLarge(),
-                        color = Color.Gray
-                    )
-                    Box(
-                        modifier = Modifier
-                            .width((LocalConfiguration.current.screenWidthDp * 0.43).dp)
-                            .background(color = LightBlue, shape = RoundedCornerShape(100.dp))
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            StuntionText(
-                                text = "${child.height} cm",
-                                textStyle = Type.titleMedium(),
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    top = 14.dp,
-                                    bottom = 14.dp
-                                )
+            // Height
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                StuntionText(
+                    text = "Height (cm)",
+                    textStyle = Type.bodyLarge(),
+                    color = Color.Gray
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = LightBlue, shape = RoundedCornerShape(100.dp))
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        StuntionText(
+                            text = "${child.height} cm",
+                            textStyle = Type.titleMedium(),
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 14.dp,
+                                bottom = 14.dp
                             )
-                            StuntionText(
-                                text = "(Short)",
-                                textStyle = Type.bodyLarge(),
-                                color = Color.Gray,
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    top = 14.dp,
-                                    bottom = 14.dp
-                                )
+                        )
+                        StuntionText(
+                            text = "($heightZScoreDescription)",
+                            textStyle = Type.bodyLarge(),
+                            color = Color.Gray,
+                            modifier = Modifier.padding(
+                                start = 6.dp,
+                                top = 14.dp,
+                                bottom = 14.dp
                             )
-                        }
+                        )
                     }
                 }
+            }
 
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    // Weight
-                    StuntionText(
-                        text = "Weight (kg)",
-                        textStyle = Type.bodyLarge(),
-                        color = Color.Gray
-                    )
-                    Box(
-                        modifier = Modifier
-                            .width((LocalConfiguration.current.screenWidthDp * 0.43).dp)
-                            .background(color = LightBlue, shape = RoundedCornerShape(100.dp))
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            StuntionText(
-                                text = "${child.weight} Kg",
-                                textStyle = Type.titleMedium(),
-                                modifier = Modifier.padding(
-                                    start = 12.dp,
-                                    top = 14.dp,
-                                    bottom = 14.dp
-                                )
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                // Weight
+                StuntionText(
+                    text = "Weight (kg)",
+                    textStyle = Type.bodyLarge(),
+                    color = Color.Gray
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = LightBlue, shape = RoundedCornerShape(100.dp))
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        StuntionText(
+                            text = "${child.weight} kg",
+                            textStyle = Type.titleMedium(),
+                            modifier = Modifier.padding(
+                                start = 12.dp,
+                                top = 14.dp,
+                                bottom = 14.dp
                             )
-                            StuntionText(
-                                text = "(Less)",
-                                textStyle = Type.bodyLarge(),
-                                color = Color.Gray,
-                                modifier = Modifier.padding(
-                                    start = 6.dp,
-                                    top = 14.dp,
-                                    bottom = 14.dp
-                                )
+                        )
+                        StuntionText(
+                            text = "($weightZScoreDescription)",
+                            textStyle = Type.bodyLarge(),
+                            color = Color.Gray,
+                            modifier = Modifier.padding(
+                                start = 6.dp,
+                                top = 14.dp,
+                                bottom = 14.dp
                             )
-                        }
+                        )
                     }
                 }
             }

@@ -11,6 +11,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import com.killjoy.stuntion.features.domain.model.zscore.ZScoreStandard
+import com.killjoy.stuntion.features.presentation.utils.zscore_util.HeightCategory
+import com.killjoy.stuntion.features.presentation.utils.zscore_util.WeightCategory
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import java.io.BufferedReader
@@ -49,7 +51,8 @@ fun countZScoreByWeight(
     birthDate: String,
     gender: String,
     weight: Double,
-): Double? {
+): String {
+    var zScore: Double? = null
     val bufferedReader = BufferedReader(context.assets.open("BBU$gender.csv").reader())
     val csvParser = CSVParser.parse(
         bufferedReader,
@@ -81,7 +84,7 @@ fun countZScoreByWeight(
 
             if (standard.age == ageInMonth) {
                 val bbMedian = weight - standard.median
-                return if (bbMedian > 0) {
+                zScore = if (bbMedian > 0) {
                     bbMedian / (standard.high1SD - standard.median)
                 } else {
                     bbMedian / (standard.median - standard.low1SD)
@@ -89,7 +92,14 @@ fun countZScoreByWeight(
             }
         }
     }
-    return null
+    if (zScore != null) {
+        if (zScore!! < -3.0) return WeightCategory.SeverelyStunted.description
+        else if (zScore!! >= -3.0 && zScore!! < -2.0) return WeightCategory.Stunted.description
+        else if (zScore!! >= -2.0 && zScore!! < 3.0) return WeightCategory.Normal.description
+        else if (zScore!! > 3.0) return WeightCategory.High.description
+    }
+
+    return WeightCategory.Undefined.description
 }
 
 fun countZScoreByHeight(
@@ -97,7 +107,8 @@ fun countZScoreByHeight(
     birthDate: String,
     gender: String,
     height: Double,
-): Double? {
+): String {
+    var zScore: Double? = null
     val bufferedReader = BufferedReader(context.assets.open("TBU$gender.csv").reader())
     val csvParser = CSVParser.parse(
         bufferedReader,
@@ -129,7 +140,7 @@ fun countZScoreByHeight(
 
             if (standard.age == ageInMonth) {
                 val bbMedian = height - standard.median
-                return if (bbMedian > 0) {
+                zScore = if (bbMedian > 0) {
                     bbMedian / (standard.high1SD - standard.median)
                 } else {
                     bbMedian / (standard.median - standard.low1SD)
@@ -137,12 +148,20 @@ fun countZScoreByHeight(
             }
         }
     }
-    return null
+
+    if (zScore != null) {
+        if (zScore!! < -3.0) return HeightCategory.SeverelyUnderweight.description
+        else if (zScore!! >= -3.0 && zScore!! < -2.0) return HeightCategory.Underweight.description
+        else if (zScore!! >= -2.0 && zScore!! < 1.0) return HeightCategory.Normal.description
+        else if (zScore!! > 1.0) return HeightCategory.High.description
+    }
+
+    return HeightCategory.Undefined.description
 }
 
 fun countPeriod(
-    startDate: String? = null,
-    finishDate: String,
+    startDate: String,
+    finishDate: String? = null,
     datePattern: String = "MM/dd/yyy",
     showYear: Boolean = true,
     showMonth: Boolean = false,
@@ -150,11 +169,11 @@ fun countPeriod(
 ): Int {
     val currentDate = DateTimeFormatter.ofPattern(datePattern).format(LocalDateTime.now())
     var dayPeriod = Period.between(
-        LocalDate.parse(currentDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
-        LocalDate.parse(finishDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+        LocalDate.parse(startDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
+        LocalDate.parse(currentDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
     )
 
-    if (startDate != null) {
+    if (finishDate != null) {
         dayPeriod = Period.between(
             LocalDate.parse(startDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
             LocalDate.parse(finishDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"))

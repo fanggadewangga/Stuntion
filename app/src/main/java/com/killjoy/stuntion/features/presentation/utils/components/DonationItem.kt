@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.ui.theme.Gray
+import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 import java.time.LocalDate
@@ -206,7 +208,7 @@ fun HomeDonationItem(
             StuntionText(
                 text = location,
                 textStyle = Type.bodySmall(),
-                color = Color.LightGray,
+                color = Gray,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
 
@@ -227,7 +229,7 @@ fun HomeDonationItem(
                 StuntionText(
                     text = "Collected ",
                     textStyle = Type.bodySmall(),
-                    color = Color.LightGray
+                    color = Gray
                 )
                 StuntionText(text = "IDR 10.000", textStyle = Type.labelMedium())
             }

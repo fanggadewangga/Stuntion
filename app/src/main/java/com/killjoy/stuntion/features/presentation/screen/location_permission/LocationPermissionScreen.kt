@@ -93,7 +93,7 @@ fun LocationPermissionScreen(navController: NavController) {
                         text = "Skip",
                         color = PrimaryBlue,
                         textStyle = Type.bodyMedium(),
-                        modifier = Modifier.clickable { navController.navigate(Screen.HomeScreen.route) }
+                        modifier = Modifier.clickable { navController.navigate(Screen.CreateAccountSuccessScreen.route) }
                     )
                 }
             }

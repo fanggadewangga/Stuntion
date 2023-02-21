@@ -96,6 +96,7 @@ fun AddQuestionScreen(navController: NavController) {
                     Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
+                        .padding(vertical = 24.dp)
                 ) {
                     // Top Bar
                     StuntionTopBar(title = "Ask Expert", onBackPressed = { })
