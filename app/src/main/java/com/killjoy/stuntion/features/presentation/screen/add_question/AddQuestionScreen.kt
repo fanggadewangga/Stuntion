@@ -24,10 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.killjoy.stuntion.features.presentation.utils.components.CategoryItem
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
+import com.killjoy.stuntion.features.presentation.utils.components.*
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -246,20 +243,25 @@ fun AddQuestionScreen(navController: NavController) {
                         text = "Question Title",
                         textStyle = Type.labelLarge(),
                         color = LightGray,
-                        modifier = Modifier.padding(start = 16.dp)
+                        modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
                     )
-                    StuntionTextField(
-                        placeHolder = "Enter Title",
-                        value = viewModel.questionTitleState.value,
-                        onValueChange = {
-                            viewModel.questionTitleState.value = it
-                        },
-                        textStyle = Type.bodyLarge(),
-                        shape = RoundedCornerShape(32.dp),
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
-                    )
+                    ) {
+                        StuntionBasicTextField(
+                            placeHolder = "Enter Title",
+                            value = viewModel.questionTitleState.value,
+                            onValueChange = {
+                                viewModel.questionTitleState.value = it
+                            },
+                            textStyle = Type.bodyLarge(),
+                            shape = RoundedCornerShape(32.dp),
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+
 
                     // Question description
                     Spacer(modifier = Modifier.height(16.dp))
@@ -267,21 +269,28 @@ fun AddQuestionScreen(navController: NavController) {
                         text = "Your Question",
                         textStyle = Type.labelLarge(),
                         color = LightGray,
-                        modifier = Modifier.padding(start = 16.dp)
+                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
                     )
-                    StuntionTextField(
-                        placeHolder = "Enter Question",
-                        value = viewModel.questionDescriptionState.value,
-                        onValueChange = {
-                            viewModel.questionDescriptionState.value = it
-                        },
-                        textStyle = Type.bodyLarge(),
-                        shape = RoundedCornerShape(32.dp),
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(240.dp)
                             .padding(horizontal = 16.dp)
-                    )
+                    ) {
+                        StuntionBasicTextField(
+                            placeHolder = "Enter Question",
+                            value = viewModel.questionDescriptionState.value,
+                            onValueChange = {
+                                viewModel.questionDescriptionState.value = it
+                            },
+                            textFieldHeight = 240.dp,
+                            textStyle = Type.bodyLarge(),
+                            shape = RoundedCornerShape(32.dp),
+                            verticalAlignment = Alignment.Top,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+                    }
+
 
                     // Anonymous checkbox
                     Row(

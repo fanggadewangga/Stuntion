@@ -1,11 +1,17 @@
 package com.killjoy.stuntion.features.presentation.screen.request_help.personal_data
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -13,8 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.features.presentation.screen.request_help.detail_information.DetailInformationScreen
-import com.killjoy.stuntion.features.presentation.screen.request_help.title.TitleScreen
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -29,15 +34,72 @@ fun PersonalDataScreen(navController: NavController) {
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-        StuntionText(text = "Personal Data", textStyle = Type.titleMedium())
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // Indicator
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        {
+            Divider(
+                thickness = 1.dp,
+                color = PrimaryBlue,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = (LocalConfiguration.current.screenWidthDp / 8).dp,
+                        bottom = 16.dp
+                    )
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                viewModel.listOfStep.forEachIndexed { index, step ->
+                    val currentStepIndex = index + 1
+                    val backgroundColor = if (currentStepIndex == 1) PrimaryBlue else Color.White
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .border(width = 0.5.dp, color = PrimaryBlue, shape = CircleShape)
+                                .background(color = backgroundColor, shape = CircleShape)
+                        ) {
+                            StuntionText(
+                                text = currentStepIndex.toString(),
+                                textStyle = Type.titleMedium(),
+                                color = if (backgroundColor == PrimaryBlue) Color.White else PrimaryBlue
+                            )
+                        }
+                        StuntionText(
+                            text = step,
+                            textStyle = Type.labelMedium(),
+                            color = PrimaryBlue,
+                        )
+                    }
+                }
+            }
+        }
+
+        StuntionText(
+            text = "Personal Data",
+            textStyle = Type.titleMedium(),
+            modifier = Modifier.padding(vertical = 24.dp)
+        )
 
         // Name
-        Row {
+        Row(modifier = Modifier.padding(bottom = 8.dp)) {
             StuntionText(text = "Name According To E-KTP", textStyle = Type.labelLarge())
             StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
         }
-        StuntionTextField(
+        StuntionBasicTextField(
             placeHolder = "Enter your name according to E-KTP",
             value = viewModel.nameState.value,
             onValueChange = {
@@ -46,7 +108,6 @@ fun PersonalDataScreen(navController: NavController) {
             },
             shape = RoundedCornerShape(100.dp),
             singleLine = true,
-            focusedIndicatorColor = PrimaryBlue,
             isError = !viewModel.isValidName.value,
             showWarningMessage = !viewModel.isValidName.value,
             warningMessage = "Field could not be empty.",
@@ -55,13 +116,12 @@ fun PersonalDataScreen(navController: NavController) {
 
         // Phone
         Spacer(modifier = Modifier.height(16.dp))
-        Row {
+        Row(modifier = Modifier.padding(bottom = 8.dp)) {
             StuntionText(text = "Phone Number", textStyle = Type.labelLarge())
             StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
         }
-        StuntionTextField(
+        StuntionBasicTextField(
             placeHolder = "Make sure the number is active for SMS",
-            label = "",
             value = viewModel.phoneState.value,
             onValueChange = {
                 viewModel.isPhoneFieldClicked.value = true
@@ -69,7 +129,6 @@ fun PersonalDataScreen(navController: NavController) {
             },
             shape = RoundedCornerShape(100.dp),
             singleLine = true,
-            focusedIndicatorColor = PrimaryBlue,
             isError = !viewModel.isValidPhone.value,
             showWarningMessage = !viewModel.isValidPhone.value,
             warningMessage = "Field could not be empty.",
@@ -77,15 +136,15 @@ fun PersonalDataScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
+
         // Address
         Spacer(modifier = Modifier.height(16.dp))
-        Row {
+        Row(modifier = Modifier.padding(bottom = 8.dp)) {
             StuntionText(text = "Address", textStyle = Type.labelLarge())
             StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
         }
-        StuntionTextField(
+        StuntionBasicTextField(
             placeHolder = "Enter your current residential address",
-            label = "",
             value = viewModel.addressState.value,
             onValueChange = {
                 viewModel.isAddressFieldClicked.value = true
@@ -93,22 +152,21 @@ fun PersonalDataScreen(navController: NavController) {
             },
             shape = RoundedCornerShape(100.dp),
             singleLine = true,
-            focusedIndicatorColor = PrimaryBlue,
             isError = !viewModel.isValidAddress.value,
             showWarningMessage = !viewModel.isValidAddress.value,
             warningMessage = "Field could not be empty.",
             modifier = Modifier.fillMaxWidth()
         )
 
+
         // Job
         Spacer(modifier = Modifier.height(16.dp))
-        Row {
+        Row(modifier = Modifier.padding(bottom = 8.dp)) {
             StuntionText(text = "Current Job", textStyle = Type.labelLarge())
             StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
         }
-        StuntionTextField(
+        StuntionBasicTextField(
             placeHolder = "Example: Private employees, laborers",
-            label = "",
             value = viewModel.jobState.value,
             onValueChange = {
                 viewModel.isJobFieldClicked.value = true
@@ -116,7 +174,6 @@ fun PersonalDataScreen(navController: NavController) {
             },
             shape = RoundedCornerShape(100.dp),
             singleLine = true,
-            focusedIndicatorColor = PrimaryBlue,
             isError = !viewModel.isValidJob.value,
             showWarningMessage = !viewModel.isValidJob.value,
             warningMessage = "Field could not be empty.",

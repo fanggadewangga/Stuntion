@@ -48,6 +48,11 @@ sealed class Screen(val route: String) {
     // Support request
     object SupportRequestTutorialScreen : Screen("support_request_tutorial_screen")
     object RequestHelpSuccessScreen : Screen("request_help_success_screen")
+    object DetailInformationScreen : Screen("detail_information_screen")
+    object HelpTargetScreen : Screen("help_target_screen")
+    object PersonalDataScreen : Screen("personal_data_screen")
+    object TitleScreen : Screen("title_screen")
+    object ConfirmationScreen : Screen("confirmation_screen")
 
     // Verification
     object IdentityVerificationScreen : Screen("identity_verification_screen")

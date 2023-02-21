@@ -1,6 +1,5 @@
 package com.killjoy.stuntion.features.presentation.screen.general_information
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,15 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.utils.Constants.GENDER
 import com.killjoy.stuntion.features.presentation.utils.Screen
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -92,9 +90,10 @@ fun GeneralInformationScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(16.dp))
                 StuntionText(
                     text = "Name",
-                    textStyle = Type.titleMedium()
+                    textStyle = Type.titleMedium(),
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
-                StuntionTextField(
+                StuntionBasicTextField(
                     placeHolder = "Enter name",
                     value = viewModel.nameState.value,
                     onValueChange = {
@@ -103,9 +102,7 @@ fun GeneralInformationScreen(navController: NavController) {
                             nameState.value = it
                         }
                     },
-                    shape = RoundedCornerShape(100.dp),
                     singleLine = true,
-                    focusedIndicatorColor = PrimaryBlue,
                     isError = viewModel.isNameValid.value,
                     showWarningMessage = viewModel.isNameValid.value,
                     warningMessage = "Field cannot be empty",
@@ -116,9 +113,10 @@ fun GeneralInformationScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(16.dp))
                 StuntionText(
                     text = "Date of birth",
-                    textStyle = Type.titleMedium()
+                    textStyle = Type.titleMedium(),
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
-                StuntionTextField(
+                StuntionBasicTextField(
                     trailingIcon = {
                         IconButton(onClick = {
                             calendarState.show()
@@ -139,13 +137,15 @@ fun GeneralInformationScreen(navController: NavController) {
                             dateState.value = it
                         }
                     },
-                    shape = RoundedCornerShape(100.dp),
                     singleLine = true,
-                    focusedIndicatorColor = PrimaryBlue,
                     isError = viewModel.isDateValid.value,
                     showWarningMessage = viewModel.isDateValid.value,
                     warningMessage = "Field cannot be empty",
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            calendarState.show()
+                        }
                 )
 
                 // Gender

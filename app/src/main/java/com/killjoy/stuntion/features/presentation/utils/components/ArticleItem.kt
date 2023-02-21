@@ -117,10 +117,12 @@ fun HomeArticleItem(
 
             // Category
             Box(
-                modifier = Modifier.background(
-                    color = LightBlue,
-                    shape = RoundedCornerShape(100.dp)
-                )
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .background(
+                        color = LightBlue,
+                        shape = RoundedCornerShape(100.dp)
+                    )
             ) {
                 StuntionText(
                     text = "Stunting",

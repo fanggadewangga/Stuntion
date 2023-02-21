@@ -39,13 +39,11 @@ fun ArticleScreen(navController: NavController) {
     }
 
     Column(
-        Modifier.fillMaxSize()
+        Modifier.fillMaxSize().padding(vertical = 24.dp)
     ) {
 
         // Top Bar
         StuntionTopBar(title = "Article", onBackPressed = {})
-        Spacer(modifier = Modifier.height(24.dp))
-        Divider(color = LightGray, modifier = Modifier.fillMaxWidth())
 
         // Search field
         Spacer(modifier = Modifier.height(24.dp))

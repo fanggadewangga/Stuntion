@@ -8,6 +8,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonalDataViewModel @Inject constructor() : ViewModel() {
+    val listOfStep = listOf(
+        "Personal Data",
+        "Help Targets",
+        "Tittle",
+        "Information",
+    )
+
     val nameState = mutableStateOf("")
     val isNameFieldClicked = mutableStateOf(false)
     val isValidName = derivedStateOf {

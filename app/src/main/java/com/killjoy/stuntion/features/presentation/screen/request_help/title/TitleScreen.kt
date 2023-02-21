@@ -13,12 +13,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
 import com.killjoy.stuntion.features.presentation.utils.dashedBorder
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.Gray
 import com.killjoy.stuntion.ui.theme.LightGray
-import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
@@ -33,14 +32,14 @@ fun TitleScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(24.dp))
 
         // Title
-        Row {
+        Row(modifier = Modifier.padding(bottom = 8.dp)) {
             StuntionText(
                 text = "Give a title to the request for help",
                 textStyle = Type.labelLarge()
             )
             StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
         }
-        StuntionTextField(
+        StuntionBasicTextField(
             placeHolder = "Enter request title",
             value = viewModel.titleState.value,
             onValueChange = {
@@ -49,12 +48,12 @@ fun TitleScreen(navController: NavController) {
             },
             shape = RoundedCornerShape(100.dp),
             singleLine = true,
-            focusedIndicatorColor = PrimaryBlue,
             isError = !viewModel.isValidTitle.value,
             showWarningMessage = !viewModel.isValidTitle.value,
             warningMessage = "Field could not be empty.",
             modifier = Modifier.fillMaxWidth()
         )
+
 
         // Upload box
         Spacer(modifier = Modifier.height(16.dp))

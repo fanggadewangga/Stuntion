@@ -2,7 +2,6 @@ package com.killjoy.stuntion.features.presentation.screen.check
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,9 +29,9 @@ import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.utils.Constants
 import com.killjoy.stuntion.features.presentation.utils.Screen
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSegmentedControl
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -145,7 +143,6 @@ fun CheckScreen(navController: NavController) {
             }
 
             // Box
-            Spacer(modifier = Modifier.height(8.dp))
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -179,9 +176,10 @@ fun CheckScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(16.dp))
                     StuntionText(
                         text = "Child Name",
-                        textStyle = Type.titleMedium()
+                        textStyle = Type.titleMedium(),
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    StuntionTextField(
+                    StuntionBasicTextField(
                         placeHolder = "Enter your child name",
                         value = viewModel.nameState.value,
                         onValueChange = {
@@ -190,9 +188,7 @@ fun CheckScreen(navController: NavController) {
                                 nameState.value = it
                             }
                         },
-                        shape = RoundedCornerShape(100.dp),
                         singleLine = true,
-                        focusedIndicatorColor = PrimaryBlue,
                         isError = !viewModel.isNameValid.value,
                         showWarningMessage = !viewModel.isNameValid.value,
                         warningMessage = "Field cannot be empty",
@@ -201,11 +197,19 @@ fun CheckScreen(navController: NavController) {
 
                     // Date
                     Spacer(modifier = Modifier.height(16.dp))
-                    StuntionText(
-                        text = "Date of birth",
-                        textStyle = Type.titleMedium()
-                    )
-                    StuntionTextField(
+                    Row(modifier = Modifier.padding(bottom = 8.dp)) {
+                        StuntionText(
+                            text = "Date of birth ",
+                            textStyle = Type.titleMedium(),
+                        )
+                        StuntionText(
+                            text = "*",
+                            textStyle = Type.titleMedium(),
+                            color = Color.Red,
+                        )
+                    }
+
+                    StuntionBasicTextField(
                         trailingIcon = {
                             IconButton(onClick = {
                                 calendarState.show()
@@ -230,11 +234,14 @@ fun CheckScreen(navController: NavController) {
                         shape = RoundedCornerShape(100.dp),
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        focusedIndicatorColor = PrimaryBlue,
                         isError = !viewModel.isDateValid.value,
                         showWarningMessage = !viewModel.isDateValid.value,
                         warningMessage = "Field cannot be empty",
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                calendarState.show()
+                            }
                     )
 
                     // Height and weight
@@ -245,11 +252,18 @@ fun CheckScreen(navController: NavController) {
                     ) {
                         // Height
                         Column {
-                            StuntionText(
-                                text = "Height (Cm)",
-                                textStyle = Type.titleMedium()
-                            )
-                            StuntionTextField(
+                            Row(modifier = Modifier.padding(bottom = 8.dp)) {
+                                StuntionText(
+                                    text = "Height (cm) ",
+                                    textStyle = Type.titleMedium(),
+                                )
+                                StuntionText(
+                                    text = "*",
+                                    textStyle = Type.titleMedium(),
+                                    color = Color.Red,
+                                )
+                            }
+                            StuntionBasicTextField(
                                 placeHolder = "Enter height",
                                 value = viewModel.heightState.value,
                                 onValueChange = {
@@ -261,7 +275,6 @@ fun CheckScreen(navController: NavController) {
                                 shape = RoundedCornerShape(100.dp),
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                focusedIndicatorColor = PrimaryBlue,
                                 isError = !viewModel.isHeightValid.value,
                                 showWarningMessage = !viewModel.isHeightValid.value,
                                 warningMessage = "Field cannot be empty",
@@ -270,11 +283,18 @@ fun CheckScreen(navController: NavController) {
                         }
                         // Weight
                         Column {
-                            StuntionText(
-                                text = "Weight (Kg)",
-                                textStyle = Type.titleMedium()
-                            )
-                            StuntionTextField(
+                            Row(modifier = Modifier.padding(bottom = 8.dp)) {
+                                StuntionText(
+                                    text = "Weight (kg) ",
+                                    textStyle = Type.titleMedium(),
+                                )
+                                StuntionText(
+                                    text = "*",
+                                    textStyle = Type.titleMedium(),
+                                    color = Color.Red,
+                                )
+                            }
+                            StuntionBasicTextField(
                                 placeHolder = "Enter weight",
                                 value = viewModel.weightState.value,
                                 onValueChange = {
@@ -286,7 +306,6 @@ fun CheckScreen(navController: NavController) {
                                 shape = RoundedCornerShape(100.dp),
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                focusedIndicatorColor = PrimaryBlue,
                                 isError = !viewModel.isWeightValid.value,
                                 showWarningMessage = !viewModel.isWeightValid.value,
                                 warningMessage = "Field cannot be empty",

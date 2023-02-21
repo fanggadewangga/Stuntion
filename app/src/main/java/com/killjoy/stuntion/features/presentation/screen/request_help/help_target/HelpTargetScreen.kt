@@ -12,9 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
-import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
@@ -31,14 +30,14 @@ fun HelpTargetScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(24.dp))
 
         // Name
-        Row {
+        Row(modifier = Modifier.padding(bottom = 8.dp)) {
             StuntionText(
                 text = "Determine The Approximate Food Needed",
                 textStyle = Type.labelLarge()
             )
             StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
         }
-        StuntionTextField(
+        StuntionBasicTextField(
             placeHolder = "Enter the need for additional food",
             value = viewModel.foodState.value,
             onValueChange = {
@@ -47,25 +46,24 @@ fun HelpTargetScreen(navController: NavController) {
             },
             shape = RoundedCornerShape(100.dp),
             singleLine = true,
-            focusedIndicatorColor = PrimaryBlue,
             isError = !viewModel.isValidFood.value,
             showWarningMessage = !viewModel.isValidFood.value,
             warningMessage = "Field could not be empty.",
             modifier = Modifier.fillMaxWidth()
         )
 
+
         // Phone
         Spacer(modifier = Modifier.height(16.dp))
-        Row {
+        Row(modifier = Modifier.padding(bottom = 8.dp)) {
             StuntionText(
                 text = "Determine the estimated cost of the food needed",
                 textStyle = Type.labelLarge()
             )
             StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
         }
-        StuntionTextField(
+        StuntionBasicTextField(
             placeHolder = "Enter the cost of the food",
-            label = "",
             value = viewModel.costState.value,
             onValueChange = {
                 viewModel.isCostFieldClicked.value = true
@@ -80,7 +78,6 @@ fun HelpTargetScreen(navController: NavController) {
             },
             shape = RoundedCornerShape(100.dp),
             singleLine = true,
-            focusedIndicatorColor = PrimaryBlue,
             isError = !viewModel.isValidCost.value,
             showWarningMessage = !viewModel.isValidCost.value,
             warningMessage = "Field could not be empty.",
@@ -88,9 +85,10 @@ fun HelpTargetScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
+
         // Phone
         Spacer(modifier = Modifier.height(16.dp))
-        Row {
+        Row(modifier = Modifier.padding(bottom = 8.dp)) {
             StuntionText(
                 text = "Determine how long a request for help lasts ",
                 textStyle = Type.labelLarge()

@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 fun ConsultationScreen(navController: NavController) {
 
     val pagerState = com.google.accompanist.pager.rememberPagerState()
-    val pages = listOf("Ask Expert", "Chat with Experts")
+    val pages = listOf("Public Consultation", "Private Consultation")
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
