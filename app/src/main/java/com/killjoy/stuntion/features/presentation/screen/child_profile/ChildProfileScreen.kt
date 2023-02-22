@@ -1,6 +1,5 @@
 package com.killjoy.stuntion.features.presentation.screen.child_profile
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,7 +7,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,17 +17,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.domain.model.child.Child
-import com.killjoy.stuntion.features.presentation.utils.Screen
+import com.killjoy.stuntion.features.presentation.utils.*
 import com.killjoy.stuntion.features.presentation.utils.components.ChildProfileSectionItem
 import com.killjoy.stuntion.features.presentation.utils.components.HealthyTipsItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
-import com.killjoy.stuntion.features.presentation.utils.countPeriod
-import com.killjoy.stuntion.features.presentation.utils.countZScoreByHeight
-import com.killjoy.stuntion.features.presentation.utils.countZScoreByWeight
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -37,31 +34,27 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun ChildProfileScreen(navController: NavController, child: Child) {
     val context = LocalContext.current
+    val viewModel = hiltViewModel<ChildProfileViewModel>()
 
-    val ageInYear = remember {
-        countPeriod(child.birthDate)
-    }
-    val ageInMonth = remember {
-        countPeriod(child.birthDate, showYear = false, showMonth = true)
-    }
-    val ageInDay = remember {
-        countPeriod(child.birthDate, showYear = false, showDay = true)
-    }
-    val heightZScoreDescription = remember {
-        countZScoreByHeight(
-            context = context,
-            birthDate = child.birthDate,
-            gender = child.gender,
-            height = child.height
-        )
-    }
-    val weightZScoreDescription = remember {
-        countZScoreByWeight(
-            context = context,
-            birthDate = child.birthDate,
-            gender = child.gender,
-            weight = child.weight
-        )
+    LaunchedEffect(key1 = true) {
+        viewModel.apply {
+            ageInYear.value = countPeriod(child.birthDate)
+            ageInMonth.value = countPeriod(child.birthDate, showMonth = true)
+            ageInDay.value = countPeriod(child.birthDate, showDay = true)
+            idealWeight.value = countIdealWeight(child.birthDate)
+            heightDescription.value = countZScoreByHeight(
+                context = context,
+                birthDate = child.birthDate,
+                gender = child.gender,
+                height = child.height
+            )
+            weightDescription.value = countZScoreByWeight(
+                context = context,
+                birthDate = child.birthDate,
+                gender = child.gender,
+                weight = child.weight
+            )
+        }
     }
 
     Column(
@@ -120,12 +113,12 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
             ) {
                 Row {
                     StuntionText(
-                        text = "${(ageInYear * 12 + ageInMonth)} months",
+                        text = "${(viewModel.ageInYear.value * 12 + viewModel.ageInMonth.value)} months",
                         textStyle = Type.titleMedium(),
                         modifier = Modifier.padding(start = 16.dp, top = 14.dp, bottom = 14.dp)
                     )
                     StuntionText(
-                        text = "($ageInYear years $ageInMonth months $ageInDay days)",
+                        text = "(${viewModel.ageInYear.value} years ${viewModel.ageInMonth.value} months ${viewModel.ageInDay.value} days)",
                         textStyle = Type.bodyLarge(),
                         color = Color.Gray,
                         modifier = Modifier.padding(start = 12.dp, top = 14.dp, bottom = 14.dp)
@@ -159,7 +152,7 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                             )
                         )
                         StuntionText(
-                            text = "($heightZScoreDescription)",
+                            text = "(${viewModel.heightDescription.value})",
                             textStyle = Type.bodyLarge(),
                             color = Color.Gray,
                             modifier = Modifier.padding(
@@ -195,7 +188,7 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                             )
                         )
                         StuntionText(
-                            text = "($weightZScoreDescription)",
+                            text = "(${viewModel.weightDescription.value})",
                             textStyle = Type.bodyLarge(),
                             color = Color.Gray,
                             modifier = Modifier.padding(
@@ -283,13 +276,19 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         Row(modifier = Modifier.fillMaxWidth()) {
                             StuntionText(text = "Ideal height ", textStyle = Type.titleSmall())
-                            StuntionText(text = "between ", textStyle = Type.bodyMedium())
-                            StuntionText(text = "70 - 83.1 cm", textStyle = Type.titleSmall())
+                            StuntionText(text = "around ", textStyle = Type.bodyMedium())
+                            StuntionText(
+                                text = "0.0 cm",
+                                textStyle = Type.titleSmall()
+                            )
                         }
                         Row(modifier = Modifier.fillMaxWidth()) {
                             StuntionText(text = "Ideal weight ", textStyle = Type.titleSmall())
-                            StuntionText(text = "between ", textStyle = Type.bodyMedium())
-                            StuntionText(text = "7.2 - 10.4 Kg", textStyle = Type.titleSmall())
+                            StuntionText(text = "around ", textStyle = Type.bodyMedium())
+                            StuntionText(
+                                text = "${viewModel.idealWeight.value} kg",
+                                textStyle = Type.titleSmall()
+                            )
                         }
                     }
                 },

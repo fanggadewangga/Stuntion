@@ -163,7 +163,6 @@ fun countPeriod(
     startDate: String,
     finishDate: String? = null,
     datePattern: String = "MM/dd/yyy",
-    showYear: Boolean = true,
     showMonth: Boolean = false,
     showDay: Boolean = false,
 ): Int {
@@ -183,4 +182,15 @@ fun countPeriod(
     return if (showMonth) dayPeriod.months
     else if (showDay) dayPeriod.days
     else dayPeriod.years
+}
+fun countIdealWeight(birthDate: String): Double {
+    val ageInYear = countPeriod(birthDate)
+    val ageInMonth = (ageInYear * 12) + countPeriod(birthDate, showMonth = true)
+
+
+    if (ageInMonth in 3..12)
+        return (ageInMonth + 9) / 2.0
+    else if (ageInMonth in 13..72)
+        return (ageInYear * 2.0 + 8)
+    return 0.0
 }

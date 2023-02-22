@@ -7,10 +7,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
-import com.killjoy.stuntion.features.presentation.screen.article.articles.ArticleScreen
-import com.killjoy.stuntion.features.presentation.screen.article.detail.ArticleDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.video.detail.VideoDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.video.videos.VideosScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert.AskExpertScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert_detail.AskExpertDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.auth.CreateAccountSuccessScreen
 import com.killjoy.stuntion.features.presentation.screen.auth.login.LoginScreen
 import com.killjoy.stuntion.features.presentation.screen.auth.signup.SignupScreen
 import com.killjoy.stuntion.features.presentation.screen.avatar.AvatarScreen
@@ -26,6 +27,10 @@ import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
 import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.question.QuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpSuccessScreen
+import com.killjoy.stuntion.features.presentation.screen.request_help.detail_information.DetailInformationScreen
+import com.killjoy.stuntion.features.presentation.screen.request_help.help_target.HelpTargetScreen
+import com.killjoy.stuntion.features.presentation.screen.request_help.personal_data.PersonalDataScreen
+import com.killjoy.stuntion.features.presentation.screen.request_help.title.TitleScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.screen.support.SupportScreen
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailScreen
@@ -40,7 +45,7 @@ import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArg
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
 
         composable(route = Screen.SplashScreen.route) {
             SplashScreen(navController = navController)
@@ -56,6 +61,9 @@ fun Navigation() {
         }
         composable(route = Screen.LoginScreen.route) {
             LoginScreen(navController = navController)
+        }
+        composable(route = Screen.CreateAccountSuccessScreen.route) {
+            CreateAccountSuccessScreen(navController = navController)
         }
 
         composable(route = Screen.GeneralInformationScreen.route) {
@@ -100,11 +108,11 @@ fun Navigation() {
         }
 
         // Article
-        composable(route = Screen.ArticlesScreen.route) {
-            ArticleScreen(navController = navController)
+        composable(route = Screen.VideosScreen.route) {
+            VideosScreen(navController = navController)
         }
-        composable(route = Screen.ArticleDetailScreen.route) {
-            ArticleDetailScreen(navController = navController)
+        composable(route = Screen.VideoDetailScreen.route) {
+            VideoDetailScreen(navController = navController)
         }
 
         // Expert
@@ -131,7 +139,8 @@ fun Navigation() {
                 }
             )
         ) { navBackStackEntry ->
-            @Suppress("DEPRECATION") val child = navBackStackEntry.arguments?.getParcelable<Child>("child")
+            @Suppress("DEPRECATION") val child =
+                navBackStackEntry.arguments?.getParcelable<Child>("child")
             child?.let { ChildProfileScreen(navController = navController, child = it) }
         }
 
@@ -147,7 +156,22 @@ fun Navigation() {
         composable(route = Screen.RequestHelpSuccessScreen.route) {
             RequestHelpSuccessScreen(navController = navController)
         }
-        
+        composable(route = Screen.PersonalDataScreen.route) {
+            PersonalDataScreen(navController = navController)
+        }
+        composable(route = Screen.HelpTargetScreen.route) {
+            HelpTargetScreen(navController = navController)
+        }
+        composable(route = Screen.TitleScreen.route) {
+            TitleScreen(navController = navController)
+        }
+        composable(route = Screen.DetailInformationScreen.route) {
+            DetailInformationScreen(navController = navController)
+        }
+        composable(route = Screen.ConfirmationScreen.route) {
+
+        }
+
         // Verification success
         composable(route = Screen.VerificationSuccessScreen.route) {
             VerificationSuccessScreen(navController = navController)
