@@ -7,7 +7,8 @@ import dagger.hilt.components.SingletonComponent
 @Module(
     includes = [
         DatastoreModule::class,
-        FirebaseModule::class
+        FirebaseModule::class,
+        RemoteModule::class
     ]
 )
 

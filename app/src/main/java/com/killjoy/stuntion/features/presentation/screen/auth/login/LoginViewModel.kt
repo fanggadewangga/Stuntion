@@ -5,17 +5,17 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseDataSource
-import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseResponse
+import com.killjoy.stuntion.features.data.repository.user.UserRepository
+import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserResponse
+import com.killjoy.stuntion.features.data.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val firebaseDataSource: FirebaseDataSource,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
     val emailState = mutableStateOf("")
     val isValidEmailState = derivedStateOf {
@@ -26,17 +26,14 @@ class LoginViewModel @Inject constructor(
         passwordState.value.isNotEmpty() && passwordState.value.length < 6
     }
 
-    private val _firebaseLoginResponse =
-        MutableStateFlow<FirebaseResponse<String>>(FirebaseResponse.Empty)
-    val firebaseLoginResponse = _firebaseLoginResponse.asStateFlow()
+    val userData = MutableStateFlow<Resource<UserResponse?>>(Resource.Empty())
 
-    fun login() = viewModelScope.launch {
-        firebaseDataSource.signInWithEmailAndPassword(
-            email = emailState.value,
-            password = passwordState.value
-        ).collect {
-            _firebaseLoginResponse.value = it
+    fun signInUser() {
+        viewModelScope.launch {
+            userRepository.signInUser(email = emailState.value, password = passwordState.value)
+                .collect {
+                    userData.value = it
+                }
         }
     }
-
 }

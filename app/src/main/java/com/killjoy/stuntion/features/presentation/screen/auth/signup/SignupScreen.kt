@@ -165,7 +165,7 @@ fun SignupScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(32.dp))
                 StuntionButton(
                     onClick = {
-                              viewModel.signUp()
+                        viewModel.signUpUser()
                     }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(

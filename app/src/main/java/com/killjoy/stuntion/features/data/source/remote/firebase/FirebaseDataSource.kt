@@ -28,7 +28,6 @@ class FirebaseDataSource @Inject constructor(
             emit(FirebaseResponse.Success(user.uid))
         else
             emit(FirebaseResponse.Empty)
-
     }.catch {
         emit(FirebaseResponse.Error(it.message.toString()))
     }.flowOn(Dispatchers.IO)

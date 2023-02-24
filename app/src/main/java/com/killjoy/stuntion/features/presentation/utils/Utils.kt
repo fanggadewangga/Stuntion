@@ -183,6 +183,7 @@ fun countPeriod(
     else if (showDay) dayPeriod.days
     else dayPeriod.years
 }
+
 fun countIdealWeight(birthDate: String): Double {
     val ageInYear = countPeriod(birthDate)
     val ageInMonth = (ageInYear * 12) + countPeriod(birthDate, showMonth = true)
