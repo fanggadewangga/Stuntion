@@ -2,7 +2,7 @@ package com.killjoy.stuntion.features.data.source.remote.api.response.donation
 
 import com.google.gson.annotations.SerializedName
 
-data class DonationLiteResponse(
+data class DonationListResponse(
     @field:SerializedName("donation_id")
     val donationId: String,
 

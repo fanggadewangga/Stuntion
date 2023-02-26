@@ -1,6 +1,10 @@
 package com.killjoy.stuntion.features.data.repository.user
 
+import android.util.Log
+import com.killjoy.stuntion.features.data.source.local.datastore.StuntionDatastore
+import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserAvatarBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBody
+import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserGeneralInfoBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserResponse
 import com.killjoy.stuntion.features.data.source.remote.api.service.StuntionApi
 import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseDataSource
@@ -9,12 +13,14 @@ import com.killjoy.stuntion.features.data.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
     private val stuntionApi: StuntionApi,
     private val firebaseDataSource: FirebaseDataSource,
+    private val datastore: StuntionDatastore,
 ) : IUserRepository {
     override suspend fun signUpUser(
         email: String,
@@ -54,6 +60,7 @@ class UserRepository @Inject constructor(
                     is FirebaseResponse.Success -> {
                         try {
                             val userResponse = stuntionApi.fetchUserDetail(uid = response.data).data
+                            datastore.savePrefUid(userResponse!!.uid)
                             send(Resource.Success(userResponse))
                         } catch (e: Exception) {
                             send(Resource.Error(e.message.toString()))
@@ -64,6 +71,75 @@ class UserRepository @Inject constructor(
                     }
                     is FirebaseResponse.Empty -> send(Resource.Empty())
                 }
+            }
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun fetchUserDetail(uid: String): Flow<Resource<UserResponse?>> =
+        flow<Resource<UserResponse?>> {
+            emit(Resource.Loading())
+            try {
+                val user = stuntionApi.fetchUserDetail(uid).data
+                if (user != null) {
+                    emit(Resource.Success(user))
+                    Log.d("FETCH USER : ", user.level.toString())
+                } else
+                    emit(Resource.Empty())
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message.toString()))
+                Log.d("FETCH USER : ", e.message.toString())
+            }
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun updateUserGeneralInformation(
+        uid: String,
+        body: UserGeneralInfoBody,
+    ): Flow<Resource<String?>> = flow<Resource<String?>> {
+        emit(Resource.Loading())
+        try {
+            val response = stuntionApi.updateUserGeneralInformation(uid, body)
+            if (!response.isError) {
+                emit(Resource.Success(response.message))
+                Log.d("UPDATE USER GENERAL: ", "SUCCESS")
+            } else
+                emit(Resource.Empty())
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message))
+            Log.d("UPDATE USER GENERAL: ", e.message.toString())
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun updateUserAvatar(
+        uid: String,
+        avatarUrl: String,
+    ): Flow<Resource<String?>> = flow<Resource<String?>> {
+        emit(Resource.Loading())
+        try {
+            val body = UserAvatarBody(avatarUrl)
+            val response = stuntionApi.updateUserAvatar(uid, body)
+            if (!response.isError) {
+                emit(Resource.Success(response.message))
+                Log.d("UPDATE USER LEVEL: ", "SUCCESS")
+            } else
+                emit(Resource.Empty())
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message))
+            Log.d("UPDATE USER LEVEL: ", e.message.toString())
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun updateUserLevel(uid: String): Flow<Resource<String?>> =
+        flow<Resource<String?>> {
+            emit(Resource.Loading())
+            try {
+                val response = stuntionApi.updateUserLevel(uid)
+                if (!response.isError) {
+                    emit(Resource.Success(response.message))
+                    Log.d("UPDATE USER AVATAR: ", "SUCCESS")
+                } else
+                    emit(Resource.Empty())
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message))
+                Log.d("UPDATE USER AVATAR: ", e.message.toString())
             }
         }.flowOn(Dispatchers.IO)
 }
