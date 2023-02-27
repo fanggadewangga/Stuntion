@@ -162,4 +162,7 @@ dependencies {
 
     // CSV reader
     implementation 'org.apache.commons:commons-csv:1.5'
+
+    // Exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.3'
 }

@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package com.killjoy.stuntion.features.presentation.screen.video.detail
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,42 +13,69 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.utils.components.OtherArticleItem
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
+@Suppress("DEPRECATION")
 @Composable
 fun VideoDetailScreen(navController: NavController) {
     val viewModel = hiltViewModel<VideoDetailViewModel>()
+    val context = LocalContext.current
+    val url =
+        "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2FWhat%20is%20Stunting.mp4?alt=media&token=529a93b9-f60e-4da2-ac10-9d852460c3fc"
+    val player = remember {
+        ExoPlayer.Builder(context).build().apply {
+            val dataSource = DefaultDataSource.Factory(context)
+            val source = ProgressiveMediaSource.Factory(dataSource)
+                .createMediaSource(MediaItem.fromUri(Uri.parse(url)))
+            addMediaSource(source)
+            prepare()
+        }
+    }
+
 
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
 
         // Image
         item {
             Box(modifier = Modifier.fillMaxWidth()) {
-                AsyncImage(
-                    model = R.drawable.iv_article_detail,
-                    contentDescription = "Article image",
-                    contentScale = ContentScale.FillWidth
+                AndroidView(
+                    factory = {
+                        PlayerView(it).apply {
+                            this.player = player
+                            useController = true
+                            setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(16 / 9f)
                 )
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 24.dp)
+                        .padding(top = 32.dp)
                 ) {
                     Image(
                         imageVector = Icons.Default.ArrowBack,
@@ -54,7 +84,9 @@ fun VideoDetailScreen(navController: NavController) {
                         modifier = Modifier
                             .padding(start = 16.dp)
                             .align(Alignment.TopStart)
-                            .clickable { }
+                            .clickable {
+                                navController.popBackStack()
+                            }
                     )
                     Image(
                         imageVector = Icons.Default.Share,
