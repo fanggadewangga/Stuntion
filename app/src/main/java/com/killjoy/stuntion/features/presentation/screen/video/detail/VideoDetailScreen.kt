@@ -43,7 +43,7 @@ fun VideoDetailScreen(navController: NavController) {
     val viewModel = hiltViewModel<VideoDetailViewModel>()
     val context = LocalContext.current
     val url =
-        "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2FWhat%20is%20Stunting.mp4?alt=media&token=529a93b9-f60e-4da2-ac10-9d852460c3fc"
+        "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2FStunting%20-%20Deteksi%20dan%20Intervensi%20-%20Prof.%20dr.%20Ova%20Emilia.mp4?alt=media&token=ae511a8c-c571-4845-bf87-b8e04c0f56fe"
     val player = remember {
         ExoPlayer.Builder(context).build().apply {
             val dataSource = DefaultDataSource.Factory(context)

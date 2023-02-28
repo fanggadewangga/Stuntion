@@ -107,7 +107,7 @@ fun HomeArticleItem(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(bottom = 6.dp)
         ) {
-            Box{
+            Box {
                 AsyncImage(
                     model = R.drawable.iv_article_detail,
                     contentDescription = "Article image",

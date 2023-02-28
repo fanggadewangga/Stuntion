@@ -343,25 +343,6 @@ fun HomeScreen(navController: NavController) {
                 }
             }
 
-            // Information
-            StuntionText(
-                text = "Information For You",
-                textStyle = Type.titleMedium(),
-                modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
-            )
-            LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
-                items(viewModel.listOfBanner) {
-                    AsyncImage(
-                        model = it,
-                        contentDescription = "Banner",
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier
-                            .height(160.dp)
-                            .padding(end = 16.dp)
-                    )
-                }
-            }
-
             // Article
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -398,6 +379,25 @@ fun HomeScreen(navController: NavController) {
                 items(5) {
                     HomeArticleItem(
                         modifier = Modifier.padding(end = 16.dp)
+                    )
+                }
+            }
+
+            // Information
+            StuntionText(
+                text = "Information For You",
+                textStyle = Type.titleMedium(),
+                modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
+            )
+            LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
+                items(viewModel.listOfBanner) {
+                    AsyncImage(
+                        model = it,
+                        contentDescription = "Banner",
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .height(160.dp)
+                            .padding(end = 16.dp)
                     )
                 }
             }
