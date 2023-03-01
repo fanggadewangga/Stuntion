@@ -15,6 +15,8 @@ import com.killjoy.stuntion.features.presentation.screen.auth.CreateAccountSucce
 import com.killjoy.stuntion.features.presentation.screen.auth.login.LoginScreen
 import com.killjoy.stuntion.features.presentation.screen.auth.signup.SignupScreen
 import com.killjoy.stuntion.features.presentation.screen.avatar.AvatarScreen
+import com.killjoy.stuntion.features.presentation.screen.camera.CardCameraScreen
+import com.killjoy.stuntion.features.presentation.screen.camera.FaceCameraScreen
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
 import com.killjoy.stuntion.features.presentation.screen.check.CheckScreen
 import com.killjoy.stuntion.features.presentation.screen.child_profile.ChildProfileScreen
@@ -45,7 +47,7 @@ import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArg
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
+        NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
 
         composable(route = Screen.SplashScreen.route) {
             SplashScreen(navController = navController)
@@ -186,6 +188,15 @@ fun Navigation() {
         // Question
         composable(route = Screen.QuestionScreen.route) {
             QuestionScreen(navController = navController)
+        }
+
+        // Camera
+        composable(route = Screen.CardCameraScreen.route) {
+            CardCameraScreen(navController = navController)
+        }
+
+        composable(route = Screen.FaceCameraScreen.route) {
+            FaceCameraScreen(navController = navController)
         }
     }
 }

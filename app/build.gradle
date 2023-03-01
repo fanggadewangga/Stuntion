@@ -166,4 +166,7 @@ dependencies {
 
     // Exoplayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.3'
+
+    // Camposer
+    implementation 'io.github.ujizin:camposer:0.1.0'
 }

@@ -10,26 +10,26 @@ sealed class Screen(val route: String) {
     object CreateAccountSuccessScreen : Screen("create_account_success_screen")
 
     // General information
-    object GeneralInformationScreen: Screen("general_information_screen")
+    object GeneralInformationScreen : Screen("general_information_screen")
 
     // Main screen
-    object HomeScreen: Screen("home_screen")
-    object ConsultScreen: Screen("consult_screen")
-    object CheckScreen: Screen("check_screen")
-    object SupportScreen: Screen("support_screen")
-    object ProfileScreen: Screen("profile_screen")
+    object HomeScreen : Screen("home_screen")
+    object ConsultScreen : Screen("consult_screen")
+    object CheckScreen : Screen("check_screen")
+    object SupportScreen : Screen("support_screen")
+    object ProfileScreen : Screen("profile_screen")
 
     // Ask
-    object AskExpertScreen: Screen("ask_expert_screen")
-    object AddQuestionScreen: Screen("add_question_screen")
+    object AskExpertScreen : Screen("ask_expert_screen")
+    object AddQuestionScreen : Screen("add_question_screen")
     object AskExpertDetailScreen : Screen("ask_expert_detail_screen")
 
     // Chat
-    object ChatExpertScreen: Screen("chat_expert_screen")
+    object ChatExpertScreen : Screen("chat_expert_screen")
 
     // Article
-    object VideosScreen: Screen("videos_screen")
-    object VideoDetailScreen: Screen("video_detail_screen")
+    object VideosScreen : Screen("videos_screen")
+    object VideoDetailScreen : Screen("video_detail_screen")
 
     // Expert
     object ExpertDetailScreen : Screen("expert_detail_screen")
@@ -62,4 +62,8 @@ sealed class Screen(val route: String) {
 
     // Question
     object QuestionScreen : Screen("question_screen")
+
+    // Camera
+    object CardCameraScreen : Screen("card_camera_screen")
+    object FaceCameraScreen : Screen("face_camera_screen")
 }
