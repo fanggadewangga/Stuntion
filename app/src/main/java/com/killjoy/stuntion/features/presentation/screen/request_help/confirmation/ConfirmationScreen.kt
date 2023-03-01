@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,10 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.killjoy.stuntion.features.presentation.screen.request_help.personal_data.PersonalDataViewModel
+import coil.compose.AsyncImage
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import com.killjoy.stuntion.R
 
 @Composable
 fun ConfirmationScreen(navController: NavController) {
@@ -93,8 +96,144 @@ fun ConfirmationScreen(navController: NavController) {
                 text = "Make sure the data you enter is correct so that the process can run quickly",
                 textStyle = Type.bodyMedium()
             )
-        }
 
+            // 1st checkbox
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Checkbox(
+                    checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[0]),
+                    onCheckedChange = {
+                        if (viewModel.listOfChecked.contains(viewModel.listOfCheck[0]))
+                            viewModel.listOfChecked.remove(viewModel.listOfCheck[0])
+                        else
+                            viewModel.listOfChecked.add(viewModel.listOfCheck[0])
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkmarkColor = Color.White,
+                        checkedColor = PrimaryBlue
+                    )
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                StuntionText(
+                    text = viewModel.listOfCheck[0],
+                    textStyle = Type.bodyMedium(),
+                    modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.66).dp)
+                )
+            }
+
+            // 2nd checkbox
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Checkbox(
+                    checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[1]),
+                    onCheckedChange = {
+                        if (viewModel.listOfChecked.contains(viewModel.listOfCheck[1]))
+                            viewModel.listOfChecked.remove(viewModel.listOfCheck[1])
+                        else
+                            viewModel.listOfChecked.add(viewModel.listOfCheck[1])
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkmarkColor = Color.White,
+                        checkedColor = PrimaryBlue
+                    )
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                StuntionText(
+                    text = viewModel.listOfCheck[1],
+                    textStyle = Type.bodyMedium(),
+                    modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.66).dp)
+                )
+            }
+
+            // 3rd checkbox
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Checkbox(
+                    checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[2]),
+                    onCheckedChange = {
+                        if (viewModel.listOfChecked.contains(viewModel.listOfCheck[2]))
+                            viewModel.listOfChecked.remove(viewModel.listOfCheck[2])
+                        else
+                            viewModel.listOfChecked.add(viewModel.listOfCheck[2])
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkmarkColor = Color.White,
+                        checkedColor = PrimaryBlue
+                    )
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                StuntionText(
+                    text = viewModel.listOfCheck[2],
+                    textStyle = Type.bodyMedium(),
+                    modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.66).dp)
+                )
+            }
+
+            // 4th checkbox
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Checkbox(
+                    checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[3]),
+                    onCheckedChange = {
+                        if (viewModel.listOfChecked.contains(viewModel.listOfCheck[3]))
+                            viewModel.listOfChecked.remove(viewModel.listOfCheck[3])
+                        else
+                            viewModel.listOfChecked.add(viewModel.listOfCheck[3])
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkmarkColor = Color.White,
+                        checkedColor = PrimaryBlue
+                    )
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                StuntionText(
+                    text = viewModel.listOfCheck[3],
+                    textStyle = Type.bodyMedium(),
+                    modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.66).dp)
+                )
+            }
+
+            // 5th checkbox
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Checkbox(
+                    checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[4]),
+                    onCheckedChange = {
+                        if (viewModel.listOfChecked.contains(viewModel.listOfCheck[4]))
+                            viewModel.listOfChecked.remove(viewModel.listOfCheck[4])
+                        else
+                            viewModel.listOfChecked.add(viewModel.listOfCheck[4])
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkmarkColor = Color.White,
+                        checkedColor = PrimaryBlue
+                    )
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                StuntionText(
+                    text = viewModel.listOfCheck[4],
+                    textStyle = Type.bodyMedium(),
+                    modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.66).dp)
+                )
+            }
+
+            AsyncImage(model = R.drawable.ic_support_terms, contentDescription = "Terms")
+        }
     }
 }
 

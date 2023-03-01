@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.support
+package com.killjoy.stuntion.features.presentation.screen.support.supports
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -7,8 +7,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -16,8 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,10 +27,8 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
-import com.killjoy.stuntion.features.presentation.screen.support.supports.SupportViewModel
-import com.killjoy.stuntion.features.presentation.utils.components.QuestionCategoryChip
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
 import com.killjoy.stuntion.features.presentation.utils.components.DonationItem
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -44,16 +38,7 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun SupportScreen(navController: NavController) {
     val viewModel = hiltViewModel<SupportViewModel>()
-    val donationCategories = listOf(
-        "All",
-        "Vegetable",
-        "Fruit",
-        "Cereal",
-        "Meat",
-    )
-    val selectedCategory = remember {
-        mutableStateOf("")
-    }
+
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) },
         modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 17).dp)
@@ -69,7 +54,7 @@ fun SupportScreen(navController: NavController) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height((LocalConfiguration.current.screenHeightDp / 3.4).dp)
+                            .height((LocalConfiguration.current.screenHeightDp / 3.2).dp)
                             .background(PrimaryBlue)
                     ) {}
 
@@ -83,7 +68,7 @@ fun SupportScreen(navController: NavController) {
                         Spacer(modifier = Modifier.height(24.dp))
                         Box(
                             contentAlignment = Alignment.TopCenter,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth().padding(top = 24.dp)
                         ) {
                             Image(
                                 imageVector = Icons.Default.ArrowBack,
@@ -155,7 +140,7 @@ fun SupportScreen(navController: NavController) {
                         StuntionSearchField(
                             valueState = viewModel.searchState.value,
                             onValueChange = { viewModel.searchState.value = it },
-                            placeholder = "Find an expert",
+                            placeholder = "who will you help today?",
                             borderColor = Color.Transparent,
                             leadingIcon = {
                                 Icon(
@@ -234,46 +219,6 @@ fun SupportScreen(navController: NavController) {
             }
 
             items(2) {
-                DonationItem(
-                    title = "Milk For Babies Aged 1 Year",
-                    location = "Malang, Jawa Timur",
-                    currentValue = 1,
-                    maxValue = 5,
-                    deadlineDate = "02/19/2023",
-                    fee = 50000,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-                StuntionText(
-                    text = "Choose your category",
-                    textStyle = Type.titleMedium(),
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                ) {
-                    items(donationCategories) { category ->
-                        QuestionCategoryChip(
-                            category = category,
-                            selected = selectedCategory.value,
-                            onSelected = {
-                                selectedCategory.value = it
-                            }
-                        )
-                    }
-                }
-            }
-
-            items(2) {
-                Spacer(modifier = Modifier.height(8.dp))
                 DonationItem(
                     title = "Milk For Babies Aged 1 Year",
                     location = "Malang, Jawa Timur",

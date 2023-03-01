@@ -30,6 +30,7 @@ fun TitleScreen(navController: NavController) {
     val viewModel = hiltViewModel<TitleViewModel>()
     Column {
         // Indicator
+        Spacer(modifier = Modifier.height(16.dp))
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier

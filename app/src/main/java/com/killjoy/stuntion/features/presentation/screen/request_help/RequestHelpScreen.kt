@@ -1,6 +1,8 @@
 package com.killjoy.stuntion.features.presentation.screen.request_help
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,16 +30,20 @@ fun RequestHelpScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<RequestHelpViewModel>()
 
-    Column(modifier = Modifier.fillMaxSize()) {
-
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         // Top bar
         Box(modifier = Modifier.fillMaxWidth()) {
             StuntionText(
                 text = "Request For Help",
                 textStyle = Type.titleLarge(),
-                modifier = Modifier.align(
-                    Alignment.TopCenter
-                )
+                modifier = Modifier
+                    .align(
+                        Alignment.TopCenter
+                    )
+                    .padding(top = (LocalConfiguration.current.screenHeightDp / 14).dp)
             )
         }
         Divider(
@@ -47,7 +53,7 @@ fun RequestHelpScreen(navController: NavController) {
         )
 
         // Form to
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         StuntionText(
             text = "Form To Request For Help",
             textStyle = Type.titleMedium(),
@@ -61,7 +67,7 @@ fun RequestHelpScreen(navController: NavController) {
         Divider(
             color = Color.LightGray, modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp)
+                .padding(top = 16.dp)
         )
 
         when (viewModel.currentStep.value) {
@@ -105,7 +111,7 @@ fun RequestHelpScreen(navController: NavController) {
                 modifier = Modifier.width((LocalConfiguration.current.screenWidthDp / 2.2).dp)
             ) {
                 StuntionText(
-                    text = if (viewModel.currentStep.value < viewModel.listOfStep.size) "Next" else "Finish",
+                    text = if (viewModel.currentStep.value <= viewModel.listOfStep.size) "Next" else "Finish",
                     color = Color.White,
                     textStyle = Type.labelLarge()
                 )

@@ -66,7 +66,7 @@ fun ProfileScreen(navController: NavController) {
                     Column(
                         Modifier
                             .fillMaxWidth()
-                            .padding(16.dp)
+                            .padding(start = 16.dp, top = 48.dp, end = 16.dp, bottom = 16.dp)
                     ) {
 
                         Row(
@@ -293,7 +293,12 @@ fun ProfileScreen(navController: NavController) {
                 ProfileSettingItem(
                     item = ProfileSetting(icon = R.drawable.ic_about, title = "About Us"),
                     onClick = { /*TODO*/ },
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    modifier = Modifier.padding(
+                        start = 16.dp,
+                        top = 8.dp,
+                        end = 16.dp,
+                        bottom = (LocalConfiguration.current.screenWidthDp / 6).dp
+                    )
                 )
             }
         }

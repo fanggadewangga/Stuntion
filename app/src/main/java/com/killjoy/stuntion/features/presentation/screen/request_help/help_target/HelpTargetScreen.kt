@@ -7,6 +7,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Divider
+import androidx.compose.material.RadioButton
+import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,8 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.killjoy.stuntion.features.presentation.utils.Constants
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
@@ -28,8 +32,9 @@ fun HelpTargetScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<HelpTargetViewModel>()
 
-    Column{
+    Column {
         // Indicator
+        Spacer(modifier = Modifier.height(16.dp))
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -150,7 +155,7 @@ fun HelpTargetScreen(navController: NavController) {
             )
 
 
-            // Phone
+            // Duration
             Spacer(modifier = Modifier.height(16.dp))
             Row(modifier = Modifier.padding(bottom = 8.dp)) {
                 StuntionText(
@@ -158,9 +163,117 @@ fun HelpTargetScreen(navController: NavController) {
                     textStyle = Type.labelLarge()
                 )
                 StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
-                /* TODO : RADIO BUTTON */
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width((LocalConfiguration.current.screenWidthDp / 2.4).dp)
+                        .border(
+                            width = 1.dp,
+                            color = LightGray,
+                            shape = RoundedCornerShape(100.dp)
+                        )
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(
+                            selected = viewModel.selectedDuration.value == viewModel.listOfDuration[0],
+                            onClick = {
+                                viewModel.selectedDuration.value = viewModel.listOfDuration[0]
+                            },
+                            colors = RadioButtonDefaults.colors(PrimaryBlue)
+                        )
+                        StuntionText(
+                            text = viewModel.listOfDuration[0],
+                            textStyle = Type.bodyLarge()
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .width((LocalConfiguration.current.screenWidthDp / 2.4).dp)
+                        .border(
+                            width = 1.dp,
+                            color = LightGray,
+                            shape = RoundedCornerShape(100.dp)
+                        )
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(
+                            selected = viewModel.selectedDuration.value == viewModel.listOfDuration[1],
+                            onClick = {
+                                viewModel.selectedDuration.value = viewModel.listOfDuration[1]
+                            },
+                            colors = RadioButtonDefaults.colors(PrimaryBlue)
+                        )
+                        StuntionText(
+                            text = viewModel.listOfDuration[1],
+                            textStyle = Type.bodyLarge()
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width((LocalConfiguration.current.screenWidthDp / 2.4).dp)
+                        .border(
+                            width = 1.dp,
+                            color = LightGray,
+                            shape = RoundedCornerShape(100.dp)
+                        )
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(
+                            selected = viewModel.selectedDuration.value == viewModel.listOfDuration[2],
+                            onClick = {
+                                viewModel.selectedDuration.value = viewModel.listOfDuration[2]
+                            },
+                            colors = RadioButtonDefaults.colors(PrimaryBlue)
+                        )
+                        StuntionText(
+                            text = viewModel.listOfDuration[2],
+                            textStyle = Type.bodyLarge()
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .width((LocalConfiguration.current.screenWidthDp / 2.4).dp)
+                        .border(
+                            width = 1.dp,
+                            color = LightGray,
+                            shape = RoundedCornerShape(100.dp)
+                        )
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(
+                            selected = viewModel.selectedDuration.value == viewModel.listOfDuration[3],
+                            onClick = {
+                                viewModel.selectedDuration.value = viewModel.listOfDuration[3]
+                            },
+                            colors = RadioButtonDefaults.colors(PrimaryBlue)
+                        )
+                        StuntionText(
+                            text = viewModel.listOfDuration[3],
+                            textStyle = Type.bodyLarge()
+                        )
+                    }
+                }
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

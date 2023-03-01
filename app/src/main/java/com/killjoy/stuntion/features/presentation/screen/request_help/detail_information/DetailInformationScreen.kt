@@ -28,6 +28,7 @@ fun DetailInformationScreen(navController: NavController) {
     Column{
 
         // Indicator
+        Spacer(modifier = Modifier.height(16.dp))
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier

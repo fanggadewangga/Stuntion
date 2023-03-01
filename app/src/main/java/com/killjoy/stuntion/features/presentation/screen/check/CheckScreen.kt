@@ -109,7 +109,7 @@ fun CheckScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, top = 32.dp, end = 16.dp)
+                    .padding(start = 16.dp, top = 48.dp, end = 16.dp)
             ) {
                 StuntionText(
                     text = "Stunting Prevention",

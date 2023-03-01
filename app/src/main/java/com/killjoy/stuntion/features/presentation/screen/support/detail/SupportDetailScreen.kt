@@ -50,7 +50,7 @@ fun SupportDetailScreen(navController: NavController) {
                     contentDescription = "Arrow back icon",
                     colorFilter = ColorFilter.tint(Color.White),
                     modifier = Modifier
-                        .padding(start = 16.dp, top = 32.dp)
+                        .padding(start = 16.dp, top = 48.dp)
                         .align(Alignment.TopStart)
                         .clickable { }
                 )
@@ -62,7 +62,7 @@ fun SupportDetailScreen(navController: NavController) {
             StuntionText(
                 text = "Milk For Babies Aged 1 Year",
                 textStyle = Type.titleLarge(),
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(16.dp)
             )
         }
 
@@ -71,7 +71,7 @@ fun SupportDetailScreen(navController: NavController) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
             ) {
                 StuntionText(
                     text = "Rp70.000",
@@ -273,7 +273,7 @@ fun SupportDetailScreen(navController: NavController) {
                 contentPadding = PaddingValues(vertical = 8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 64.dp)
             ) {
                 StuntionText(
                     text = "Support",
@@ -281,7 +281,6 @@ fun SupportDetailScreen(navController: NavController) {
                     textStyle = Type.labelLarge(),
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

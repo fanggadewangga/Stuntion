@@ -123,7 +123,7 @@ fun DonationItem(
                             modifier = Modifier.size(20.dp)
                         )
                         StuntionText(
-                            text = "Rp$fee",
+                            text = "IDR $fee",
                             textStyle = Type.titleSmall(),
                         )
                     }

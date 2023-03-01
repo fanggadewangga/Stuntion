@@ -29,13 +29,14 @@ import com.killjoy.stuntion.features.presentation.screen.location_permission.Loc
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
 import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.question.QuestionScreen
+import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpSuccessScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.detail_information.DetailInformationScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.help_target.HelpTargetScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.personal_data.PersonalDataScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.title.TitleScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
-import com.killjoy.stuntion.features.presentation.screen.support.SupportScreen
+import com.killjoy.stuntion.features.presentation.screen.support.supports.SupportScreen
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.support_tutorial.SupportTutorialScreen
 import com.killjoy.stuntion.features.presentation.screen.verification.VerificationSuccessScreen
@@ -48,7 +49,7 @@ import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArg
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.RequestHelpScreen.route) {
 
         composable(route = Screen.SplashScreen.route) {
             SplashScreen(navController = navController)
@@ -156,6 +157,9 @@ fun Navigation() {
         }
 
         // Support Request
+        composable(route = Screen.RequestHelpScreen.route) {
+            RequestHelpScreen(navController = navController)
+        }
         composable(route = Screen.SupportRequestTutorialScreen.route) {
             SupportTutorialScreen(navController = navController)
         }

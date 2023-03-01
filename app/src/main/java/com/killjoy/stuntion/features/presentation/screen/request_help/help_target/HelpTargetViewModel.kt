@@ -15,6 +15,15 @@ class HelpTargetViewModel @Inject constructor() : ViewModel() {
         "Information",
     )
 
+    val listOfDuration = listOf(
+        "10 days",
+        "30 days",
+        "60 days",
+        "Choose a date",
+    )
+
+    val selectedDuration = mutableStateOf(listOfDuration[0])
+
     val foodState = mutableStateOf("")
     val isFoodFieldClicked = mutableStateOf(false)
     val isValidFood = derivedStateOf {

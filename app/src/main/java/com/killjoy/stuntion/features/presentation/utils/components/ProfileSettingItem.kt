@@ -38,7 +38,7 @@ fun ProfileSettingItem(
             AsyncImage(
                 model = item.icon,
                 contentDescription = "Item",
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(28.dp)
             )
         }
         StuntionText(text = item.title, textStyle = Type.bodyLarge())

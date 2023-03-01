@@ -3,9 +3,11 @@ package com.killjoy.stuntion.features.presentation.screen.request_help.personal_
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,8 +31,8 @@ fun PersonalDataScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<PersonalDataViewModel>()
 
-    Column {
-        Spacer(modifier = Modifier.height(32.dp))
+    Column(Modifier.verticalScroll(rememberScrollState())) {
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Indicator
         Box(
