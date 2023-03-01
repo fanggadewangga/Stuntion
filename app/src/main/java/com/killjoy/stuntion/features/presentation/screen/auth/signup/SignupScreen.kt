@@ -160,20 +160,8 @@ fun SignupScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth()
                 )
 
-
-                // Button
-                Spacer(modifier = Modifier.height(32.dp))
-                StuntionButton(
-                    onClick = {
-                        viewModel.signUpUser()
-                    }, modifier = Modifier.fillMaxWidth()
-                ) {
-                    StuntionText(
-                        text = "Sign up", color = Color.White, textStyle = Type.labelLarge()
-                    )
-                }
-
                 // Terms
+                Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
@@ -205,6 +193,18 @@ fun SignupScreen(navController: NavController) {
                         color = PrimaryBlue,
                         textStyle = Type.bodySmall(),
                         modifier = Modifier.clickable { navController.navigate(Screen.SignupScreen.route) }
+                    )
+                }
+
+
+                // Button
+                StuntionButton(
+                    onClick = {
+                        viewModel.signUpUser()
+                    }, modifier = Modifier.fillMaxWidth()
+                ) {
+                    StuntionText(
+                        text = "Sign up", color = Color.White, textStyle = Type.labelLarge()
                     )
                 }
 
