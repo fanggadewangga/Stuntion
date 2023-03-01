@@ -184,6 +184,7 @@ fun StuntionBasicTextField(
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     showWarningMessage: Boolean = false,
     warningMessage: String = "",
+    borderColor: Color = LightGray,
     placeHolder: String,
     textStyle: TextStyle = Type.bodyMedium(),
     value: String,
@@ -209,7 +210,7 @@ fun StuntionBasicTextField(
                 .background(color = backgroundColor, shape = shape)
                 .height(textFieldHeight)
                 .border(
-                    width = 1.dp, color = if (isError) Color.Red else LightGray, shape = shape
+                    width = 1.dp, color = if (isError) Color.Red else borderColor, shape = shape
                 ),
             value = value,
             onValueChange = onValueChange,
