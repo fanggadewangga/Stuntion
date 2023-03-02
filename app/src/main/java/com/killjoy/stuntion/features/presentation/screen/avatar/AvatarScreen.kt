@@ -5,14 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,8 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
-import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.utils.Avatar
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.AvatarItem
@@ -69,7 +65,7 @@ fun AvatarScreen(navController: NavController) {
                 StuntionText(
                     text = "Choose Avatar",
                     textStyle = Type.headlineLarge(),
-                    modifier = Modifier.clickable { viewModel.getAvatar() })
+                )
 
                 // Please choose
                 Spacer(modifier = Modifier.height(8.dp))
@@ -87,7 +83,10 @@ fun AvatarScreen(navController: NavController) {
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     content = {
                         items(count = listOfAvatar.size) {
-                            AvatarItem(avatar = listOfAvatar[it], currentSelectedAvatar = selectedAvatar)
+                            AvatarItem(
+                                avatar = listOfAvatar[it],
+                                currentSelectedAvatar = selectedAvatar
+                            )
                         }
                     },
                     modifier = Modifier
@@ -98,7 +97,9 @@ fun AvatarScreen(navController: NavController) {
                 // Button
                 Spacer(modifier = Modifier.height(32.dp))
                 StuntionButton(
-                    onClick = { }, modifier = Modifier.fillMaxWidth()
+                    onClick = {
+                        navController.navigate(Screen.LocationPermissionScreen.route)
+                    }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(
                         text = "Confirm", color = Color.White, textStyle = Type.labelLarge()

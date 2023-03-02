@@ -1,6 +1,7 @@
 package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,9 +25,11 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun ExpertChatItem(
     modifier: Modifier = Modifier,
+    onExpertClicked: () -> Unit,
+    onChatClicked: () -> Unit,
 ) {
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.clickable { onExpertClicked() }) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -138,7 +141,7 @@ fun ExpertChatItem(
             Spacer(modifier = Modifier.width(24.dp))
             StuntionButton(
                 onClick = {
-
+                    onChatClicked()
                 },
                 contentPadding = PaddingValues(horizontal = 6.dp, vertical = 4.dp),
                 modifier = Modifier
@@ -165,6 +168,8 @@ fun ChatItemPreview() {
     ExpertChatItem(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
+        onExpertClicked = {},
+        onChatClicked = {}
     )
 }

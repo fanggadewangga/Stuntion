@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.Type
 import com.ujizin.camposer.CameraPreview
@@ -92,8 +93,13 @@ fun CardCameraScreen(navController: NavController) {
                                     val input =
                                         context.contentResolver.openInputStream(it.savedUri!!)
                                     val bitmap = BitmapFactory.decodeStream(input)
-                                    if (bitmap != null) imageBitmap.value = bitmap
-                                    else Log.d("ERROR", "FAILED TO TAKE PICTURE")
+                                    if (bitmap != null) {
+                                        imageBitmap.value = bitmap
+                                        Log.d("IMAGE", bitmap.toString())
+                                    }
+                                    else
+                                        Log.d("ERROR", "FAILED TO TAKE PICTURE")
+                                    navController.navigate(Screen.IdentityVerificationScreen.route)
                                 } else {
                                     Log.d("ERROR", it.toString())
                                 }

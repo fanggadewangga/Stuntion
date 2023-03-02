@@ -60,6 +60,7 @@ sealed class Screen(val route: String) {
     // Verification
     object IdentityVerificationScreen : Screen("identity_verification_screen")
     object CardVerificationScreen : Screen("card_verification_screen")
+    object DataVerificationScreen : Screen("data_verification_screen")
     object VerificationSuccessScreen : Screen("verification_success_screen")
 
     // Question
@@ -68,4 +69,7 @@ sealed class Screen(val route: String) {
     // Camera
     object CardCameraScreen : Screen("card_camera_screen")
     object FaceCameraScreen : Screen("face_camera_screen")
+
+    // Healthy tips
+    object HealthyTipsDetailScreen: Screen("healthy_tips_detail_screen")
 }

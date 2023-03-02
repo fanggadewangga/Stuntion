@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.question
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,16 +20,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.domain.model.child.Child
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.MultipleChoiceItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionStepper
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun QuestionScreen(navController: NavController) {
+fun QuestionScreen(navController: NavController, child: Child) {
 
     val viewModel = hiltViewModel<QuestionViewModel>()
     val listOfQuestions = viewModel.listOfQuestion
@@ -62,7 +67,7 @@ fun QuestionScreen(navController: NavController) {
                     items(listOfQuestions.size) {
                         StuntionStepper(
                             index = it,
-                            currentStep = currentStep.value-1,
+                            currentStep = currentStep.value - 1,
                             numberOfSteps = listOfQuestions.size
                         )
                     }
@@ -72,6 +77,8 @@ fun QuestionScreen(navController: NavController) {
                     color = Color.Gray,
                     textStyle = Type.labelLarge(),
                     modifier = Modifier.clickable {
+                        val childJson = Uri.encode(Gson().toJson(child))
+                        navController.navigate("${Screen.ChildProfileScreen.route}/$childJson")
                     }
                 )
             }
@@ -132,11 +139,19 @@ fun QuestionScreen(navController: NavController) {
                 onClick = {
                     if (currentStep.value < listOfQuestions.size)
                         currentStep.value += 1
+                    else {
+                        val childJson = Uri.encode(Gson().toJson(child))
+                        navController.navigate("${Screen.ChildProfileScreen.route}/$childJson")
+                    }
                 },
                 backgroundColor = PrimaryBlue,
                 modifier = Modifier.width(180.dp)
             ) {
-                StuntionText(text = "Next", color = Color.White, textStyle = Type.labelLarge())
+                StuntionText(
+                    text = if (currentStep.value < listOfQuestions.size) "Next" else "Finish",
+                    color = Color.White,
+                    textStyle = Type.labelLarge()
+                )
             }
         }
     }
@@ -145,5 +160,5 @@ fun QuestionScreen(navController: NavController) {
 @Preview
 @Composable
 fun QuestionPreview() {
-    QuestionScreen(navController = rememberNavController())
+
 }

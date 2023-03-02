@@ -24,7 +24,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
@@ -33,10 +35,17 @@ import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
 fun SupportTutorialScreen(navController: NavController) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState())
-        .padding(bottom = 16.dp)
+    val systemUiController = rememberSystemUiController()
+    systemUiController.apply {
+        setStatusBarColor(color = Color.Transparent, darkIcons = true)
+        setNavigationBarColor(color = Color.White, darkIcons = true)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = (LocalConfiguration.current.screenHeightDp / 14).dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Image(
@@ -66,7 +75,9 @@ fun SupportTutorialScreen(navController: NavController) {
                 textAlign = TextAlign.Center,
             )
             StuntionButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate(Screen.RequestHelpScreen.route)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
@@ -81,13 +92,15 @@ fun SupportTutorialScreen(navController: NavController) {
                 backgroundColor = Color.White,
                 borderColor = PrimaryBlue,
                 borderWidth = 0.5.dp,
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate(Screen.CardVerificationScreen.route)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
                 StuntionText(
-                    text = "Request Help Right Now",
+                    text = "Identity Verification",
                     color = PrimaryBlue,
                     textStyle = Type.labelLarge()
                 )
@@ -120,9 +133,18 @@ fun SupportTutorialScreen(navController: NavController) {
                     elevation = 8.dp,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.padding(16.dp)) {
-                        StuntionText(text = "Fill Out The \"Request Help\" Form", textStyle = Type.titleSmall())
-                        StuntionText(text = "Fill out the form completely following the given instructions.", textStyle = Type.bodyMedium())
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        StuntionText(
+                            text = "Fill Out The \"Request Help\" Form",
+                            textStyle = Type.titleSmall()
+                        )
+                        StuntionText(
+                            text = "Fill out the form completely following the given instructions.",
+                            textStyle = Type.bodyMedium()
+                        )
                     }
                 }
             }
@@ -146,9 +168,18 @@ fun SupportTutorialScreen(navController: NavController) {
                     elevation = 8.dp,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.padding(16.dp)) {
-                        StuntionText(text = "Verify Your Request For Help", textStyle = Type.titleSmall())
-                        StuntionText(text = "Conduct identity verification in order to request for help.", textStyle = Type.bodyMedium())
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        StuntionText(
+                            text = "Verify Your Request For Help",
+                            textStyle = Type.titleSmall()
+                        )
+                        StuntionText(
+                            text = "Conduct identity verification in order to request for help.",
+                            textStyle = Type.bodyMedium()
+                        )
                     }
                 }
             }
@@ -173,9 +204,18 @@ fun SupportTutorialScreen(navController: NavController) {
                     elevation = 8.dp,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.padding(16.dp)) {
-                        StuntionText(text = "Share Your Request For Help ", textStyle = Type.titleSmall())
-                        StuntionText(text = "After your request for help has been successfully verified, share your request for help as often as possible", textStyle = Type.bodyMedium())
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        StuntionText(
+                            text = "Share Your Request For Help ",
+                            textStyle = Type.titleSmall()
+                        )
+                        StuntionText(
+                            text = "After your request for help has been successfully verified, share your request for help as often as possible",
+                            textStyle = Type.bodyMedium()
+                        )
                     }
                 }
             }

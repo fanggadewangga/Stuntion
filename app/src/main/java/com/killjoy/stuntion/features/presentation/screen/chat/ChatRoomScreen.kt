@@ -67,7 +67,8 @@ fun ChatRoomScreen(navController: NavController) {
                         }
                 )
             }
-        }
+        },
+        modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 17).dp)
     ) {
         Column(
             modifier = Modifier
@@ -81,7 +82,12 @@ fun ChatRoomScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = PrimaryBlue, shape = RectangleShape)
-                    .padding(16.dp)
+                    .padding(
+                        start = 16.dp,
+                        top = (LocalConfiguration.current.screenHeightDp / 17).dp,
+                        end = 16.dp,
+                        bottom = 16.dp
+                    )
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,

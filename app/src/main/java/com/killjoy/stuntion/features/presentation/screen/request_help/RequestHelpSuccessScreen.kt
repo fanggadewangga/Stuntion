@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -55,12 +56,13 @@ fun RequestHelpSuccessScreen(navController: NavController) {
             backgroundColor = Color.White,
             borderColor = PrimaryBlue,
             borderWidth = 0.5.dp,
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(Screen.HomeScreen.route)
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, bottom = 32.dp, end = 16.dp)
+                .padding(start = 16.dp, bottom = 80.dp, end = 16.dp)
                 .align(Alignment.Center)
-
         ) {
             StuntionText(
                 text = "Back",
@@ -73,6 +75,6 @@ fun RequestHelpSuccessScreen(navController: NavController) {
 
 @Preview
 @Composable
-fun  RequestHelpSuccessPreview() {
+fun RequestHelpSuccessPreview() {
     RequestHelpSuccessScreen(navController = rememberNavController())
 }

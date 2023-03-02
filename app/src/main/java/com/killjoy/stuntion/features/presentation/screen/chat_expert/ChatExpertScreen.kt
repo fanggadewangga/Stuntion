@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ExpertCategoryItem
 import com.killjoy.stuntion.features.presentation.utils.components.ExpertChatItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
@@ -30,7 +31,7 @@ fun ChatExpertsScreen(navController: NavController) {
     Column(
         Modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
             .verticalScroll(rememberScrollState())
     ) {
 
@@ -72,9 +73,26 @@ fun ChatExpertsScreen(navController: NavController) {
 
         // Experts recommendation
         Spacer(modifier = Modifier.height(16.dp))
-        ExpertChatItem(modifier = Modifier.padding(bottom = 8.dp))
-        ExpertChatItem(modifier = Modifier.padding(bottom = 8.dp))
-        ExpertChatItem(modifier = Modifier.padding(bottom = 8.dp))
+        ExpertChatItem(
+            onExpertClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
+            onChatClicked = { navController.navigate(Screen.ChatRoomScreen.route) },
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        ExpertChatItem(
+            onExpertClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
+            onChatClicked = { navController.navigate(Screen.ChatRoomScreen.route) },
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        ExpertChatItem(
+            onExpertClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
+            onChatClicked = { navController.navigate(Screen.ChatRoomScreen.route) },
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        ExpertChatItem(
+            onExpertClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
+            onChatClicked = { navController.navigate(Screen.ChatRoomScreen.route) },
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
 
 
         Spacer(modifier = Modifier.height(16.dp))

@@ -343,37 +343,37 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                     Column {
                         HealthyTipsItem(
                             title = "If the child can walk, train and accompany the child when climbing the stairs",
-                            isDone = true,
+                            isDone = false,
                             onClick = {
-
+                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
                             },
                         )
                         HealthyTipsItem(
                             title = "Invite children to do simple jobs such as cleaning desks, tidying up toys, sweeping and so on",
-                            isDone = true,
+                            isDone = false,
                             onClick = {
-
+                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
                             },
                         )
                         HealthyTipsItem(
                             title = "Teach children to scribble on paper",
-                            isDone = true,
+                            isDone = false,
                             onClick = {
-
+                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
                             },
                         )
                         HealthyTipsItem(
                             title = "Show and name the body parts of the child. Ask the child to say again",
                             isDone = true,
                             onClick = {
-
+                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
                             },
                         )
                         HealthyTipsItem(
                             title = "Invite children to tell stories. Tell children's stories. Teach children to sing. Invite children to play together",
                             isDone = true,
                             onClick = {
-
+                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
                             },
                         )
                     }

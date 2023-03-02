@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -35,6 +36,11 @@ import com.killjoy.stuntion.ui.theme.Type
 fun SupportDetailScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<SupportDetailViewModel>()
+    val systemUiController = rememberSystemUiController()
+    systemUiController.apply {
+        setStatusBarColor(color = Color.Transparent, darkIcons = true)
+        setNavigationBarColor(color = Color.White, darkIcons = true)
+    }
 
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         // Image

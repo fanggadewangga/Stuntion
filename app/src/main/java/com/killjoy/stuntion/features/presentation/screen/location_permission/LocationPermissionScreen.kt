@@ -78,7 +78,9 @@ fun LocationPermissionScreen(navController: NavController) {
                 // Button
                 Spacer(modifier = Modifier.height(32.dp))
                 StuntionButton(
-                    onClick = { }, modifier = Modifier.fillMaxWidth()
+                    onClick = {
+                        navController.navigate(Screen.CreateAccountSuccessScreen.route)
+                    }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(
                         text = "Enable Location", color = Color.White, textStyle = Type.labelLarge()

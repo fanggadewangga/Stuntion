@@ -23,7 +23,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
@@ -35,7 +37,11 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun ExpertDetailScreen(navController: NavController) {
     val viewModel = hiltViewModel<ExpertDetailViewModel>()
-
+    val systemUiController = rememberSystemUiController()
+    systemUiController.apply {
+        setStatusBarColor(color = Color.Transparent, darkIcons = true)
+        setNavigationBarColor(color = Color.White, darkIcons = true)
+    }
     Scaffold(
         bottomBar = {
             Card(
@@ -63,7 +69,9 @@ fun ExpertDetailScreen(navController: NavController) {
                         )
                     }
                     StuntionButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            navController.navigate(Screen.ChatRoomScreen.route)
+                        },
                         modifier = Modifier.width(160.dp)
                     ) {
                         StuntionText(
@@ -74,7 +82,8 @@ fun ExpertDetailScreen(navController: NavController) {
                     }
                 }
             }
-        }
+        },
+        modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 17).dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,13 +98,13 @@ fun ExpertDetailScreen(navController: NavController) {
                 AsyncImage(
                     model = R.drawable.iv_expert_detail,
                     contentDescription = "Expert image",
-                    contentScale = ContentScale.FillWidth,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier.height(280.dp)
                 )
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 24.dp)
+                        .padding(top = 48.dp)
                 ) {
                     Image(
                         imageVector = Icons.Default.ArrowBack,

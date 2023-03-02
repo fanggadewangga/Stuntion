@@ -201,6 +201,7 @@ fun SignupScreen(navController: NavController) {
                 StuntionButton(
                     onClick = {
                         viewModel.signUpUser()
+                        navController.navigate(Screen.LoginScreen.route)
                     }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(

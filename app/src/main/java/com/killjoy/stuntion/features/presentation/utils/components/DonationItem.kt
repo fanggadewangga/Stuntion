@@ -2,6 +2,7 @@ package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -34,6 +35,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun DonationItem(
     modifier: Modifier = Modifier,
+    onClick:() -> Unit,
     title: String,
     location: String,
     currentValue: Int,
@@ -52,7 +54,9 @@ fun DonationItem(
     Card(
         shape = RoundedCornerShape(16.dp),
         elevation = 6.dp,
-        modifier = modifier
+        modifier = modifier.clickable {
+            onClick()
+        }
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -153,6 +157,7 @@ fun DonationItem(
 @Composable
 fun HomeDonationItem(
     modifier: Modifier = Modifier,
+    onClick:() -> Unit,
     title: String,
     location: String,
     currentValue: Int,
@@ -164,7 +169,7 @@ fun HomeDonationItem(
     Card(
         elevation = 3.dp,
         shape = RoundedCornerShape(16.dp),
-        modifier = modifier
+        modifier = modifier.clickable { onClick() }
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -240,7 +245,7 @@ fun HomeDonationItem(
 @Preview(showBackground = true)
 @Composable
 fun SupportItemPreview() {
-    HomeDonationItem(
+    /*HomeDonationItem(
         title = "Milk For Babies Aged 1 Year",
         location = "Malang, Jawa Timur",
         currentValue = 1,
@@ -248,5 +253,5 @@ fun SupportItemPreview() {
         deadlineDate = "02/15/2023",
         fee = 50000,
         modifier = Modifier.width(196.dp)
-    )
+    )*/
 }

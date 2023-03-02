@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.ask_expert_detail
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,6 +22,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
@@ -33,11 +36,14 @@ fun AskExpertDetailScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<AskExpertDetailViewModel>()
 
-    LazyColumn(Modifier.fillMaxSize()) {
+    LazyColumn(
+        Modifier
+            .fillMaxSize()
+            .padding(top = 32.dp)) {
 
         // Top bar
         item {
-            StuntionTopBar(title = "Ask Expert", onBackPressed = {})
+            StuntionTopBar(title = "Ask Expert", onBackPressed = { navController.popBackStack() })
         }
 
 
@@ -152,6 +158,9 @@ fun AskExpertDetailScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
+                    .clickable {
+                        navController.navigate(Screen.ExpertDetailScreen.route)
+                    }
             ) {
                 Row(
                     Modifier
@@ -190,7 +199,7 @@ fun AskExpertDetailScreen(navController: NavController) {
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 8.dp, end = 16.dp)
+                                .padding(top = 8.dp, end = 8.dp)
                         ) {
 
                             // Experience
@@ -229,7 +238,7 @@ fun AskExpertDetailScreen(navController: NavController) {
                             }
 
                             // Chat Button
-                            Spacer(modifier = Modifier.width(128.dp))
+                            Spacer(modifier = Modifier.width((LocalConfiguration.current.screenWidthDp / 4).dp))
                             StuntionButton(
                                 onClick = {
 
@@ -283,7 +292,9 @@ fun AskExpertDetailScreen(navController: NavController) {
                 expertName = "dr. Nadia Nurotul Fuadah",
                 date = "1 day ago",
                 userAvatarUrl = "url",
-                expertAvatarUrl = "url"
+                expertAvatarUrl = "url",
+                onClick = { navController.navigate(Screen.AskExpertDetailScreen.route) },
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

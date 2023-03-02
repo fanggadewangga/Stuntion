@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -32,6 +33,7 @@ fun VerificationSuccessScreen(navController: NavController) {
                 .padding(horizontal = 16.dp)
                 .align(Alignment.TopCenter)
         ) {
+            Spacer(modifier = Modifier.height(24.dp))
             AsyncImage(
                 model = R.drawable.iv_request_success,
                 contentDescription = "Request success",
@@ -53,10 +55,13 @@ fun VerificationSuccessScreen(navController: NavController) {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(bottom = 48.dp)
         ) {
             StuntionButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate(Screen.RequestHelpScreen.route)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
@@ -72,7 +77,9 @@ fun VerificationSuccessScreen(navController: NavController) {
                 backgroundColor = Color.White,
                 borderColor = PrimaryBlue,
                 borderWidth = 0.5.dp,
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate(Screen.SupportRequestTutorialScreen.route)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, bottom = 32.dp, end = 16.dp)

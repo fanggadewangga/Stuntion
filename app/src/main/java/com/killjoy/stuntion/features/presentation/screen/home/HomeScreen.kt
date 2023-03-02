@@ -27,6 +27,7 @@ import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.HomeArticleItem
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItem
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -120,13 +121,13 @@ fun HomeScreen(navController: NavController) {
                         modifier = Modifier
                             .padding(top = 16.dp)
                             .clickable {
-
+                                navController.navigate(Screen.CheckScreen.route)
                             }
                     )
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.clickable {
-
+                            navController.navigate(Screen.CheckScreen.route)
                         }
                     ) {
                         StuntionText(
@@ -266,7 +267,7 @@ fun HomeScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .clickable {
-
+                        navController.navigate(Screen.HealthyTipsDetailScreen.route)
                     }
             ) {
                 Column(
@@ -336,6 +337,9 @@ fun HomeScreen(navController: NavController) {
                         maxValue = 5,
                         deadlineDate = "02/15/2023",
                         fee = 50000,
+                        onClick = {
+                            navController.navigate(Screen.SupportDetailScreen.route)
+                        },
                         modifier = Modifier
                             .width(196.dp)
                             .padding(end = 16.dp)
@@ -364,7 +368,7 @@ fun HomeScreen(navController: NavController) {
                         textStyle = Type.labelMedium(),
                         color = PrimaryBlue,
                         modifier = Modifier.clickable {
-
+                            navController.navigate(Screen.VideosScreen.route)
                         }
                     )
                 }
@@ -378,7 +382,10 @@ fun HomeScreen(navController: NavController) {
             LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
                 items(5) {
                     HomeArticleItem(
-                        modifier = Modifier.padding(end = 16.dp)
+                        onClick = {
+                            navController.navigate(Screen.VideoDetailScreen.route)
+                        },
+                        modifier = Modifier.padding(end = 16.dp),
                     )
                 }
             }

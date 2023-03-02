@@ -142,6 +142,7 @@ fun LoginScreen(navController: NavController) {
                 StuntionButton(
                     onClick = {
                         viewModel.signInUser()
+                        navController.navigate(Screen.GeneralInformationScreen.route)
                     }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(

@@ -3,6 +3,7 @@ package com.killjoy.stuntion.features.presentation.screen.ask_expert
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -67,9 +68,7 @@ fun AskExpertScreen(navController: NavController) {
         modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 15).dp)
     ) {
         Column(
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
+            Modifier.padding(horizontal = 16.dp)
         ) {
 
             // Search field
@@ -107,24 +106,21 @@ fun AskExpertScreen(navController: NavController) {
 
             // Chats
             Spacer(modifier = Modifier.height(16.dp))
-            QuestionItem(
-                title = "How to organize a 5 month old baby's feeding schedule?",
-                question = "Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to...",
-                userName = "User",
-                expertName = "dr. Nadia Nurotul Fuadah",
-                date = "1 day ago",
-                userAvatarUrl = "url",
-                expertAvatarUrl = "url"
-            )
-            QuestionItem(
-                title = "How to organize a 5 month old baby's feeding schedule?",
-                question = "Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to...",
-                userName = "User",
-                expertName = "dr. Nadia Nurotul Fuadah",
-                date = "1 day ago",
-                userAvatarUrl = "url",
-                expertAvatarUrl = "url"
-            )
+            LazyColumn {
+                items(5) {
+                    QuestionItem(
+                        title = "How to organize a 5 month old baby's feeding schedule?",
+                        question = "Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to...",
+                        userName = "User",
+                        expertName = "dr. Nadia Nurotul Fuadah",
+                        date = "1 day ago",
+                        userAvatarUrl = "url",
+                        expertAvatarUrl = "url",
+                        onClick = { navController.navigate(Screen.AskExpertDetailScreen.route) },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
         }
     }
 }

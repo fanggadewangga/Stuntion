@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.DonationItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -68,7 +69,9 @@ fun SupportScreen(navController: NavController) {
                         Spacer(modifier = Modifier.height(24.dp))
                         Box(
                             contentAlignment = Alignment.TopCenter,
-                            modifier = Modifier.fillMaxWidth().padding(top = 24.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 24.dp)
                         ) {
                             Image(
                                 imageVector = Icons.Default.ArrowBack,
@@ -102,6 +105,9 @@ fun SupportScreen(navController: NavController) {
                                     color = Color.White,
                                     shape = RoundedCornerShape(16.dp)
                                 )
+                                .clickable {
+                                    navController.navigate(Screen.SupportRequestTutorialScreen.route)
+                                }
                         ) {
                             Spacer(modifier = Modifier.width(10.dp))
                             Box(
@@ -182,6 +188,7 @@ fun SupportScreen(navController: NavController) {
                     maxValue = 5,
                     deadlineDate = "02/19/2023",
                     fee = 50000,
+                    onClick = { navController.navigate(Screen.SupportDetailScreen.route) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 4.dp)
@@ -226,6 +233,7 @@ fun SupportScreen(navController: NavController) {
                     maxValue = 5,
                     deadlineDate = "02/19/2023",
                     fee = 50000,
+                    onClick = { navController.navigate(Screen.SupportDetailScreen.route) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 4.dp)

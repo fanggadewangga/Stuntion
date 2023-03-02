@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.*
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightGray
@@ -318,7 +319,7 @@ fun AddQuestionScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(16.dp))
                     StuntionButton(
                         onClick = {
-
+                            navController.navigate(Screen.HomeScreen.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()

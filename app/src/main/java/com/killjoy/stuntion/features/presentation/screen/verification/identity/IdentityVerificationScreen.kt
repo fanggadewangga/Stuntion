@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -12,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -23,7 +25,7 @@ fun IdentityVerificationScreen(navController: NavController) {
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
             .fillMaxHeight()
-            .padding(bottom = 32.dp)
+            .padding(top = 24.dp, bottom = (LocalConfiguration.current.screenHeightDp / 12).dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -33,13 +35,17 @@ fun IdentityVerificationScreen(navController: NavController) {
         ) {
             StuntionTopBar(
                 title = "KTP/E-KTP Verification",
-                onBackPressed = { /*TODO*/ },
+                onBackPressed = {
+                    navController.popBackStack()
+                },
                 isWithDivider = true,
             )
             AsyncImage(
                 model = R.drawable.iv_identity_verification,
                 contentDescription = "Identity illustration",
-                modifier = Modifier.height(280.dp).padding(start = 16.dp, top = 32.dp, end = 16.dp)
+                modifier = Modifier
+                    .height(280.dp)
+                    .padding(start = 16.dp, top = 32.dp, end = 16.dp)
             )
             Spacer(modifier = Modifier.height(32.dp))
             StuntionText(
@@ -69,10 +75,10 @@ fun IdentityVerificationScreen(navController: NavController) {
             )
 
             StuntionButton(
-                onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                onClick = {
+                    navController.navigate(Screen.FaceCameraScreen.route)
+                },
+                modifier = Modifier.fillMaxWidth()
             ) {
                 StuntionText(
                     text = "Start",

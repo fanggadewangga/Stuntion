@@ -215,7 +215,9 @@ fun GeneralInformationScreen(navController: NavController) {
                 // Button
                 Spacer(modifier = Modifier.height(16.dp))
                 StuntionButton(
-                    onClick = { }, modifier = Modifier.fillMaxWidth()
+                    onClick = {
+                        navController.navigate(Screen.AvatarScreen.route)
+                    }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(
                         text = "Confirm", color = Color.White, textStyle = Type.labelLarge()

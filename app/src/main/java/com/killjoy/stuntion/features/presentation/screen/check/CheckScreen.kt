@@ -331,7 +331,7 @@ fun CheckScreen(navController: NavController) {
                                     weight = viewModel.weightState.value.toDouble()
                                 )
                                 val childJson = Uri.encode(Gson().toJson(child))
-                                navController.navigate("${Screen.ChildProfileScreen.route}/$childJson")
+                                navController.navigate("${Screen.QuestionScreen.route}/$childJson")
                             },
                             modifier = Modifier.width(180.dp),
                             enabled = viewModel.isFormNotValid.value

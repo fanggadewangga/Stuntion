@@ -1,6 +1,7 @@
 package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -95,6 +96,7 @@ fun ArticleItem() {
 @Composable
 fun HomeArticleItem(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
     Card(
         elevation = 3.dp,
@@ -102,6 +104,7 @@ fun HomeArticleItem(
         modifier = modifier
             .width(280.dp)
             .height(200.dp)
+            .clickable { onClick() }
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -185,5 +188,4 @@ fun HomeArticleItem(
 @Preview(showBackground = true)
 @Composable
 fun ArticleItemPreview() {
-    HomeArticleItem()
 }

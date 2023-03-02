@@ -2,6 +2,7 @@ package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
@@ -23,6 +24,7 @@ import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
 fun QuestionItem(
+    modifier: Modifier = Modifier,
     title: String,
     question: String,
     userName: String,
@@ -30,11 +32,11 @@ fun QuestionItem(
     date: String,
     userAvatarUrl: String,
     expertAvatarUrl: String,
+    onClick: () -> Unit,
 ) {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+    Column(modifier = modifier
+        .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+        .clickable { onClick() }
     ) {
         Row(Modifier.fillMaxWidth()) {
             // Image
@@ -128,6 +130,7 @@ fun QuestionItemPreview() {
         expertName = "dr. Nadia Nurotul Fuadah",
         date = "1 day ago",
         userAvatarUrl = "url",
-        expertAvatarUrl = "url"
+        expertAvatarUrl = "url",
+        onClick = {}
     )
 }
