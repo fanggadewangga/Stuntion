@@ -21,6 +21,7 @@ import com.killjoy.stuntion.features.presentation.screen.camera.FaceCameraScreen
 import com.killjoy.stuntion.features.presentation.screen.chat.ChatRoomScreen
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
 import com.killjoy.stuntion.features.presentation.screen.check.CheckScreen
+import com.killjoy.stuntion.features.presentation.screen.check.CheckTutorialScreen
 import com.killjoy.stuntion.features.presentation.screen.child_notes.notes.ChildNotesScreen
 import com.killjoy.stuntion.features.presentation.screen.child_profile.ChildProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.consultation.ConsultationScreen
@@ -242,6 +243,11 @@ fun Navigation() {
         // My Healthy Tips
         composable(route = Screen.MyHealthyTipsScreen.route) {
             MyHealthyTipsScreen(navController = navController)
+        }
+
+        // Check Tutorial
+        composable(route = Screen.CheckTutorialScreen.route) {
+            CheckTutorialScreen(navController = navController)
         }
     }
 }

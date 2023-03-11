@@ -81,4 +81,7 @@ sealed class Screen(val route: String) {
 
     // My Healthy Tips
     object MyHealthyTipsScreen : Screen("my_healthy_tips_screen")
+
+    // Check Tutorial
+    object CheckTutorialScreen : Screen("check_tutorial_screen")
 }

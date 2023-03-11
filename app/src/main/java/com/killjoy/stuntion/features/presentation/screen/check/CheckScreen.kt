@@ -348,9 +348,3 @@ fun CheckScreen(navController: NavController) {
         }
     }
 }
-
-@Preview
-@Composable
-fun CalculatorPrev() {
-    CheckScreen(navController = rememberNavController())
-}
