@@ -11,19 +11,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
-import com.killjoy.stuntion.ui.theme.Gray
-import com.killjoy.stuntion.ui.theme.LightBlue
-import com.killjoy.stuntion.ui.theme.PrimaryBlue
-import com.killjoy.stuntion.ui.theme.Type
+import com.killjoy.stuntion.ui.theme.*
 
 @Composable
 fun ExpertChatItem(
+    name: String,
+    avatarUrl: String,
+    category: String,
+    experience: Int,
+    rating: Double,
+    fee: Double,
     modifier: Modifier = Modifier,
     onExpertClicked: () -> Unit,
     onChatClicked: () -> Unit,
@@ -32,15 +36,15 @@ fun ExpertChatItem(
     Column(modifier = modifier.clickable { onExpertClicked() }) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
 
             Box {
                 // Image
                 AsyncImage(
-                    model = R.drawable.iv_chat_expert,
+                    model = avatarUrl,
                     contentDescription = "Expert Image",
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .clip(
                             CircleShape
@@ -77,16 +81,16 @@ fun ExpertChatItem(
                 }
             }
 
+            Spacer(modifier = Modifier.width(8.dp))
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-
                 // Name
-                StuntionText(text = "dr. A. Roni Naning, Sp.A (K)", textStyle = Type.labelLarge())
+                StuntionText(text = name, textStyle = Type.labelLarge())
 
                 // Role
                 StuntionText(
-                    text = "Pediatrician",
+                    text = category,
                     textStyle = Type.bodySmall(),
-                    color = Color.LightGray
+                    color = LightGray
                 )
 
                 Row(
@@ -105,7 +109,7 @@ fun ExpertChatItem(
                             modifier = Modifier.size(16.dp)
                         )
                         StuntionText(
-                            text = "11 year",
+                            text = "$experience year",
                             textStyle = Type.bodySmall(),
                             color = Gray,
                             maxLine = 1,
@@ -125,13 +129,17 @@ fun ExpertChatItem(
                             contentDescription = "Star icon",
                             modifier = Modifier.size(16.dp)
                         )
-                        StuntionText(text = "5", textStyle = Type.bodySmall(), color = Gray)
+                        StuntionText(
+                            text = rating.toString(),
+                            textStyle = Type.bodySmall(),
+                            color = Gray
+                        )
                     }
                 }
 
                 // Price
                 StuntionText(
-                    text = "Rp40.000",
+                    text = "IDR $fee",
                     textStyle = Type.titleSmall(),
                     color = PrimaryBlue
                 )
@@ -160,16 +168,4 @@ fun ExpertChatItem(
         Spacer(modifier = Modifier.height(12.dp))
         Divider(color = Color.LightGray, modifier = Modifier.fillMaxWidth())
     }
-}
-
-@Preview
-@Composable
-fun ChatItemPreview() {
-    ExpertChatItem(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        onExpertClicked = {},
-        onChatClicked = {}
-    )
 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -74,6 +75,7 @@ fun ChatRoomScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
+                .padding(bottom = (LocalConfiguration.current.screenHeightDp / 15).dp)
         ) {
             // Expert Information
             Row(
@@ -100,8 +102,9 @@ fun ChatRoomScreen(navController: NavController) {
                         }
                 )
                 AsyncImage(
-                    model = R.drawable.iv_expert,
+                    model = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2Fusman-yousaf-pTrhfmj2jDA-unsplash.jpg?alt=media&token=23212350-188e-4555-92ac-34056c48ad26",
                     contentDescription = "Expert image",
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(48.dp)
                         .clip(
@@ -130,7 +133,7 @@ fun ChatRoomScreen(navController: NavController) {
                     .padding(vertical = 16.dp)
             ) {
                 StuntionText(
-                    text = "Today 8:43 AM",
+                    text = "Today 5:34 AM",
                     color = LightGray,
                     textStyle = Type.bodySmall(),
                 )
@@ -138,16 +141,18 @@ fun ChatRoomScreen(navController: NavController) {
 
             // Chat
             ChatBubbleItem(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-                type = 1
-            )
-            ChatBubbleItem(
-                text = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
+                text = "What are some nutritious food options for a 13-month-old baby and how can they be incorporated into a feeding schedule?",
                 type = 0
             )
             ChatBubbleItem(
-                text = "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+                text = "At 13 months old, a baby's feeding schedule should consist of three main meals and two snacks per day. The recommended types of food for a 13-month-old baby include a mix of protein, carbohydrates, and healthy fats, as well as fruits and vegetables. It's important to ensure that the baby is getting all of the nutrients that they need for their growth and development.\n" +
+                        "\n" +
+                        "To organize the feeding schedule effectively, parents should plan out meals and snacks in advance, and aim to offer a variety of foods to the baby. It can be helpful to make a weekly meal plan, and to keep healthy snacks on hand for when the baby gets hungry between meals. It's also important to be flexible and responsive to the baby's cues, as their appetite and needs may vary from day to day.",
                 type = 1
+            )
+            ChatBubbleItem(
+                text = "Thank you so much for your answer! It was very informative and helpful. I appreciate you taking the time to provide such a detailed response.",
+                type = 0
             )
         }
     }

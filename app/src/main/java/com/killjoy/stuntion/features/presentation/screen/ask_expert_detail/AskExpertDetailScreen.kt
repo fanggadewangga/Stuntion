@@ -60,7 +60,7 @@ fun AskExpertDetailScreen(navController: NavController) {
 
                 // Image
                 AsyncImage(
-                    model = R.drawable.iv_article_item,
+                    model = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/avatar%2Favatar_1.png?alt=media&token=931a191d-6277-4480-b860-fdf8e0e41dfe",
                     contentDescription = "User Avatar",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -76,7 +76,7 @@ fun AskExpertDetailScreen(navController: NavController) {
 
                     // Title
                     StuntionText(
-                        text = "How do you set a 5 month old baby's feeding schedule?",
+                        text = "How to organize a 13 month old baby's feeding schedule?",
                         textStyle = Type.titleMedium()
                     )
 
@@ -99,7 +99,7 @@ fun AskExpertDetailScreen(navController: NavController) {
                                 modifier = Modifier.size(16.dp)
                             )
                             StuntionText(
-                                text = "Anonimous",
+                                text = "Maya Susanti",
                                 textStyle = Type.bodySmall(),
                                 color = Gray,
                                 maxLine = 1,
@@ -130,7 +130,7 @@ fun AskExpertDetailScreen(navController: NavController) {
 
             // Description
             StuntionText(
-                text = "Good afternoon, doc, I'm a mother of a 5 month old baby, when I get a baby that's already solids, my baby is excited to want to eat too, and he often tries to pull other people's food too. And in the past I had consulted with the DSA who handled my child, said that my child could already solidify, but I was still afraid and doubtful, after seeing my baby was excited, I want to ask how do I set a baby's feeding schedule for 5 months?",
+                text = "Good afternoon, doc, I'm a mother of a 13 month old baby, when I get a baby that's already solids, my baby is excited to want to eat too, and he often tries to pull other people's food too. And in the past I had consulted with the DSA who handled my child, said that my child could already solidify, but I was still afraid and doubtful, after seeing my baby was excited, I want to ask how do I set a baby's feeding schedule for 5 months?",
                 textStyle = Type.bodyMedium(),
                 modifier = Modifier.padding(16.dp)
             )
@@ -170,7 +170,7 @@ fun AskExpertDetailScreen(navController: NavController) {
                 {
                     // Expert Image
                     AsyncImage(
-                        model = R.drawable.iv_expert,
+                        model = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2Fnational-cancer-institute-byGTytEGjBo-unsplash.jpg?alt=media&token=00d329dc-1360-440d-96ab-acbf727212b2",
                         contentDescription = "User Avatar",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -183,7 +183,7 @@ fun AskExpertDetailScreen(navController: NavController) {
 
                         // Expert name
                         StuntionText(
-                            text = "dr. A. Roni Naning, Sp.A (K)",
+                            text = "dr. Hanna Hanifah",
                             textStyle = Type.titleMedium()
                         )
 
@@ -283,16 +283,28 @@ fun AskExpertDetailScreen(navController: NavController) {
             )
         }
 
-        items(2) {
-            Spacer(modifier = Modifier.height(16.dp))
+        item {
             QuestionItem(
-                title = "How to organize a 5 month old baby's feeding schedule?",
-                question = "Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to...",
-                userName = "User",
-                expertName = "dr. Nadia Nurotul Fuadah",
-                date = "1 day ago",
-                userAvatarUrl = "url",
-                expertAvatarUrl = "url",
+                title = "Tips for dealing with a 2-year-old child who has difficulty",
+                question = "Hello, I have a 2-year-old child, BB is only 12 Kg, my child has been feeling stressed for almost a week ...",
+                userName = "Valenta",
+                expertName = "dr. Leony",
+                date = "5 day ago",
+                userAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/avatar%2Favatar_4.png?alt=media&token=e7b0aabb-3452-409e-9d37-d34f78fe92b6",
+                expertAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2Fsiednji-leon-lnlSIsiSjjc-unsplash.jpg?alt=media&token=a9403851-2e8f-4c11-9f5e-8d7f157777f5",
+                onClick = { navController.navigate(Screen.AskExpertDetailScreen.route) },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        item {
+            QuestionItem(
+                title = "Foods that can be used to increase a child's height",
+                question = "Afternoon, I am a mother of a 30-month-old toddler.. with a height of only 81 cm and a weight of ...",
+                userName = "Nadine",
+                expertName = "dr. Austin Distel",
+                date = "3 day ago",
+                userAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/avatar%2Favatar_6.png?alt=media&token=799ebf5b-1584-474b-b155-4e97949c0422",
+                expertAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2Faustin-distel-7bMdiIqz_J4-unsplash.jpg?alt=media&token=5e368d4d-4d2f-434a-a5ba-b7182c1c0df4",
                 onClick = { navController.navigate(Screen.AskExpertDetailScreen.route) },
                 modifier = Modifier.fillMaxWidth()
             )

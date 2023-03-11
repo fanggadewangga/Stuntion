@@ -161,7 +161,7 @@ fun SupportDetailScreen(navController: NavController) {
                         modifier = Modifier.size(20.dp)
                     )
                     StuntionText(
-                        text = "1",
+                        text = "18",
                         textStyle = Type.titleSmall(),
                     )
                     StuntionText(
@@ -263,7 +263,7 @@ fun SupportDetailScreen(navController: NavController) {
         }
         item {
             StuntionText(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                text = " I seem to have run out of formula milk for my baby, and I'm not able to go to the store at the moment. Would it be possible for you to lend me some formula milk, please? I would really appreciate it if you could help me out. Thank you so much in advance.",
                 textStyle = Type.bodyMedium(),
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
             )

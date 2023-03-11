@@ -164,7 +164,7 @@ fun HomeScreen(navController: NavController) {
                     elevation = 4.dp,
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier.clickable {
-
+                        navController.navigate(Screen.ChildNotesScreen.route)
                     }
                 ) {
                     Row(
@@ -199,7 +199,7 @@ fun HomeScreen(navController: NavController) {
                     elevation = 4.dp,
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier.clickable {
-
+                        navController.navigate(Screen.ActivityListScreen.route)
                     }
                 ) {
                     Row(
@@ -248,7 +248,7 @@ fun HomeScreen(navController: NavController) {
                         textStyle = Type.labelMedium(),
                         color = PrimaryBlue,
                         modifier = Modifier.clickable {
-
+                            navController.navigate(Screen.MyHealthyTipsScreen.route)
                         }
                     )
                 }
@@ -329,14 +329,66 @@ fun HomeScreen(navController: NavController) {
                 modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
             )
             LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
-                items(5) {
+                item {
                     HomeDonationItem(
-                        title = "Milk For Babies Aged 1 Year",
-                        location = "Malang, Jawa Timur",
+                        title = "Vegetables, Fruit and Eggs",
+                        location = "Surabaya, East Java",
+                        currentValue = 3,
+                        maxValue = 8,
+                        deadlineDate = "03/20/2023",
+                        fee = 10000,
+                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Falexander-schimmeck-ks5flsI1mNo-unsplash.jpg?alt=media&token=8965cf5c-4614-4c6f-9437-cb0a1cc81d64",
+                        onClick = {
+                            navController.navigate(Screen.SupportDetailScreen.route)
+                        },
+                        modifier = Modifier
+                            .width(196.dp)
+                            .padding(end = 16.dp)
+                    )
+                }
+                item {
+                    HomeDonationItem(
+                        title = "Baby food additives",
+                        location = "Sidoarjo, East Java",
                         currentValue = 1,
-                        maxValue = 5,
-                        deadlineDate = "02/15/2023",
-                        fee = 50000,
+                        maxValue = 8,
+                        deadlineDate = "03/08/2023",
+                        fee = 15000,
+                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Frachel-loughman-CJj2iQn6IsE-unsplash.jpg?alt=media&token=625435e9-7c8f-4888-b02d-9fa2350ed84f",
+                        onClick = {
+                            navController.navigate(Screen.SupportDetailScreen.route)
+                        },
+                        modifier = Modifier
+                            .width(196.dp)
+                            .padding(end = 16.dp)
+                    )
+                }
+                item {
+                    HomeDonationItem(
+                        title = "Vitamins for babies from 1.5 years old",
+                        location = "Solo, Central Java",
+                        currentValue = 15,
+                        maxValue = 15,
+                        deadlineDate = "03/05/2023",
+                        fee = 10000,
+                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Fkayla-maurais-EZWTMjwAWls-unsplash.jpg?alt=media&token=87ee7a96-6910-46ca-b4e4-c19e2d6bf563",
+                        onClick = {
+                            navController.navigate(Screen.SupportDetailScreen.route)
+                        },
+                        modifier = Modifier
+                            .width(196.dp)
+                            .padding(end = 16.dp)
+                    )
+                }
+                item {
+                    HomeDonationItem(
+                        title = "Baby sanitary equipment",
+                        location = "Medan",
+                        currentValue = 1,
+                        maxValue = 8,
+                        deadlineDate = "03/25/2023",
+                        fee = 45000,
+                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Fsincerely-media-f8hdkJz-m5w-unsplash.jpg?alt=media&token=b75f1963-03a2-4592-bf19-a69cedb55dc3",
                         onClick = {
                             navController.navigate(Screen.SupportDetailScreen.route)
                         },
@@ -380,6 +432,16 @@ fun HomeScreen(navController: NavController) {
                 )
             }
             LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
+                item {
+                    HomeArticleItem(
+                        title = "Nutrition to Prevent Stunted Child Growth",
+                        url = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2Fthumbnail%2FHealthy%20Eating%20%26%20Nutrition%20for%20Children%20Ages%206-12.jpg?alt=media&token=f8977acf-8874-4bd8-9964-61e69f8dc5d3",
+                        onClick = {
+                            navController.navigate(Screen.VideoDetailScreen.route)
+                        },
+                        modifier = Modifier.padding(end = 16.dp),
+                    )
+                }
                 items(5) {
                     HomeArticleItem(
                         onClick = {

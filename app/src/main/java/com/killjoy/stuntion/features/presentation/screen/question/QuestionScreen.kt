@@ -29,6 +29,7 @@ import com.killjoy.stuntion.features.presentation.utils.components.StuntionButto
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionStepper
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightGray
+import com.killjoy.stuntion.ui.theme.LighterGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
@@ -107,7 +108,7 @@ fun QuestionScreen(navController: NavController, child: Child) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
-                        .background(color = Color.LightGray, shape = RoundedCornerShape(100.dp))
+                        .background(color = LighterGray, shape = RoundedCornerShape(100.dp))
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -117,7 +118,7 @@ fun QuestionScreen(navController: NavController, child: Child) {
                     onClick = {
 
                     },
-                    backgroundColor = Color.LightGray,
+                    backgroundColor = LighterGray,
                     contentAlignment = Alignment.CenterStart,
                     modifier = Modifier
                         .fillMaxWidth()

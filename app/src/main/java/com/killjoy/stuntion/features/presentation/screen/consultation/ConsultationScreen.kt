@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert.AskExpertScreen
@@ -38,6 +39,11 @@ fun ConsultationScreen(navController: NavController) {
     val pagerState = com.google.accompanist.pager.rememberPagerState()
     val pages = listOf("Public Consultation", "Private Consultation")
     val coroutineScope = rememberCoroutineScope()
+    val systemUiController = rememberSystemUiController()
+    systemUiController.apply {
+        setStatusBarColor(color = Color.White, darkIcons = true)
+        setNavigationBarColor(color = Color.White, darkIcons = true)
+    }
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) },

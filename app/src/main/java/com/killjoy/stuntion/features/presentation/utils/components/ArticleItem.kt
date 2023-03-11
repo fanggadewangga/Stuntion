@@ -3,6 +3,8 @@ package com.killjoy.stuntion.features.presentation.utils.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -24,15 +26,22 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun ArticleItem() {
-
-    Column(Modifier.fillMaxWidth()) {
+fun ArticleItem(
+    modifier: Modifier = Modifier,
+    title: String = "What is Stunting?",
+    description: String = "Stunting is",
+    category: List<String> = listOf("Stunting"),
+    thumbnailUrl: String = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2Fthumbnail%2FWhat%20is%20Stunting.jpg?alt=media&token=0f9efe86-239e-4e6e-8a43-f22d873ce78b",
+    onClick: () -> Unit,
+) {
+    Column(modifier = modifier) {
         Row(Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
             // Image
             Box {
                 AsyncImage(
-                    model = R.drawable.iv_article_item,
+                    model = thumbnailUrl,
                     contentDescription = "Article item",
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .width(80.dp)
                         .height(98.dp)
@@ -57,29 +66,33 @@ fun ArticleItem() {
             ) {
 
                 // Category
-                Box(
-                    contentAlignment = Alignment.TopCenter,
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .background(color = LightBlue, shape = RoundedCornerShape(16.dp))
-                ) {
-                    StuntionText(
-                        text = "Stunting",
-                        textStyle = Type.labelMedium(),
-                        color = PrimaryBlue,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
-                    )
+                LazyRow {
+                    items(category) {
+                        Box(
+                            contentAlignment = Alignment.TopCenter,
+                            modifier = Modifier
+                                .wrapContentWidth()
+                                .background(color = LightBlue, shape = RoundedCornerShape(16.dp))
+                        ) {
+                            StuntionText(
+                                text = it,
+                                textStyle = Type.labelMedium(),
+                                color = PrimaryBlue,
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
+                            )
+                        }
+                    }
                 }
 
                 // Title
                 StuntionText(
-                    text = "Nutrition to Prevent Stunted Child Growth",
+                    text = title,
                     textStyle = Type.titleSmall()
                 )
 
                 // Description
                 StuntionText(
-                    text = "Every parent certainly wants their child's growth and development to run Every parent certainly wants their child's growth and development to run ",
+                    text = description,
                     maxLine = 2,
                     overflow = TextOverflow.Ellipsis,
                     textStyle = Type.bodyMedium()
@@ -96,6 +109,8 @@ fun ArticleItem() {
 @Composable
 fun HomeArticleItem(
     modifier: Modifier = Modifier,
+    title: String = "What is Stunting?",
+    url: String = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2Fthumbnail%2FWhat%20is%20Stunting.jpg?alt=media&token=0f9efe86-239e-4e6e-8a43-f22d873ce78b",
     onClick: () -> Unit,
 ) {
     Card(
@@ -112,7 +127,7 @@ fun HomeArticleItem(
         ) {
             Box {
                 AsyncImage(
-                    model = R.drawable.iv_article_detail,
+                    model = url,
                     contentDescription = "Article image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -131,7 +146,7 @@ fun HomeArticleItem(
 
             // Title
             StuntionText(
-                text = "Nutrition to Prevent Stunted Child Growth",
+                text = title,
                 maxLine = 2,
                 overflow = TextOverflow.Ellipsis,
                 textStyle = Type.titleSmall(),

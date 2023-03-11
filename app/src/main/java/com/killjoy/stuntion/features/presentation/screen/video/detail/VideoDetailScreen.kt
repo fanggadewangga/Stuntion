@@ -26,6 +26,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -41,9 +42,14 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun VideoDetailScreen(navController: NavController) {
     val viewModel = hiltViewModel<VideoDetailViewModel>()
+    val systemUiController = rememberSystemUiController()
+    systemUiController.apply {
+        setStatusBarColor(color = Color.Transparent, darkIcons = true)
+        setNavigationBarColor(color = Color.White, darkIcons = true)
+    }
     val context = LocalContext.current
     val url =
-        "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2FStunting%20-%20Deteksi%20dan%20Intervensi%20-%20Prof.%20dr.%20Ova%20Emilia.mp4?alt=media&token=ae511a8c-c571-4845-bf87-b8e04c0f56fe"
+        "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2Fvideo%2FHealthy%20Eating%20%26%20Nutrition%20for%20Children%20Ages%206-12.mp4?alt=media&token=8eb7e4b0-06b0-402c-bf1d-1d0fc404e54c"
     val player = remember {
         ExoPlayer.Builder(context).build().apply {
             val dataSource = DefaultDataSource.Factory(context)
@@ -55,8 +61,10 @@ fun VideoDetailScreen(navController: NavController) {
     }
 
 
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-
+    LazyColumn(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 24.dp)
+    ) {
         // Image
         item {
             Box(modifier = Modifier.fillMaxWidth()) {

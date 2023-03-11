@@ -74,25 +74,40 @@ fun ChatExpertsScreen(navController: NavController) {
         // Experts recommendation
         Spacer(modifier = Modifier.height(16.dp))
         ExpertChatItem(
+            name = "dr. A. Roni Naning, Sp.A (K)",
+            category = "Pediatrician - Respirologist",
+            experience = 11,
+            rating = 5.0,
+            fee = 40000.0,
+            avatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2Fusman-yousaf-pTrhfmj2jDA-unsplash.jpg?alt=media&token=23212350-188e-4555-92ac-34056c48ad26",
+            onExpertClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
+            onChatClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        ExpertChatItem(
+            name = "dr. Dimple Gobind Nagrani",
+            category = "Pediatrician",
+            experience = 6,
+            rating = 4.7,
+            fee = 55000.0,
+            avatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2Fhumberto-chavez-FVh_yqLR9eA-unsplash.jpg?alt=media&token=34ed3ac3-75dc-44dc-b2e7-6644328da3d2",
             onExpertClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
             onChatClicked = { navController.navigate(Screen.ChatRoomScreen.route) },
             modifier = Modifier.padding(bottom = 8.dp)
         )
         ExpertChatItem(
+            name = "Nia Anida Afranida, S.Keb",
+            category = "Midwife",
+            experience = 4,
+            rating = 4.5,
+            fee = 35000.0,
+            avatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2Frian-ramirez-rm7rZYdl3rY-unsplash.jpg?alt=media&token=64ccecca-da2d-4265-addb-15e3c0584893",
             onExpertClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
             onChatClicked = { navController.navigate(Screen.ChatRoomScreen.route) },
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        ExpertChatItem(
-            onExpertClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
-            onChatClicked = { navController.navigate(Screen.ChatRoomScreen.route) },
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        ExpertChatItem(
-            onExpertClicked = { navController.navigate(Screen.ExpertDetailScreen.route) },
-            onChatClicked = { navController.navigate(Screen.ChatRoomScreen.route) },
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+
+
 
 
         Spacer(modifier = Modifier.height(16.dp))

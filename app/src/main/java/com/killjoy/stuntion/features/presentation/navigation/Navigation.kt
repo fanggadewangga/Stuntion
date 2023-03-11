@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.killjoy.stuntion.features.domain.model.child.Child
+import com.killjoy.stuntion.features.presentation.screen.activity_list.ActivityListScreen
 import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.video.detail.VideoDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.video.videos.VideosScreen
@@ -20,6 +21,7 @@ import com.killjoy.stuntion.features.presentation.screen.camera.FaceCameraScreen
 import com.killjoy.stuntion.features.presentation.screen.chat.ChatRoomScreen
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
 import com.killjoy.stuntion.features.presentation.screen.check.CheckScreen
+import com.killjoy.stuntion.features.presentation.screen.child_notes.notes.ChildNotesScreen
 import com.killjoy.stuntion.features.presentation.screen.child_profile.ChildProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.consultation.ConsultationScreen
 import com.killjoy.stuntion.features.presentation.screen.expert.ExpertDetailScreen
@@ -27,6 +29,7 @@ import com.killjoy.stuntion.features.presentation.screen.general_information.Gen
 import com.killjoy.stuntion.features.presentation.screen.healthy_tips.HealthyTipsDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.home.HomeScreen
 import com.killjoy.stuntion.features.presentation.screen.location_permission.LocationPermissionScreen
+import com.killjoy.stuntion.features.presentation.screen.my_healthy_tips.MyHealthyTipsScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
 import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.question.QuestionScreen
@@ -51,7 +54,7 @@ import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArg
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
 
         composable(route = Screen.SplashScreen.route) {
             SplashScreen(navController = navController)
@@ -220,10 +223,25 @@ fun Navigation() {
         composable(route = Screen.FaceCameraScreen.route) {
             FaceCameraScreen(navController = navController)
         }
-        
+
         // Healthy tips
         composable(route = Screen.HealthyTipsDetailScreen.route) {
             HealthyTipsDetailScreen(navController = navController)
+        }
+
+        // Activity List
+        composable(route = Screen.ActivityListScreen.route) {
+            ActivityListScreen(navController = navController)
+        }
+
+        // Child Notes
+        composable(route = Screen.ChildNotesScreen.route) {
+            ChildNotesScreen(navController = navController)
+        }
+
+        // My Healthy Tips
+        composable(route = Screen.MyHealthyTipsScreen.route) {
+            MyHealthyTipsScreen(navController = navController)
         }
     }
 }

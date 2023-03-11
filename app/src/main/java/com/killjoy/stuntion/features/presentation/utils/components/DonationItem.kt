@@ -10,6 +10,7 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.countPeriod
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.Gray
 import com.killjoy.stuntion.ui.theme.LightGray
@@ -35,7 +37,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun DonationItem(
     modifier: Modifier = Modifier,
-    onClick:() -> Unit,
+    onClick: () -> Unit,
     title: String,
     location: String,
     currentValue: Int,
@@ -68,9 +70,9 @@ fun DonationItem(
 
             // Image
             AsyncImage(
-                model = R.drawable.iv_donation,
+                model = imageUrl,
                 contentDescription = "Donation image",
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(84.dp)
                     .clip(
@@ -84,6 +86,7 @@ fun DonationItem(
                 StuntionText(
                     text = title,
                     textStyle = Type.titleMedium(),
+                    maxLine = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.65).dp)
                 )
@@ -157,7 +160,7 @@ fun DonationItem(
 @Composable
 fun HomeDonationItem(
     modifier: Modifier = Modifier,
-    onClick:() -> Unit,
+    onClick: () -> Unit,
     title: String,
     location: String,
     currentValue: Int,
@@ -166,6 +169,13 @@ fun HomeDonationItem(
     imageUrl: String? = null,
     fee: Int,
 ) {
+
+    val currentDate = DateTimeFormatter.ofPattern("MM/dd/yyy").format(LocalDateTime.now())
+    val dayPeriod = Period.between(
+        LocalDate.parse(currentDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
+        LocalDate.parse(deadlineDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+    ).days
+
     Card(
         elevation = 3.dp,
         shape = RoundedCornerShape(16.dp),
@@ -177,7 +187,7 @@ fun HomeDonationItem(
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 AsyncImage(
-                    model = R.drawable.iv_donation,
+                    model = imageUrl,
                     contentDescription = "Donation item image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -194,7 +204,7 @@ fun HomeDonationItem(
                         .align(Alignment.TopEnd)
                 ) {
                     StuntionText(
-                        text = "10 days more",
+                        text = "$dayPeriod days more",
                         textStyle = Type.labelMedium(),
                         color = Color.White,
                         modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
@@ -206,6 +216,8 @@ fun HomeDonationItem(
             StuntionText(
                 text = title,
                 textStyle = Type.labelMedium(),
+                maxLine = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
 
@@ -236,22 +248,8 @@ fun HomeDonationItem(
                     textStyle = Type.bodySmall(),
                     color = Gray
                 )
-                StuntionText(text = "IDR 10.000", textStyle = Type.labelMedium())
+                StuntionText(text = "IDR ${fee * currentValue}", textStyle = Type.labelMedium())
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SupportItemPreview() {
-    /*HomeDonationItem(
-        title = "Milk For Babies Aged 1 Year",
-        location = "Malang, Jawa Timur",
-        currentValue = 1,
-        maxValue = 5,
-        deadlineDate = "02/15/2023",
-        fee = 50000,
-        modifier = Modifier.width(196.dp)
-    )*/
 }

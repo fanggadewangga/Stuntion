@@ -46,13 +46,13 @@ fun QuestionItem(
                     .height(72.dp)
             ) {
                 AsyncImage(
-                    model = R.drawable.iv_avatar,
+                    model = userAvatarUrl,
                     contentDescription = "User Avatar",
                     modifier = Modifier
                         .size(64.dp)
                 )
                 AsyncImage(
-                    model = R.drawable.iv_expert,
+                    model = expertAvatarUrl,
                     contentDescription = "Expert Avatar",
                     modifier = Modifier
                         .border(width = 4.dp, color = Color.White, shape = CircleShape)

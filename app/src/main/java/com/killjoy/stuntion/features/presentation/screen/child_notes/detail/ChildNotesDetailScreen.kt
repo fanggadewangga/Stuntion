@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.child_profile
+package com.killjoy.stuntion.features.presentation.screen.child_notes.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,12 +15,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.domain.model.child.Child
+import com.killjoy.stuntion.features.presentation.screen.child_profile.ChildProfileViewModel
 import com.killjoy.stuntion.features.presentation.utils.*
 import com.killjoy.stuntion.features.presentation.utils.components.ChildProfileSectionItem
 import com.killjoy.stuntion.features.presentation.utils.components.HealthyTipsItem
@@ -32,9 +32,16 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun ChildProfileScreen(navController: NavController, child: Child) {
+fun ChildNotesDetailScreen(navController: NavController) {
     val context = LocalContext.current
     val viewModel = hiltViewModel<ChildProfileViewModel>()
+    val child = Child(
+        name = "",
+        gender = "",
+        birthDate = "",
+        height = 0.0,
+        weight = 0.0
+    )
 
     LaunchedEffect(key1 = true) {
         viewModel.apply {
@@ -396,10 +403,3 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
         }
     }
 }
-
-@Preview
-@Composable
-fun ChildProfileScreenPreview() {
-
-}
-

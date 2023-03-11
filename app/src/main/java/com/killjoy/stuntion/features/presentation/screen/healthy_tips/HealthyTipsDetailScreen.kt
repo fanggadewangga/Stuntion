@@ -36,12 +36,14 @@ fun HealthyTipsDetailScreen(navController: NavController) {
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.fillMaxSize().padding(bottom = (LocalConfiguration.current.screenHeightDp / 17).dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = (LocalConfiguration.current.screenHeightDp / 17).dp)
     ) {
         // Image
         item {
             AsyncImage(
-                model = R.drawable.iv_baby,
+                model = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/task%2Flucy-wolski-sljmgxyzmqM-unsplash.jpg?alt=media&token=116b9827-919a-4315-911c-22eaca990e83",
                 contentScale = ContentScale.Crop,
                 contentDescription = "Image",
                 modifier = Modifier
@@ -55,7 +57,7 @@ fun HealthyTipsDetailScreen(navController: NavController) {
         // Title
         item {
             StuntionText(
-                text = "If the child can walk, train and accompany the child when climbing the stairs",
+                text = "Give your baby a drink with formula milk that contains high calcium",
                 textStyle = Type.titleMedium(),
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -78,7 +80,7 @@ fun HealthyTipsDetailScreen(navController: NavController) {
         }
         item {
             StuntionText(
-                text = "1 - 1,5 Years",
+                text = "0.5 - 4 Years",
                 textStyle = Type.bodyMedium(),
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -101,7 +103,7 @@ fun HealthyTipsDetailScreen(navController: NavController) {
         }
         item {
             StuntionText(
-                text = "Climbing Toy or safe Stairs",
+                text = "Formula milk",
                 textStyle = Type.bodyMedium(),
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -124,11 +126,13 @@ fun HealthyTipsDetailScreen(navController: NavController) {
         }
         itemsIndexed(
             items = listOf(
-                "Start with small steps: Begin by having your child practice climbing up and down just a few stairs at a time. As they get more confident and comfortable, you can gradually increase the number of stairs.",
-                "Hold their hand: For younger children, it is important to hold their hand or have them hold onto a stable handrail while they climb. This can help them feel more secure and reduce the risk of falls.",
-                "Encourage them to look ahead: Remind your child to look ahead while they climb, rather than down at their feet. This can help them maintain their balance and avoid tripping.",
-                "Practice safe stepping: Teach your child to place their entire foot on each step, rather than just the toes or balls of their feet. This can help them maintain better balance and avoid falls.",
-                "Be patient and encouraging: Climbing stairs can be challenging for young children, so it is important to be patient and encouraging throughout the process. Offer praise and support for their efforts and accomplishments, and allow them to move at their own pace.",
+                "Wash your hands thoroughly with soap and water.",
+                "Sterilize all the equipment, including the bottle, nipple, and any other utensils, according to the manufacturer's instructions.",
+                "Boil water and let it cool down to the recommended temperature. Check the instructions on the formula milk package for the exact temperature.",
+                "Pour the correct amount of water into the sterilized bottle.",
+                "Add the correct amount of formula milk powder to the water in the bottle. Make sure to use the scoop that comes with the formula, and level it off with a clean knife.",
+                "Feed your baby the prepared formula milk immediately.",
+                "If your baby doesn't finish the bottle, discard any remaining formula milk within one hour of preparation.",
             )
         ) { index, instruction ->
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -202,7 +206,9 @@ fun HealthyTipsDetailScreen(navController: NavController) {
                 onClick = {
 
                 },
-                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             ) {
                 StuntionText(
                     text = "Succeed",
