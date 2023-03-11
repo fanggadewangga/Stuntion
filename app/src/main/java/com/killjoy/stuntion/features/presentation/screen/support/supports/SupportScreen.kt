@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,9 +28,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.utils.Screen
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
+import com.killjoy.stuntion.features.presentation.utils.components.*
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -38,6 +41,7 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun SupportScreen(navController: NavController) {
     val viewModel = hiltViewModel<SupportViewModel>()
+    val donations = viewModel.donationResponse.collectAsState()
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) },
@@ -144,7 +148,10 @@ fun SupportScreen(navController: NavController) {
                         Spacer(modifier = Modifier.height(16.dp))
                         StuntionSearchField(
                             valueState = viewModel.searchState.value,
-                            onValueChange = { viewModel.searchState.value = it },
+                            onValueChange = {
+                                viewModel.searchState.value = it
+                                viewModel.searchDonations()
+                            },
                             placeholder = "who will you help today?",
                             borderColor = Color.Transparent,
                             leadingIcon = {
@@ -173,9 +180,48 @@ fun SupportScreen(navController: NavController) {
                         textStyle = Type.labelMedium(),
                         color = PrimaryBlue,
                         modifier = Modifier.clickable {
-
+                            navController.navigate(Screen.SupportScreen.route)
                         }
                     )
+                }
+            }
+
+            when (donations.value) {
+                is Resource.Loading -> {
+                    items(6) {
+                        DonationItemShimmer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp)
+                        )
+                    }
+                }
+                is Resource.Empty -> {
+
+                }
+                is Resource.Success -> {
+                    items(
+                        donations.value.data!!
+                            .sortedBy { it.dayRemaining }
+                            .take(2)
+                    ) { donation ->
+                        DonationItem(
+                            donation = donation,
+                            onClick = {
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    key = "donationId",
+                                    value = donation.donationId
+                                )
+                                navController.navigate(Screen.SupportDetailScreen.route)
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
+                        )
+                    }
+                }
+                is Resource.Error -> {
+
                 }
             }
 
@@ -204,9 +250,48 @@ fun SupportScreen(navController: NavController) {
                         textStyle = Type.labelMedium(),
                         color = PrimaryBlue,
                         modifier = Modifier.clickable {
-
+                            navController.navigate(Screen.SupportScreen.route)
                         }
                     )
+                }
+            }
+
+            when (donations.value) {
+                is Resource.Loading -> {
+                    items(6) {
+                        DonationItemShimmer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp)
+                        )
+                    }
+                }
+                is Resource.Empty -> {
+
+                }
+                is Resource.Success -> {
+                    items(
+                        donations.value.data!!
+                            .shuffled()
+                            .take(2)
+                    ) { donation ->
+                        DonationItem(
+                            donation = donation,
+                            onClick = {
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    key = "donationId",
+                                    value = donation.donationId
+                                )
+                                navController.navigate(Screen.SupportDetailScreen.route)
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
+                        )
+                    }
+                }
+                is Resource.Error -> {
+
                 }
             }
         }
