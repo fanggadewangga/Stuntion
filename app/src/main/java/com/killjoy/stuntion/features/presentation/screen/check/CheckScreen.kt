@@ -122,7 +122,7 @@ fun CheckScreen(navController: NavController) {
                     modifier = Modifier
                         .size(24.dp)
                         .clickable {
-
+                            navController.navigate(Screen.CheckTutorialScreen.route)
                         }
                 )
             }
