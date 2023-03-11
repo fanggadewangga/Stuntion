@@ -25,12 +25,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.placeholder
+import com.google.accompanist.placeholder.shimmer
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.HomeArticleItem
+import com.killjoy.stuntion.features.presentation.utils.components.HomeArticleItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItem
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItemShimmer
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -112,11 +116,36 @@ fun HomeScreen(navController: NavController) {
                             textStyle = Type.bodyLarge(),
                             color = Color.White
                         )
-                        StuntionText(
-                            text = "${user.value.data?.name}",
-                            textStyle = Type.titleMedium(),
-                            color = Color.White
-                        )
+                        when (user.value) {
+                            is Resource.Loading -> {
+                                StuntionText(
+                                    text = "This is user name",
+                                    textStyle = Type.titleMedium(),
+                                    color = Color.White,
+                                    modifier = Modifier
+                                        .placeholder(
+                                            visible = true,
+                                            color = Color.LightGray,
+                                            shape = RoundedCornerShape(16.dp),
+                                            highlight = PlaceholderHighlight
+                                                .shimmer(highlightColor = Color.White),
+                                        )
+                                )
+                            }
+                            is Resource.Success -> {
+                                StuntionText(
+                                    text = "${user.value.data?.name}",
+                                    textStyle = Type.titleMedium(),
+                                    color = Color.White,
+                                )
+                            }
+                            is Resource.Empty -> {
+
+                            }
+                            is Resource.Error -> {
+
+                            }
+                        }
                     }
 
                     // Check text
@@ -338,16 +367,26 @@ fun HomeScreen(navController: NavController) {
                 when (donations.value) {
                     is Resource.Loading -> {
                         items(6) {
-                            HomeDonationItemShimmer()
+                            HomeDonationItemShimmer(
+                                modifier = Modifier
+                                    .width(196.dp)
+                                    .padding(end = 16.dp)
+                            )
                         }
                     }
-                    is Resource.Empty -> {}
+                    is Resource.Empty -> {
+
+                    }
                     is Resource.Success -> {
                         items(donations.value.data!!) {
                             HomeDonationItem(
                                 donation = it,
                                 onClick = {
-                                    navController.navigate(Screen.RequestHelpScreen.route)
+                                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                                        key = "donationId",
+                                        value = it.donationId
+                                    )
+                                    navController.navigate(Screen.SupportDetailScreen.route)
                                 },
                                 modifier = Modifier
                                     .width(196.dp)
@@ -394,23 +433,35 @@ fun HomeScreen(navController: NavController) {
                 )
             }
             LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
-                item {
-                    HomeArticleItem(
-                        title = "Nutrition to Prevent Stunted Child Growth",
-                        url = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2Fthumbnail%2FHealthy%20Eating%20%26%20Nutrition%20for%20Children%20Ages%206-12.jpg?alt=media&token=f8977acf-8874-4bd8-9964-61e69f8dc5d3",
-                        onClick = {
-                            navController.navigate(Screen.VideoDetailScreen.route)
-                        },
-                        modifier = Modifier.padding(end = 16.dp),
-                    )
-                }
-                items(5) {
-                    HomeArticleItem(
-                        onClick = {
-                            navController.navigate(Screen.VideoDetailScreen.route)
-                        },
-                        modifier = Modifier.padding(end = 16.dp),
-                    )
+                when (smartstuns.value) {
+                    is Resource.Loading -> {
+                        items(6) {
+                            HomeArticleItemShimmer(
+                                modifier = Modifier.padding(end = 16.dp),
+                            )
+                        }
+                    }
+                    is Resource.Empty -> {
+
+                    }
+                    is Resource.Success -> {
+                        items(smartstuns.value.data!!) {
+                            HomeArticleItem(
+                                article = it,
+                                onClick = {
+                                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                                        key = "articleId",
+                                        value = it.articleId
+                                    )
+                                    navController.navigate(Screen.VideoDetailScreen.route)
+                                },
+                                modifier = Modifier.padding(end = 16.dp),
+                            )
+                        }
+                    }
+                    is Resource.Error -> {
+
+                    }
                 }
             }
 

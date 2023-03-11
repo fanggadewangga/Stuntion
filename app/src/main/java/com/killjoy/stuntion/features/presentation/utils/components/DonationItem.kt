@@ -197,7 +197,7 @@ fun HomeDonationItem(
             StuntionText(
                 text = donation.address,
                 textStyle = Type.bodySmall(),
-                maxLine = 2,
+                maxLine = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = Gray,
                 modifier = Modifier.padding(horizontal = 8.dp)

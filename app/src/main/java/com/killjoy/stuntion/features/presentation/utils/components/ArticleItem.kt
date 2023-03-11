@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.source.remote.api.response.article.ArticleListResponse
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.Gray
 import com.killjoy.stuntion.ui.theme.LightBlue
@@ -28,18 +29,15 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun ArticleItem(
     modifier: Modifier = Modifier,
-    title: String = "What is Stunting?",
-    description: String = "Stunting is",
-    category: List<String> = listOf("Stunting"),
-    thumbnailUrl: String = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2Fthumbnail%2FWhat%20is%20Stunting.jpg?alt=media&token=0f9efe86-239e-4e6e-8a43-f22d873ce78b",
+    article: ArticleListResponse,
     onClick: () -> Unit,
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.clickable { onClick() }) {
         Row(Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
             // Image
             Box {
                 AsyncImage(
-                    model = thumbnailUrl,
+                    model = article.thumbnailUrl,
                     contentDescription = "Article item",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -67,7 +65,7 @@ fun ArticleItem(
 
                 // Category
                 LazyRow {
-                    items(category) {
+                    items(article.categories) {
                         Box(
                             contentAlignment = Alignment.TopCenter,
                             modifier = Modifier
@@ -86,13 +84,15 @@ fun ArticleItem(
 
                 // Title
                 StuntionText(
-                    text = title,
-                    textStyle = Type.titleSmall()
+                    text = article.title,
+                    textStyle = Type.titleSmall(),
+                    maxLine = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
 
                 // Description
                 StuntionText(
-                    text = description,
+                    text = article.description,
                     maxLine = 2,
                     overflow = TextOverflow.Ellipsis,
                     textStyle = Type.bodyMedium()
@@ -109,8 +109,7 @@ fun ArticleItem(
 @Composable
 fun HomeArticleItem(
     modifier: Modifier = Modifier,
-    title: String = "What is Stunting?",
-    url: String = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/smartstun%2Fthumbnail%2FWhat%20is%20Stunting.jpg?alt=media&token=0f9efe86-239e-4e6e-8a43-f22d873ce78b",
+    article: ArticleListResponse,
     onClick: () -> Unit,
 ) {
     Card(
@@ -127,7 +126,7 @@ fun HomeArticleItem(
         ) {
             Box {
                 AsyncImage(
-                    model = url,
+                    model = article.thumbnailUrl,
                     contentDescription = "Article image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -146,7 +145,7 @@ fun HomeArticleItem(
 
             // Title
             StuntionText(
-                text = title,
+                text = article.title,
                 maxLine = 2,
                 overflow = TextOverflow.Ellipsis,
                 textStyle = Type.titleSmall(),
@@ -154,21 +153,26 @@ fun HomeArticleItem(
             )
 
             // Category
-            Box(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .background(
-                        color = LightBlue,
-                        shape = RoundedCornerShape(100.dp)
-                    )
-            ) {
-                StuntionText(
-                    text = "Stunting",
-                    textStyle = Type.labelMedium(),
-                    color = PrimaryBlue,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
-                )
+            LazyRow {
+                items(article.categories) {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .background(
+                                color = LightBlue,
+                                shape = RoundedCornerShape(100.dp)
+                            )
+                    ) {
+                        StuntionText(
+                            text = it,
+                            textStyle = Type.labelMedium(),
+                            color = PrimaryBlue,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
+                        )
+                    }
+                }
             }
+
 
             // Timestamp
             Row(
@@ -184,7 +188,7 @@ fun HomeArticleItem(
                         modifier = Modifier.size(16.dp)
                     )
                     StuntionText(
-                        text = "January 31, 2022",
+                        text = article.timestamp,
                         textStyle = Type.bodySmall(),
                         color = Gray
                     )
