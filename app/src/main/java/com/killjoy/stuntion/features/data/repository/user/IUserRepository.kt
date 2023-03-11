@@ -12,4 +12,6 @@ interface IUserRepository {
     suspend fun updateUserGeneralInformation(uid: String, body: UserGeneralInfoBody): Flow<Resource<String?>>
     suspend fun updateUserAvatar(uid: String, avatarUrl: String): Flow<Resource<String?>>
     suspend fun updateUserLevel(uid: String): Flow<Resource<String?>>
+
+    suspend fun readUid(): Flow<String?>
 }

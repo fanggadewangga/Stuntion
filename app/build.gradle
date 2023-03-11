@@ -88,6 +88,9 @@ dependencies {
     // accompanist - flow layout
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanist_version"
 
+    // accompanist - placeholder
+    implementation "com.google.accompanist:accompanist-placeholder:$accompanist_version"
+
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

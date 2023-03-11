@@ -142,4 +142,6 @@ class UserRepository @Inject constructor(
                 Log.d("UPDATE USER AVATAR: ", e.message.toString())
             }
         }.flowOn(Dispatchers.IO)
+
+    override suspend fun readUid(): Flow<String?> = datastore.readPrevUid()
 }

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,10 +27,12 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.HomeArticleItem
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItem
+import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItemShimmer
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.LightGray
@@ -45,6 +48,9 @@ fun HomeScreen(navController: NavController) {
         setStatusBarColor(color = PrimaryBlue, darkIcons = true)
         setNavigationBarColor(color = Color.White, darkIcons = true)
     }
+    val user = viewModel.userResponse.collectAsState()
+    val donations = viewModel.donationResponse.collectAsState()
+    val smartstuns = viewModel.smartstunResponse.collectAsState()
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) },
@@ -107,7 +113,7 @@ fun HomeScreen(navController: NavController) {
                             color = Color.White
                         )
                         StuntionText(
-                            text = "Maya Susanti",
+                            text = "${user.value.data?.name}",
                             textStyle = Type.titleMedium(),
                             color = Color.White
                         )
@@ -329,73 +335,29 @@ fun HomeScreen(navController: NavController) {
                 modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
             )
             LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
-                item {
-                    HomeDonationItem(
-                        title = "Vegetables, Fruit and Eggs",
-                        location = "Surabaya, East Java",
-                        currentValue = 3,
-                        maxValue = 8,
-                        deadlineDate = "03/20/2023",
-                        fee = 10000,
-                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Falexander-schimmeck-ks5flsI1mNo-unsplash.jpg?alt=media&token=8965cf5c-4614-4c6f-9437-cb0a1cc81d64",
-                        onClick = {
-                            navController.navigate(Screen.SupportDetailScreen.route)
-                        },
-                        modifier = Modifier
-                            .width(196.dp)
-                            .padding(end = 16.dp)
-                    )
-                }
-                item {
-                    HomeDonationItem(
-                        title = "Baby food additives",
-                        location = "Sidoarjo, East Java",
-                        currentValue = 1,
-                        maxValue = 8,
-                        deadlineDate = "03/08/2023",
-                        fee = 15000,
-                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Frachel-loughman-CJj2iQn6IsE-unsplash.jpg?alt=media&token=625435e9-7c8f-4888-b02d-9fa2350ed84f",
-                        onClick = {
-                            navController.navigate(Screen.SupportDetailScreen.route)
-                        },
-                        modifier = Modifier
-                            .width(196.dp)
-                            .padding(end = 16.dp)
-                    )
-                }
-                item {
-                    HomeDonationItem(
-                        title = "Vitamins for babies from 1.5 years old",
-                        location = "Solo, Central Java",
-                        currentValue = 15,
-                        maxValue = 15,
-                        deadlineDate = "03/05/2023",
-                        fee = 10000,
-                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Fkayla-maurais-EZWTMjwAWls-unsplash.jpg?alt=media&token=87ee7a96-6910-46ca-b4e4-c19e2d6bf563",
-                        onClick = {
-                            navController.navigate(Screen.SupportDetailScreen.route)
-                        },
-                        modifier = Modifier
-                            .width(196.dp)
-                            .padding(end = 16.dp)
-                    )
-                }
-                item {
-                    HomeDonationItem(
-                        title = "Baby sanitary equipment",
-                        location = "Medan",
-                        currentValue = 1,
-                        maxValue = 8,
-                        deadlineDate = "03/25/2023",
-                        fee = 45000,
-                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Fsincerely-media-f8hdkJz-m5w-unsplash.jpg?alt=media&token=b75f1963-03a2-4592-bf19-a69cedb55dc3",
-                        onClick = {
-                            navController.navigate(Screen.SupportDetailScreen.route)
-                        },
-                        modifier = Modifier
-                            .width(196.dp)
-                            .padding(end = 16.dp)
-                    )
+                when (donations.value) {
+                    is Resource.Loading -> {
+                        items(6) {
+                            HomeDonationItemShimmer()
+                        }
+                    }
+                    is Resource.Empty -> {}
+                    is Resource.Success -> {
+                        items(donations.value.data!!) {
+                            HomeDonationItem(
+                                donation = it,
+                                onClick = {
+                                    navController.navigate(Screen.RequestHelpScreen.route)
+                                },
+                                modifier = Modifier
+                                    .width(196.dp)
+                                    .padding(end = 16.dp)
+                            )
+                        }
+                    }
+                    is Resource.Error -> {
+
+                    }
                 }
             }
 

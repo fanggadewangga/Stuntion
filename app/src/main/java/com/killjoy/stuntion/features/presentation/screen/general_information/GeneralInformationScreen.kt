@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.general_information
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,9 +10,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Constants.GENDER
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
@@ -36,20 +36,24 @@ import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun GeneralInformationScreen(navController: NavController) {
     val calendarState = rememberMaterialDialogState()
-    val pickedDate = remember {
-        mutableStateOf(LocalDate.now())
-    }
-    val formattedDate = remember {
-        derivedStateOf {
-            DateTimeFormatter.ofPattern("MM/dd/yyy").format(pickedDate.value)
-        }
-    }
     val viewModel = hiltViewModel<GeneralInformationViewModel>()
+    val userUpdateInfoState = viewModel.userState.collectAsState()
+
+    /*when (userUpdateInfoState.value) {
+        is Resource.Empty -> {}
+        is Resource.Success -> {
+            Log.d("Success", userUpdateInfoState.toString())
+            navController.navigate(Screen.AvatarScreen.route)
+        }
+        is Resource.Error -> {}
+        is Resource.Loading -> {
+            Log.d("Loading", userUpdateInfoState.toString())
+        }
+    }*/
 
     MaterialDialog(
         shape = RoundedCornerShape(28.dp),
@@ -60,7 +64,7 @@ fun GeneralInformationScreen(navController: NavController) {
         ),
         buttons = {
             positiveButton(text = "Ok", textStyle = TextStyle(color = PrimaryBlue)) {
-                viewModel.dateState.value = formattedDate.value
+                viewModel.dateState.value = viewModel.formattedDate.value
                 calendarState.hide()
             }
             negativeButton(text = "Cancel", textStyle = TextStyle(color = PrimaryBlue)) {
@@ -79,8 +83,8 @@ fun GeneralInformationScreen(navController: NavController) {
                 dateActiveTextColor = Color.White
             )
         ) {
-            pickedDate.value = it
-            viewModel.dateState.value = formattedDate.value
+            viewModel.pickedDate.value = it
+            viewModel.dateState.value = viewModel.formattedDate.value
         }
     }
 
@@ -216,7 +220,7 @@ fun GeneralInformationScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(16.dp))
                 StuntionButton(
                     onClick = {
-                        navController.navigate(Screen.AvatarScreen.route)
+                        viewModel.updateUserGeneralInformation()
                     }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(

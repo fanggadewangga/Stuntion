@@ -12,8 +12,8 @@ data class ArticleListResponse(
     @field:SerializedName("description")
     val description: String,
 
-    @field:SerializedName("video_url")
-    val videoUrl: String,
+    @field:SerializedName("thumbnail_url")
+    val thumbnailUrl: String,
 
     @field:SerializedName("categories")
     val categories: List<String>,

@@ -28,7 +28,6 @@ import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.utils.Screen
-import com.killjoy.stuntion.features.presentation.utils.components.DonationItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
@@ -180,59 +179,6 @@ fun SupportScreen(navController: NavController) {
                 }
             }
 
-            item {
-                DonationItem(
-                    title = "Formula milk For Babies Aged 1 Year",
-                    location = "Malang, East Java",
-                    currentValue = 0,
-                    maxValue = 8,
-                    deadlineDate = "03/20/2023",
-                    fee = 70000,
-                    imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Fgabi-miranda-dxb_HSjoQ40-unsplash.jpg?alt=media&token=7cfdb7b8-d7ae-49a7-92ac-a9e0c88334e6",
-                    onClick = {
-                        navController.navigate(Screen.SupportDetailScreen.route)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                )
-            }
-
-            item {
-                DonationItem(
-                    title = "Vegetables, Fruit and Eggs",
-                    location = "Surabaya, East Java",
-                    currentValue = 3,
-                    maxValue = 8,
-                    deadlineDate = "03/20/2023",
-                    fee = 10000,
-                    imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Falexander-schimmeck-ks5flsI1mNo-unsplash.jpg?alt=media&token=8965cf5c-4614-4c6f-9437-cb0a1cc81d64",
-                    onClick = {
-                        navController.navigate(Screen.SupportDetailScreen.route)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                )
-            }
-
-            item {
-                DonationItem(
-                    title = "Baby food additives",
-                    location = "Sidoarjo, East Java",
-                    currentValue = 1,
-                    maxValue = 8,
-                    deadlineDate = "03/08/2023",
-                    fee = 15000,
-                    imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Frachel-loughman-CJj2iQn6IsE-unsplash.jpg?alt=media&token=625435e9-7c8f-4888-b02d-9fa2350ed84f",
-                    onClick = {
-                        navController.navigate(Screen.SupportDetailScreen.route)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                )
-            }
 
             item {
                 Row(
@@ -262,42 +208,6 @@ fun SupportScreen(navController: NavController) {
                         }
                     )
                 }
-            }
-
-            item {
-                DonationItem(
-                    title = "Vitamins for babies from 1.5 years old",
-                    location = "Solo, Central Java",
-                    currentValue = 15,
-                    maxValue = 15,
-                    deadlineDate = "03/05/2023",
-                    fee = 10000,
-                    imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Fkayla-maurais-EZWTMjwAWls-unsplash.jpg?alt=media&token=87ee7a96-6910-46ca-b4e4-c19e2d6bf563",
-                    onClick = {
-                        navController.navigate(Screen.SupportDetailScreen.route)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                )
-            }
-
-            item {
-                DonationItem(
-                    title = "Baby sanitary equipment",
-                    location = "Medan",
-                    currentValue = 1,
-                    maxValue = 8,
-                    deadlineDate = "03/25/2023",
-                    fee = 45000,
-                    imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2Fsincerely-media-f8hdkJz-m5w-unsplash.jpg?alt=media&token=b75f1963-03a2-4592-bf19-a69cedb55dc3",
-                    onClick = {
-                        navController.navigate(Screen.SupportDetailScreen.route)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                )
             }
         }
     }

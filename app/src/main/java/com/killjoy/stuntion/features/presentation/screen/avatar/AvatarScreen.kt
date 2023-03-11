@@ -30,9 +30,6 @@ import com.killjoy.stuntion.ui.theme.Type
 fun AvatarScreen(navController: NavController) {
     val viewModel = hiltViewModel<AvatarViewModel>()
     val listOfAvatar: List<Avatar> = viewModel.listOfAvatar
-    val selectedAvatar = remember {
-        mutableStateOf(listOfAvatar[0])
-    }
 
     Column(
         modifier = Modifier
@@ -85,7 +82,7 @@ fun AvatarScreen(navController: NavController) {
                         items(count = listOfAvatar.size) {
                             AvatarItem(
                                 avatar = listOfAvatar[it],
-                                currentSelectedAvatar = selectedAvatar
+                                currentSelectedAvatar = viewModel.selectedAvatar
                             )
                         }
                     },
@@ -98,6 +95,7 @@ fun AvatarScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(32.dp))
                 StuntionButton(
                     onClick = {
+                        viewModel.updateUserAvatar()
                         navController.navigate(Screen.LocationPermissionScreen.route)
                     }, modifier = Modifier.fillMaxWidth()
                 ) {

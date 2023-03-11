@@ -13,5 +13,5 @@ data class UserGeneralInfoBody(
     val gender: String,
 
     @field:SerializedName("avatar_url")
-    val avatarUrl: String = "",
+    val avatarUrl: String = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/avatar%2Favatar_1.png?alt=media&token=931a191d-6277-4480-b860-fdf8e0e41dfe",
 )

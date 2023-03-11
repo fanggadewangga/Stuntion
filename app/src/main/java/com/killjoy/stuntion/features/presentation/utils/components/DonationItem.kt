@@ -10,7 +10,6 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,45 +18,28 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
-import com.killjoy.stuntion.features.presentation.utils.countPeriod
+import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationListResponse
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.Gray
-import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.Period
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun DonationItem(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    title: String,
-    location: String,
-    currentValue: Int,
-    maxValue: Int,
-    deadlineDate: String,
-    imageUrl: String? = null,
-    fee: Int,
+    donation: DonationListResponse,
+    onClick: (donationId: String) -> Unit,
 ) {
 
-    val currentDate = DateTimeFormatter.ofPattern("MM/dd/yyy").format(LocalDateTime.now())
-    val dayPeriod = Period.between(
-        LocalDate.parse(currentDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
-        LocalDate.parse(deadlineDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-    ).days
 
     Card(
         shape = RoundedCornerShape(16.dp),
         elevation = 6.dp,
         modifier = modifier.clickable {
-            onClick()
+            onClick(donation.donationId)
         }
     ) {
         Row(
@@ -70,7 +52,7 @@ fun DonationItem(
 
             // Image
             AsyncImage(
-                model = imageUrl,
+                model = donation.imageUrl,
                 contentDescription = "Donation image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -84,7 +66,7 @@ fun DonationItem(
 
                 // Title
                 StuntionText(
-                    text = title,
+                    text = donation.title,
                     textStyle = Type.titleMedium(),
                     maxLine = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -100,7 +82,7 @@ fun DonationItem(
                         modifier = Modifier.size(20.dp)
                     )
                     StuntionText(
-                        text = location,
+                        text = donation.address,
                         textStyle = Type.bodyMedium(),
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.65).dp)
@@ -109,7 +91,7 @@ fun DonationItem(
 
                 // Progress Bar
                 LinearProgressIndicator(
-                    progress = (currentValue / maxValue.toFloat()),
+                    progress = (donation.currentValue / donation.maxValue.toFloat()),
                     backgroundColor = Color.LightGray,
                     color = PrimaryBlue,
                     modifier = Modifier
@@ -130,7 +112,7 @@ fun DonationItem(
                             modifier = Modifier.size(20.dp)
                         )
                         StuntionText(
-                            text = "IDR $fee",
+                            text = "IDR ${donation.fee}",
                             textStyle = Type.titleSmall(),
                         )
                     }
@@ -143,7 +125,7 @@ fun DonationItem(
                             modifier = Modifier.size(20.dp)
                         )
                         StuntionText(
-                            text = dayPeriod.toString(),
+                            text = donation.dayRemaining.toString(),
                             textStyle = Type.titleSmall(),
                         )
                         StuntionText(
@@ -160,26 +142,16 @@ fun DonationItem(
 @Composable
 fun HomeDonationItem(
     modifier: Modifier = Modifier,
+    donation: DonationListResponse,
     onClick: () -> Unit,
-    title: String,
-    location: String,
-    currentValue: Int,
-    maxValue: Int,
-    deadlineDate: String,
-    imageUrl: String? = null,
-    fee: Int,
 ) {
-
-    val currentDate = DateTimeFormatter.ofPattern("MM/dd/yyy").format(LocalDateTime.now())
-    val dayPeriod = Period.between(
-        LocalDate.parse(currentDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
-        LocalDate.parse(deadlineDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-    ).days
 
     Card(
         elevation = 3.dp,
         shape = RoundedCornerShape(16.dp),
-        modifier = modifier.clickable { onClick() }
+        modifier = modifier.clickable {
+            onClick()
+        }
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -187,7 +159,7 @@ fun HomeDonationItem(
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 AsyncImage(
-                    model = imageUrl,
+                    model = donation.imageUrl,
                     contentDescription = "Donation item image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -204,7 +176,7 @@ fun HomeDonationItem(
                         .align(Alignment.TopEnd)
                 ) {
                     StuntionText(
-                        text = "$dayPeriod days more",
+                        text = "${donation.dayRemaining} days more",
                         textStyle = Type.labelMedium(),
                         color = Color.White,
                         modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
@@ -214,7 +186,7 @@ fun HomeDonationItem(
 
             // Title
             StuntionText(
-                text = title,
+                text = donation.title,
                 textStyle = Type.labelMedium(),
                 maxLine = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -223,15 +195,17 @@ fun HomeDonationItem(
 
             // Location
             StuntionText(
-                text = location,
+                text = donation.address,
                 textStyle = Type.bodySmall(),
+                maxLine = 2,
+                overflow = TextOverflow.Ellipsis,
                 color = Gray,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
 
             // Progress Bar
             LinearProgressIndicator(
-                progress = (currentValue / maxValue.toFloat()),
+                progress = (donation.currentValue / donation.maxValue.toFloat()),
                 backgroundColor = Color.LightGray,
                 color = PrimaryBlue,
                 modifier = Modifier
@@ -248,7 +222,10 @@ fun HomeDonationItem(
                     textStyle = Type.bodySmall(),
                     color = Gray
                 )
-                StuntionText(text = "IDR ${fee * currentValue}", textStyle = Type.labelMedium())
+                StuntionText(
+                    text = "IDR ${donation.fee * donation.currentValue}",
+                    textStyle = Type.labelMedium()
+                )
             }
         }
     }

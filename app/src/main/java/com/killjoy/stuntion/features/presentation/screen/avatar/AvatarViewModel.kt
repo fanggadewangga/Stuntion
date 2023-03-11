@@ -1,24 +1,24 @@
 package com.killjoy.stuntion.features.presentation.screen.avatar
 
-import android.net.Uri
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseDataSource
-import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseResponse
+import com.killjoy.stuntion.features.data.repository.user.UserRepository
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Avatar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AvatarViewModel @Inject constructor(private val firebaseDataSource: FirebaseDataSource) :
+class AvatarViewModel @Inject constructor(private val repository: UserRepository) :
     ViewModel() {
 
-    private val _firebaseStorageResponse =
-        MutableStateFlow<FirebaseResponse<Uri>>(FirebaseResponse.Empty)
-    val firebaseStorageResponse = _firebaseStorageResponse.asStateFlow()
+    private val _remoteResponse = MutableStateFlow<Resource<String?>>(Resource.Empty())
+    val remoteResponse = _remoteResponse.asStateFlow()
 
     val listOfAvatar = listOf(
         Avatar(
@@ -59,9 +59,14 @@ class AvatarViewModel @Inject constructor(private val firebaseDataSource: Fireba
         ),
     )
 
-    fun getAvatar() = viewModelScope.launch {
-        firebaseDataSource.getAvatar().collect {
-            _firebaseStorageResponse.value = it
+    val selectedAvatar = mutableStateOf(listOfAvatar[0])
+
+    fun updateUserAvatar() {
+        viewModelScope.launch {
+            val uid = repository.readUid().first()!!
+            repository.updateUserAvatar(uid, selectedAvatar.value.avatarUrl).collect {
+                _remoteResponse.value = it
+            }
         }
     }
 }

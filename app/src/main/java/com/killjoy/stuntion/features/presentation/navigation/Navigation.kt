@@ -40,6 +40,7 @@ import com.killjoy.stuntion.features.presentation.screen.request_help.detail_inf
 import com.killjoy.stuntion.features.presentation.screen.request_help.help_target.HelpTargetScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.personal_data.PersonalDataScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.title.TitleScreen
+import com.killjoy.stuntion.features.presentation.screen.reward.RewardScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.screen.support.supports.SupportScreen
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailScreen
@@ -248,6 +249,11 @@ fun Navigation() {
         // Check Tutorial
         composable(route = Screen.CheckTutorialScreen.route) {
             CheckTutorialScreen(navController = navController)
+        }
+
+        // Reward
+        composable(route = Screen.RewardScreen.route) {
+            RewardScreen(navController = navController)
         }
     }
 }

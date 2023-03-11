@@ -30,6 +30,7 @@ import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.utils.ProfileSetting
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ProfileSettingItem
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
@@ -224,12 +225,16 @@ fun ProfileScreen(navController: NavController) {
                 )
                 ProfileSettingItem(
                     item = ProfileSetting(icon = R.drawable.ic_child_notes, title = "Child Notes"),
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        navController.navigate(Screen.ChildNotesScreen.route)
+                    },
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
                 ProfileSettingItem(
                     item = ProfileSetting(icon = R.drawable.ic_activity, title = "Activity List"),
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        navController.navigate(Screen.ActivityListScreen.route)
+                    },
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
                 ProfileSettingItem(
@@ -252,7 +257,9 @@ fun ProfileScreen(navController: NavController) {
                 )
                 ProfileSettingItem(
                     item = ProfileSetting(icon = R.drawable.ic_chest, title = "Level & Reward"),
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        navController.navigate(Screen.RewardScreen.route)
+                    },
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
                 ProfileSettingItem(
