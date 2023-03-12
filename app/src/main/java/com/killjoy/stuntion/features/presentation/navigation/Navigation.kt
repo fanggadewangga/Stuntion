@@ -171,7 +171,10 @@ fun Navigation() {
 
         // Support detail
         composable(route = Screen.SupportDetailScreen.route) {
-            SupportDetailScreen(navController = navController)
+            val donationId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
+                key = "donationId"
+            )
+            donationId?.let { it1 -> SupportDetailScreen(navController = navController, donationId = it1) }
         }
 
         // Support Request

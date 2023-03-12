@@ -110,7 +110,7 @@ interface StuntionApi {
     suspend fun searchDonation(@Query("q") query: String): BaseResponse<List<DonationListResponse>>
 
     @GET("/donation/{donation_id}")
-    suspend fun fetchDonationDetail(donationId: String): BaseResponse<DonationResponse>
+    suspend fun fetchDonationDetail(@Path("donation_id") donationId: String): BaseResponse<DonationResponse>
 
     @PUT("/donation/{donation_id}")
     suspend fun updateDonationCurrentValue(@Path("donation_id") donationId: String): BaseResponse<String>
