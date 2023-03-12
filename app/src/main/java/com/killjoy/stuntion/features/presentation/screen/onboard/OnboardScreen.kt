@@ -92,7 +92,12 @@ fun OnboardScreen(navController: NavController) {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                         }
-                    else navController.navigate(Screen.SignupScreen.route)
+                    else {
+                        coroutineScope.launch {
+                            viewModel.saveHaveRunAppBefore()
+                        }
+                        navController.navigate(Screen.SignupScreen.route)
+                    }
                 },
                 modifier = Modifier.width(96.dp)
             ) {

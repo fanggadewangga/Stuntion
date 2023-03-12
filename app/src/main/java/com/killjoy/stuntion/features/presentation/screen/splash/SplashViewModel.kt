@@ -11,8 +11,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
 
-    val uid = MutableStateFlow<String?>("")
+    val uid = MutableStateFlow<String?>(null)
     val isHaveCreatedAccount = MutableStateFlow(false)
+    val isHaveRunAppBefore = MutableStateFlow(false)
     suspend fun readUid() = viewModelScope.launch {
         repository.readUid().collect {
             uid.value = it
@@ -22,6 +23,12 @@ class SplashViewModel @Inject constructor(private val repository: UserRepository
     suspend fun readHaveCreatedAccount() = viewModelScope.launch {
         repository.readHaveCreatedAccount().collect {
             isHaveCreatedAccount.value = it
+        }
+    }
+
+    suspend fun readHaveRunAppBefore() = viewModelScope.launch {
+        repository.readHaveRunAppBefore().collect {
+            isHaveRunAppBefore.value = it
         }
     }
 }

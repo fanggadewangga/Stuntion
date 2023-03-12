@@ -29,6 +29,7 @@ fun SplashScreen(navController: NavController) {
     val viewModel = hiltViewModel<SplashViewModel>()
     val uid = viewModel.uid.collectAsState()
     val isHaveCreatedAccount = viewModel.isHaveCreatedAccount.collectAsState()
+    val isHaveRunAppBefore = viewModel.isHaveRunAppBefore.collectAsState()
 
     LaunchedEffect(key1 = true) {
         viewModel.apply {
@@ -36,13 +37,14 @@ fun SplashScreen(navController: NavController) {
             readHaveCreatedAccount()
         }
         delay(TIME_SPLASH)
-        if (uid.value == "") {
+        if (uid.value.isNullOrEmpty() && isHaveCreatedAccount.value) {
             navController.navigate(Screen.LoginScreen.route) {
                 popUpTo(Screen.SplashScreen.route) {
                     inclusive = true
                 }
             }
-        } else {
+        }
+        else {
             if (isHaveCreatedAccount.value)
                 navController.navigate(Screen.HomeScreen.route) {
                     popUpTo(Screen.SplashScreen.route) {
@@ -50,11 +52,18 @@ fun SplashScreen(navController: NavController) {
                     }
                 }
             else {
-                navController.navigate(Screen.GeneralInformationScreen.route) {
-                    popUpTo(Screen.SplashScreen.route) {
-                        inclusive = true
+                if (isHaveRunAppBefore.value)
+                    navController.navigate(Screen.GeneralInformationScreen.route) {
+                        popUpTo(Screen.SplashScreen.route) {
+                            inclusive = true
+                        }
                     }
-                }
+                else
+                    navController.navigate(Screen.OnboardScreen.route) {
+                        popUpTo(Screen.SplashScreen.route) {
+                            inclusive = true
+                        }
+                    }
             }
         }
     }
