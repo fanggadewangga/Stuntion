@@ -263,7 +263,12 @@ fun ProfileScreen(navController: NavController) {
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
                 ProfileSettingItem(
-                    item = ProfileSetting(icon = R.drawable.ic_setting, title = "Settings"),
+                    item = ProfileSetting(icon = R.drawable.ic_setting, title = "Account Management"),
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+                ProfileSettingItem(
+                    item = ProfileSetting(icon = R.drawable.ic_person, title = "Account Verification"),
                     onClick = { /*TODO*/ },
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )

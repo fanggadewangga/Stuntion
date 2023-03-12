@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -349,8 +351,27 @@ fun HomeScreen(navController: NavController) {
                         )
                     }
 
+                    // Indicator
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp)
+                    ) {
+                        for (i in 1..5) {
+                            Divider(
+                                thickness = 8.dp,
+                                color = if (i <= 1) PrimaryBlue else Color.LightGray,
+                                modifier = Modifier
+                                    .width((LocalConfiguration.current.screenWidthDp * 0.8 / 5).dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                            )
+                            Spacer(modifier = Modifier.width(1.dp))
+                        }
+                    }
+
                     StuntionText(
-                        text = "0 out of 5 actions",
+                        text = "1 out of 5 actions",
                         textStyle = Type.bodySmall(),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                     )
