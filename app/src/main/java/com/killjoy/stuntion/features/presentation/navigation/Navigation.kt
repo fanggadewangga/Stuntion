@@ -108,7 +108,15 @@ fun Navigation() {
         }
 
         composable(route = Screen.AskExpertDetailScreen.route) {
-            AskExpertDetailScreen(navController = navController)
+            val questionId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
+                key = "questionId"
+            )
+            questionId?.let { it1 ->
+                AskExpertDetailScreen(
+                    navController = navController,
+                    questionId = it1
+                )
+            }
         }
 
 
