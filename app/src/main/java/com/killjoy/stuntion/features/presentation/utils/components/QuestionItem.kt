@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.source.remote.api.response.question.QuestionListResponse
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -25,13 +26,7 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun QuestionItem(
     modifier: Modifier = Modifier,
-    title: String,
-    question: String,
-    userName: String,
-    expertName: String,
-    date: String,
-    userAvatarUrl: String,
-    expertAvatarUrl: String,
+    question: QuestionListResponse,
     onClick: () -> Unit,
 ) {
     Column(modifier = modifier
@@ -46,13 +41,13 @@ fun QuestionItem(
                     .height(72.dp)
             ) {
                 AsyncImage(
-                    model = userAvatarUrl,
+                    model = question.userAvatarUrl,
                     contentDescription = "User Avatar",
                     modifier = Modifier
                         .size(64.dp)
                 )
                 AsyncImage(
-                    model = expertAvatarUrl,
+                    model = question.expertAvatarUrl,
                     contentDescription = "Expert Avatar",
                     modifier = Modifier
                         .border(width = 4.dp, color = Color.White, shape = CircleShape)
@@ -65,12 +60,12 @@ fun QuestionItem(
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 // Title
-                StuntionText(text = title, textStyle = Type.titleSmall())
+                StuntionText(text = question.title, textStyle = Type.titleSmall())
 
                 // User's name
                 Spacer(modifier = Modifier.height(2.dp))
                 StuntionText(
-                    text = "By: $userName",
+                    text = "By: ${question.userName}",
                     textStyle = Type.bodySmall(),
                     maxLine = 1,
                     overflow = TextOverflow.Ellipsis
@@ -79,7 +74,7 @@ fun QuestionItem(
                 // Expert's name
                 Spacer(modifier = Modifier.height(2.dp))
                 StuntionText(
-                    text = "Answered by $expertName",
+                    text = "Answered by ${question.expertName}",
                     textStyle = Type.bodySmall(),
                     color = PrimaryBlue,
                     maxLine = 1,
@@ -91,7 +86,7 @@ fun QuestionItem(
         // Question
         Spacer(modifier = Modifier.height(2.dp))
         StuntionText(
-            text = question,
+            text = question.question,
             textStyle = Type.bodyMedium(),
             maxLine = 2,
             overflow = TextOverflow.Ellipsis
@@ -107,7 +102,7 @@ fun QuestionItem(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 StuntionText(
-                    text = date,
+                    text = question.timestamp,
                     textStyle = Type.bodySmall(),
                     color = LightGray
                 )
@@ -118,19 +113,4 @@ fun QuestionItem(
         Spacer(modifier = Modifier.height(8.dp))
         Divider(color = Color.LightGray, modifier = Modifier.fillMaxWidth())
     }
-}
-
-@Preview
-@Composable
-fun QuestionItemPreview() {
-    QuestionItem(
-        title = "How to organize a 5 month old baby's feeding schedule?",
-        question = "Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to Good afternoon, I'm a mother of a 5-month-old baby, when the baby is full, my baby is excited to...",
-        userName = "User",
-        expertName = "dr. Nadia Nurotul Fuadah",
-        date = "1 day ago",
-        userAvatarUrl = "url",
-        expertAvatarUrl = "url",
-        onClick = {}
-    )
 }

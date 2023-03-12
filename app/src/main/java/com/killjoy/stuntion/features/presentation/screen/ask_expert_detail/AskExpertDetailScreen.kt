@@ -282,33 +282,6 @@ fun AskExpertDetailScreen(navController: NavController) {
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
-
-        item {
-            QuestionItem(
-                title = "Tips for dealing with a 2-year-old child who has difficulty",
-                question = "Hello, I have a 2-year-old child, BB is only 12 Kg, my child has been feeling stressed for almost a week ...",
-                userName = "Valenta",
-                expertName = "dr. Leony",
-                date = "5 day ago",
-                userAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/avatar%2Favatar_4.png?alt=media&token=e7b0aabb-3452-409e-9d37-d34f78fe92b6",
-                expertAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2Fsiednji-leon-lnlSIsiSjjc-unsplash.jpg?alt=media&token=a9403851-2e8f-4c11-9f5e-8d7f157777f5",
-                onClick = { navController.navigate(Screen.AskExpertDetailScreen.route) },
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        item {
-            QuestionItem(
-                title = "Foods that can be used to increase a child's height",
-                question = "Afternoon, I am a mother of a 30-month-old toddler.. with a height of only 81 cm and a weight of ...",
-                userName = "Nadine",
-                expertName = "dr. Austin Distel",
-                date = "3 day ago",
-                userAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/avatar%2Favatar_6.png?alt=media&token=799ebf5b-1584-474b-b155-4e97949c0422",
-                expertAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2Faustin-distel-7bMdiIqz_J4-unsplash.jpg?alt=media&token=5e368d4d-4d2f-434a-a5ba-b7182c1c0df4",
-                onClick = { navController.navigate(Screen.AskExpertDetailScreen.route) },
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
     }
 }
 
