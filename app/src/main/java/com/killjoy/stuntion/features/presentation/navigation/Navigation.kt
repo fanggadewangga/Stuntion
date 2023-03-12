@@ -139,7 +139,10 @@ fun Navigation() {
 
         // Expert
         composable(route = Screen.ExpertDetailScreen.route) {
-            ExpertDetailScreen(navController = navController)
+            val expertId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
+                key = "expertId"
+            )
+            expertId?.let { it1 -> ExpertDetailScreen(navController = navController, expertId = it1) }
         }
 
         // Avatar
