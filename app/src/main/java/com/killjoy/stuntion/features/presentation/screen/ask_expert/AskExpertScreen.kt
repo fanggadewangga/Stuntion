@@ -114,10 +114,12 @@ fun AskExpertScreen(navController: NavController) {
                     }
                     is Resource.Success -> {
                         items(
-                            if (viewModel.selectedCategory.value == "All") questionResponse.value.data!!
-                            else questionResponse.value.data!!.filter {
-                                it.categories.contains(viewModel.selectedCategory.value)
-                            }
+                            if (viewModel.selectedCategory.value == "All") questionResponse.value.data!!.shuffled()
+                            else questionResponse.value.data!!
+                                .filter {
+                                    it.categories.contains(viewModel.selectedCategory.value)
+                                }
+                                .shuffled()
                         ) {
                             QuestionItem(
                                 question = it,

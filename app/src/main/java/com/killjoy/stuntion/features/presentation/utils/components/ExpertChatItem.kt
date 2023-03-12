@@ -12,23 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.source.remote.api.response.expert.ExpertListResponse
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.*
 
 @Composable
 fun ExpertChatItem(
-    name: String,
-    avatarUrl: String,
-    category: String,
-    experience: Int,
-    rating: Double,
-    fee: Double,
     modifier: Modifier = Modifier,
+    expert: ExpertListResponse,
     onExpertClicked: () -> Unit,
     onChatClicked: () -> Unit,
 ) {
@@ -42,7 +38,7 @@ fun ExpertChatItem(
             Box {
                 // Image
                 AsyncImage(
-                    model = avatarUrl,
+                    model = expert.avatarUrl,
                     contentDescription = "Expert Image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -84,14 +80,26 @@ fun ExpertChatItem(
             Spacer(modifier = Modifier.width(8.dp))
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 // Name
-                StuntionText(text = name, textStyle = Type.labelLarge())
+                StuntionText(text = expert.name, textStyle = Type.labelLarge())
 
                 // Role
-                StuntionText(
-                    text = category,
-                    textStyle = Type.bodySmall(),
-                    color = LightGray
-                )
+                Row(modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.45).dp)) {
+                    expert.categories.forEachIndexed { index, category ->
+                        StuntionText(
+                            text = category,
+                            textStyle = Type.bodySmall(),
+                            color = LightGray
+                        )
+                        if (index+1 < expert.categories.size)
+                            StuntionText(
+                                text = " - ",
+                                textStyle = Type.bodySmall(),
+                                color = LightGray
+                            )
+                    }
+                }
+
+
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -109,7 +117,7 @@ fun ExpertChatItem(
                             modifier = Modifier.size(16.dp)
                         )
                         StuntionText(
-                            text = "$experience year",
+                            text = "${expert.experienceYear} year",
                             textStyle = Type.bodySmall(),
                             color = Gray,
                             maxLine = 1,
@@ -130,7 +138,7 @@ fun ExpertChatItem(
                             modifier = Modifier.size(16.dp)
                         )
                         StuntionText(
-                            text = rating.toString(),
+                            text = expert.rating.toString(),
                             textStyle = Type.bodySmall(),
                             color = Gray
                         )
@@ -139,7 +147,7 @@ fun ExpertChatItem(
 
                 // Price
                 StuntionText(
-                    text = "IDR $fee",
+                    text = "IDR ${expert.fee}",
                     textStyle = Type.titleSmall(),
                     color = PrimaryBlue
                 )
