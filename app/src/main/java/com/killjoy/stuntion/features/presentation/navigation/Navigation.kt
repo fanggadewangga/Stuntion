@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -134,7 +135,11 @@ fun Navigation() {
             VideosScreen(navController = navController)
         }
         composable(route = Screen.VideoDetailScreen.route) {
-            VideoDetailScreen(navController = navController)
+            val smartstunId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
+                key = "smartstunId"
+            )
+            Log.d("NAVIGATION", smartstunId.toString())
+            smartstunId?.let { it1 -> VideoDetailScreen(navController = navController, smartstunId = it1) }
         }
 
         // Expert

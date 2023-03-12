@@ -471,7 +471,7 @@ fun HomeScreen(navController: NavController) {
                                 article = it,
                                 onClick = {
                                     navController.currentBackStackEntry?.savedStateHandle?.set(
-                                        key = "articleId",
+                                        key = "smartstunId",
                                         value = it.articleId
                                     )
                                     navController.navigate(Screen.VideoDetailScreen.route)
