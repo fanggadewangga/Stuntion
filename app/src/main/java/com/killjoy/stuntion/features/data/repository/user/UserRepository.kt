@@ -143,5 +143,23 @@ class UserRepository @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
 
+    override suspend fun saveUid(uid: String) = datastore.savePrefUid(uid)
+    override suspend fun saveHaveRunAppBefore(isPassedOnboard: Boolean) =
+        datastore.savePrefHaveRunAppBefore(isPassedOnboard)
+
+    override suspend fun saveHaveUpdateGeneralInfo(isHaveUpdateGeneralInfo: Boolean) =
+        datastore.savePrefHaveUpdateGeneralInfo(isHaveUpdateGeneralInfo)
+
+    override suspend fun saveHaveCreatedAccountSuccessfully(isCreatedAccount: Boolean) =
+        datastore.savePrefHaveCreatedAccount(isCreatedAccount)
+
     override suspend fun readUid(): Flow<String?> = datastore.readPrevUid()
+    override suspend fun readHaveRunAppBefore(): Flow<Boolean> =
+        datastore.readPrefHaveRunAppBefore()
+
+    override suspend fun readHaveUpdateGeneralInfo(): Flow<Boolean> =
+        datastore.readPrefHaveEditGeneralInfo()
+
+    override suspend fun readHaveCreatedAccount(): Flow<Boolean> =
+        datastore.readPrefHaveCreatedAccount()
 }

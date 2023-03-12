@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,11 +26,13 @@ import com.killjoy.stuntion.features.presentation.utils.components.StuntionButto
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import kotlinx.coroutines.launch
 
 @Composable
 fun AvatarScreen(navController: NavController) {
     val viewModel = hiltViewModel<AvatarViewModel>()
     val listOfAvatar: List<Avatar> = viewModel.listOfAvatar
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -96,6 +99,9 @@ fun AvatarScreen(navController: NavController) {
                 StuntionButton(
                     onClick = {
                         viewModel.updateUserAvatar()
+                        coroutineScope.launch {
+                            viewModel.saveHaveCreatedAccount()
+                        }
                         navController.navigate(Screen.LocationPermissionScreen.route)
                     }, modifier = Modifier.fillMaxWidth()
                 ) {

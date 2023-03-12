@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -36,6 +37,7 @@ fun OnboardScreen(navController: NavController) {
     )
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
+    val viewModel = hiltViewModel<OnboardViewModel>()
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -43,7 +45,7 @@ fun OnboardScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, top = screenHeight/9, end = 16.dp)
+                .padding(start = 16.dp, top = screenHeight / 9, end = 16.dp)
         ) {
             HorizontalPager(
                 count = pages.size,
@@ -59,7 +61,7 @@ fun OnboardScreen(navController: NavController) {
             pagerState = pagerState,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = screenHeight/5)
+                .padding(bottom = screenHeight / 5)
         )
 
 
@@ -69,7 +71,7 @@ fun OnboardScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
-                .padding(start = 32.dp, end = 32.dp, bottom = screenHeight/10)
+                .padding(start = 32.dp, end = 32.dp, bottom = screenHeight / 10)
         ) {
 
             // Skip
@@ -77,7 +79,10 @@ fun OnboardScreen(navController: NavController) {
                 text = "Skip",
                 color = PrimaryBlue,
                 textStyle = Type.labelLarge(),
-                modifier = Modifier.clickable { })
+                modifier = Modifier.clickable {
+                    navController.navigate(Screen.SignupScreen.route)
+                }
+            )
 
 
             // Next Button

@@ -221,6 +221,7 @@ fun GeneralInformationScreen(navController: NavController) {
                 StuntionButton(
                     onClick = {
                         viewModel.updateUserGeneralInformation()
+                        navController.navigate(Screen.AvatarScreen.route)
                     }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(
