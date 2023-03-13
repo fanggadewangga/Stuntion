@@ -162,4 +162,8 @@ class UserRepository @Inject constructor(
 
     override suspend fun readHaveCreatedAccount(): Flow<Boolean> =
         datastore.readPrefHaveCreatedAccount()
+
+    override suspend fun deleteUid() {
+        datastore.deleteUid()
+    }
 }

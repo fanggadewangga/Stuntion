@@ -32,6 +32,7 @@ import com.killjoy.stuntion.features.presentation.screen.healthy_tips.HealthyTip
 import com.killjoy.stuntion.features.presentation.screen.home.HomeScreen
 import com.killjoy.stuntion.features.presentation.screen.location_permission.LocationPermissionScreen
 import com.killjoy.stuntion.features.presentation.screen.my_healthy_tips.MyHealthyTipsScreen
+import com.killjoy.stuntion.features.presentation.screen.notification.NotificationScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
 import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.question.QuestionScreen
@@ -273,6 +274,11 @@ fun Navigation() {
         // Reward
         composable(route = Screen.RewardScreen.route) {
             RewardScreen(navController = navController)
+        }
+        
+        // Notification
+        composable(route = Screen.NotificationScreen.route) {
+            NotificationScreen(navController = navController)
         }
     }
 }

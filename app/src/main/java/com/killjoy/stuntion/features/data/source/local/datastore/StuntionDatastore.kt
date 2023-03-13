@@ -52,4 +52,8 @@ class StuntionDatastore @Inject constructor(context: Context) {
     fun readPrefHaveCreatedAccount() = stuntionDatastore.data.map {
         it[DatastoreUtil.HAVE_CREATE_ACCOUNT_SUCCESSFULLY] ?: false
     }
+
+    suspend fun deleteUid() = stuntionDatastore.edit {
+        it.remove(DatastoreUtil.UID_PREF_KEY)
+    }
 }

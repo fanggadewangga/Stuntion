@@ -20,4 +20,6 @@ interface IUserRepository {
     suspend fun readHaveRunAppBefore(): Flow<Boolean>
     suspend fun readHaveUpdateGeneralInfo(): Flow<Boolean>
     suspend fun readHaveCreatedAccount(): Flow<Boolean>
+
+    suspend fun deleteUid()
 }

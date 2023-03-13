@@ -5,6 +5,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -104,11 +105,31 @@ fun HomeScreen(navController: NavController) {
                         )
 
                         // Notification item
-                        Image(
-                            imageVector = Icons.Default.Notifications,
-                            contentDescription = "Notification icon",
-                            colorFilter = ColorFilter.tint(Color.White)
-                        )
+                        Box(modifier = Modifier.clickable { navController.navigate(Screen.NotificationScreen.route) }) {
+                            Image(
+                                imageVector = Icons.Default.Notifications,
+                                contentDescription = "Notification icon",
+                                colorFilter = ColorFilter.tint(Color.White),
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .size(16.dp)
+                                    .background(
+                                        color = Color.Red,
+                                        shape = CircleShape
+                                    )
+                                    .align(Alignment.TopEnd)
+                            ) {
+                                StuntionText(
+                                    text = "3",
+                                    color = Color.White,
+                                    textStyle = Type.bodySmall()
+                                )
+                            }
+                        }
+
                     }
 
                     // Name
@@ -506,10 +527,4 @@ fun HomeScreen(navController: NavController) {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun HomePreview() {
-    HomeScreen(navController = rememberNavController())
 }

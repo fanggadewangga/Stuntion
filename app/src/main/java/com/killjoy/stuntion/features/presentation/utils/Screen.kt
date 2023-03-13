@@ -87,4 +87,7 @@ sealed class Screen(val route: String) {
 
     // Reward
     object RewardScreen : Screen("reward_screen")
+
+    // Notification
+    object NotificationScreen : Screen("notification_screen")
 }
