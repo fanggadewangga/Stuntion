@@ -53,8 +53,8 @@ fun NotificationScreen(navController: NavController) {
         // Notifications
         NotificationItem(
             imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/notification%2Fcheck%20notification.jpg?alt=media&token=85195a96-0b18-4c9c-b5ff-8384a1f509a7",
-            title = "Please check up your baby again with Check Stunting",
-            description = "to find out the condition of your baby's growth",
+            title = "Check up your baby!",
+            description = "Please check up your baby again with Check Stunting to to monitor the baby's growth",
             time = 9,
             modifier = Modifier
                 .fillMaxWidth()
@@ -62,8 +62,8 @@ fun NotificationScreen(navController: NavController) {
         )
         NotificationItem(
             imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/donation%2FBaby%20Formula%20Milk.jpg?alt=media&token=2674909b-2401-47c6-8abf-3a161aceb141",
-            title = "Your request for help is being processed",
-            description = "Pending further notification",
+            title = "Your Request for help",
+            description = "Your request for help is being processed pending further notification",
             time = 10,
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,8 +71,8 @@ fun NotificationScreen(navController: NavController) {
         )
         NotificationItem(
             imageUrl = "https://firebasestorage.googleapis.com/v0/b/stuntion-a32cc.appspot.com/o/expert%2FDavid%20Kim.jpg?alt=media&token=ce8e7ae8-3977-46e0-bc08-b97331d0be52",
-            title = "Your payment has been successfully made",
-            description = "Please chat with the health professional of your choice",
+            title = "Private Consultation",
+            description = "Your payment has been successfully made, please chat with the health professional",
             time = 12,
             modifier = Modifier
                 .fillMaxWidth()

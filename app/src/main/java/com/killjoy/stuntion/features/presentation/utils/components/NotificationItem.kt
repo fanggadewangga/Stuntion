@@ -59,7 +59,7 @@ fun NotificationItem(
             StuntionText(
                 text = description,
                 textStyle = Type.bodyMedium(),
-                maxLine = 1,
+                maxLine = 2,
                 overflow = TextOverflow.Ellipsis
             )
 
