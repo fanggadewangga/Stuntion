@@ -117,7 +117,7 @@ interface StuntionApi {
 
     // Note
     @POST("/user/{uid}/note")
-    suspend fun postNewNote(@Path("uid") uid: String, body: NoteBody): BaseResponse<String>
+    suspend fun postNewNote(@Path("uid") uid: String, @Body body: NoteBody): BaseResponse<String>
 
     @GET("/user/{uid}/note")
     suspend fun fetchNoteByUser(@Path("uid") uid: String): BaseResponse<List<NoteResponse>>

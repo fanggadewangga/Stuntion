@@ -195,3 +195,31 @@ fun countIdealWeight(birthDate: String): Double {
         return (ageInYear * 2.0 + 8)
     return 0.0
 }
+
+fun countIdealHeight(
+    birthDate: String,
+    gender: String,
+): Double {
+
+    val ageInYear = countPeriod(birthDate)
+
+    return if (gender.equals("Male", ignoreCase = true)) {
+        when (ageInYear) {
+            1 -> 75.0
+            2 -> 87.0
+            3 -> 89.0
+            4 -> 90.5
+            5 -> 91.5
+            else -> 0.0
+        }
+    } else {
+        when (ageInYear) {
+            1 -> 74.0
+            2 -> 86.0
+            3 -> 88.5
+            4 -> 89.5
+            5 -> 90.5
+            else -> 0.0
+        }
+    }
+}

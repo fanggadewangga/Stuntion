@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.child_profile
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.utils.*
 import com.killjoy.stuntion.features.presentation.utils.components.ChildProfileSectionItem
@@ -35,6 +38,7 @@ import com.killjoy.stuntion.ui.theme.Type
 fun ChildProfileScreen(navController: NavController, child: Child) {
     val context = LocalContext.current
     val viewModel = hiltViewModel<ChildProfileViewModel>()
+    val postNoteResponse = viewModel.postNoteResponse.collectAsState()
 
     LaunchedEffect(key1 = true) {
         viewModel.apply {
@@ -42,6 +46,7 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
             ageInMonth.value = countPeriod(child.birthDate, showMonth = true)
             ageInDay.value = countPeriod(child.birthDate, showDay = true)
             idealWeight.value = countIdealWeight(child.birthDate)
+            idealHeight.value = countIdealHeight(birthDate = child.birthDate, gender = child.gender)
             heightDescription.value = countZScoreByHeight(
                 context = context,
                 birthDate = child.birthDate,
@@ -55,6 +60,13 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                 weight = child.weight
             )
         }
+    }
+
+    when (postNoteResponse.value) {
+        is Resource.Loading -> Log.d("POST NOTE", "Loading")
+        is Resource.Error -> Log.d("POST NOTE", postNoteResponse.value.message.toString())
+        is Resource.Empty -> Log.d("POST NOTE", postNoteResponse.value.message.toString())
+        is Resource.Success -> Log.d("POST NOTE", postNoteResponse.value.message.toString())
     }
 
     Column(
@@ -233,7 +245,14 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                     backgroundColor = PrimaryBlue,
                     contentPadding = PaddingValues(vertical = 12.dp),
                     onClick = {
-
+                        viewModel.postNewNote(
+                            childName = child.name,
+                            gender = child.gender,
+                            height = child.height,
+                            weight = child.weight,
+                            birthday = child.birthDate
+                        )
+                        navController.navigate(Screen.CheckScreen.route)
                     },
                     modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.44).dp)
                 ) {
@@ -278,7 +297,7 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                             StuntionText(text = "Ideal height ", textStyle = Type.titleSmall())
                             StuntionText(text = "around ", textStyle = Type.bodyMedium())
                             StuntionText(
-                                text = "88.0 cm",
+                                text = "${viewModel.idealHeight.value} cm",
                                 textStyle = Type.titleSmall()
                             )
                         }
@@ -395,11 +414,5 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun ChildProfileScreenPreview() {
-
 }
 

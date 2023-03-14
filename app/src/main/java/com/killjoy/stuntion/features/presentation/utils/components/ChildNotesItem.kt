@@ -1,6 +1,7 @@
 package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -11,16 +12,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.source.remote.api.response.note.NoteResponse
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun ChildNotesItem(modifier: Modifier = Modifier) {
+fun ChildNotesItem(modifier: Modifier = Modifier, note: NoteResponse, onClick: () -> Unit) {
     Card(
         elevation = 8.dp,
         shape = RoundedCornerShape(16.dp),
-        modifier = modifier
+        modifier = modifier.clickable { onClick() }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -48,11 +50,11 @@ fun ChildNotesItem(modifier: Modifier = Modifier) {
 
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 // Name
-                StuntionText(text = "Hanna Adriana", textStyle = Type.titleSmall())
+                StuntionText(text = note.childName, textStyle = Type.titleSmall())
 
                 // Date
                 StuntionText(
-                    text = "March 03, 2023",
+                    text = note.timestamp,
                     textStyle = Type.bodySmall(),
                     color = Color.Gray
                 )

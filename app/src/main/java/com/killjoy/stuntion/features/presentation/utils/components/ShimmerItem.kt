@@ -1,6 +1,7 @@
 package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -22,6 +23,8 @@ import coil.compose.AsyncImage
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
+import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.source.remote.api.response.note.NoteResponse
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.*
 
@@ -771,6 +774,83 @@ fun QuestionItemShimmer(modifier: Modifier = Modifier) {
                     text = "Question date",
                     textStyle = Type.bodySmall(),
                     color = LightGray
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ChildNotesItemShimmer(modifier: Modifier = Modifier) {
+    Card(
+        elevation = 8.dp,
+        shape = RoundedCornerShape(16.dp),
+        modifier = modifier
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+        ) {
+
+            // Icon
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(color = LightBlue, shape = RoundedCornerShape(8.dp))
+                    .placeholder(
+                        visible = true,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(16.dp),
+                        highlight = PlaceholderHighlight
+                            .shimmer(highlightColor = Color.White),
+                    )
+            ) {
+                AsyncImage(
+                    model = R.drawable.ic_age,
+                    contentDescription = "Age icon",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(horizontal = 6.dp, vertical = 4.dp)
+                        .placeholder(
+                            visible = true,
+                            color = Color.LightGray,
+                            shape = RoundedCornerShape(16.dp),
+                            highlight = PlaceholderHighlight
+                                .shimmer(highlightColor = Color.White),
+                        )
+                )
+            }
+
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                // Name
+                StuntionText(
+                    text = "Child name",
+                    textStyle = Type.titleSmall(),
+                    modifier = Modifier.placeholder(
+                        visible = true,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(16.dp),
+                        highlight = PlaceholderHighlight
+                            .shimmer(highlightColor = Color.White),
+                    )
+                )
+
+                // Date
+                StuntionText(
+                    text = "Notes timestamp",
+                    textStyle = Type.bodySmall(),
+                    color = Color.Gray,
+                    modifier = Modifier.placeholder(
+                        visible = true,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(16.dp),
+                        highlight = PlaceholderHighlight
+                            .shimmer(highlightColor = Color.White),
+                    )
                 )
             }
         }

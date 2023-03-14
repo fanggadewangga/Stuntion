@@ -75,6 +75,7 @@ sealed class Screen(val route: String) {
 
     // Child Notes
     object ChildNotesScreen : Screen("child_notes_screen")
+    object ChildNotesDetailScreen : Screen("child_notes_detail_screen")
 
     // Activity List
     object ActivityListScreen : Screen("activity_list_screen")

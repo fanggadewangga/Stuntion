@@ -24,6 +24,7 @@ import com.killjoy.stuntion.features.presentation.screen.chat.ChatRoomScreen
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
 import com.killjoy.stuntion.features.presentation.screen.check.CheckScreen
 import com.killjoy.stuntion.features.presentation.screen.check.CheckTutorialScreen
+import com.killjoy.stuntion.features.presentation.screen.child_notes.detail.ChildNotesDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.child_notes.notes.ChildNotesScreen
 import com.killjoy.stuntion.features.presentation.screen.child_profile.ChildProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.consultation.ConsultationScreen
@@ -141,7 +142,12 @@ fun Navigation() {
                 key = "smartstunId"
             )
             Log.d("NAVIGATION", smartstunId.toString())
-            smartstunId?.let { it1 -> VideoDetailScreen(navController = navController, smartstunId = it1) }
+            smartstunId?.let { it1 ->
+                VideoDetailScreen(
+                    navController = navController,
+                    smartstunId = it1
+                )
+            }
         }
 
         // Expert
@@ -149,7 +155,12 @@ fun Navigation() {
             val expertId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
                 key = "expertId"
             )
-            expertId?.let { it1 -> ExpertDetailScreen(navController = navController, expertId = it1) }
+            expertId?.let { it1 ->
+                ExpertDetailScreen(
+                    navController = navController,
+                    expertId = it1
+                )
+            }
         }
 
         // Avatar
@@ -181,7 +192,12 @@ fun Navigation() {
             val donationId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
                 key = "donationId"
             )
-            donationId?.let { it1 -> SupportDetailScreen(navController = navController, donationId = it1) }
+            donationId?.let { it1 ->
+                SupportDetailScreen(
+                    navController = navController,
+                    donationId = it1
+                )
+            }
         }
 
         // Support Request
@@ -261,6 +277,17 @@ fun Navigation() {
         composable(route = Screen.ChildNotesScreen.route) {
             ChildNotesScreen(navController = navController)
         }
+        composable(route = Screen.ChildNotesDetailScreen.route) {
+            val noteId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
+                key = "noteId"
+            )
+            noteId?.let { it1 ->
+                ChildNotesDetailScreen(
+                    navController = navController,
+                    noteId = it1
+                )
+            }
+        }
 
         // My Healthy Tips
         composable(route = Screen.MyHealthyTipsScreen.route) {
@@ -276,7 +303,7 @@ fun Navigation() {
         composable(route = Screen.RewardScreen.route) {
             RewardScreen(navController = navController)
         }
-        
+
         // Notification
         composable(route = Screen.NotificationScreen.route) {
             NotificationScreen(navController = navController)
