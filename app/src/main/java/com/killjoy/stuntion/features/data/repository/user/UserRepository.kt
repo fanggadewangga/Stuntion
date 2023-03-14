@@ -11,10 +11,7 @@ import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseDataSou
 import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseResponse
 import com.killjoy.stuntion.features.data.util.Resource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -142,6 +139,25 @@ class UserRepository @Inject constructor(
                 Log.d("UPDATE USER AVATAR: ", e.message.toString())
             }
         }.flowOn(Dispatchers.IO)
+
+    override suspend fun logout(): Flow<Resource<String>> =
+        channelFlow {
+            send(Resource.Loading())
+            firebaseDataSource.logout().collect { response ->
+                when (response) {
+                    is FirebaseResponse.Error -> send(Resource.Error(response.errorMessage))
+                    is FirebaseResponse.Empty -> send(Resource.Empty())
+                    is FirebaseResponse.Success -> {
+                        try {
+                            datastore.deleteUid()
+                            send(Resource.Success("Logout Success"))
+                        } catch (e: Exception) {
+                            send(Resource.Error(e.message.toString()))
+                        }
+                    }
+                }
+            }
+        }
 
     override suspend fun saveUid(uid: String) = datastore.savePrefUid(uid)
     override suspend fun saveHaveRunAppBefore(isPassedOnboard: Boolean) =

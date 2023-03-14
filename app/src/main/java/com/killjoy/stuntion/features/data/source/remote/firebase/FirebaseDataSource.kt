@@ -56,4 +56,13 @@ class FirebaseDataSource @Inject constructor(
     }.catch {
         emit(FirebaseResponse.Error(it.message.toString()))
     }
+
+    fun logout(): Flow<FirebaseResponse<String>> = flow {
+        try {
+            firebaseAuth.signOut()
+            emit(FirebaseResponse.Success("Logout Success!"))
+        } catch (e: Exception) {
+            emit(FirebaseResponse.Error(e.message.toString()))
+        }
+    }
 }

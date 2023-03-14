@@ -58,7 +58,6 @@ fun ProfileScreen(navController: NavController) {
             is Resource.Error -> ErrorLayout()
             is Resource.Empty -> ErrorLayout("Something went wrong")
             is Resource.Success -> {
-                Log.d("SUCCESS", userResponse.value.data!!.xp.toString())
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
@@ -260,7 +259,9 @@ fun ProfileScreen(navController: NavController) {
                             onClick = {
                                 navController.navigate(Screen.ChildNotesScreen.route)
                             },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                         ProfileSettingItem(
                             item = ProfileSetting(
@@ -270,7 +271,9 @@ fun ProfileScreen(navController: NavController) {
                             onClick = {
                                 navController.navigate(Screen.ActivityListScreen.route)
                             },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                         ProfileSettingItem(
                             item = ProfileSetting(
@@ -278,7 +281,9 @@ fun ProfileScreen(navController: NavController) {
                                 title = "Favorite Experts"
                             ),
                             onClick = { /*TODO*/ },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                     }
 
@@ -298,15 +303,19 @@ fun ProfileScreen(navController: NavController) {
                             onClick = {
                                 navController.navigate(Screen.RewardScreen.route)
                             },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                         ProfileSettingItem(
                             item = ProfileSetting(
                                 icon = R.drawable.ic_setting,
                                 title = "Account Management"
                             ),
-                            onClick = { /*TODO*/ },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            onClick = { navController.navigate(Screen.AccountManagementScreen.route) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                         ProfileSettingItem(
                             item = ProfileSetting(
@@ -314,7 +323,9 @@ fun ProfileScreen(navController: NavController) {
                                 title = "Account Verification"
                             ),
                             onClick = { /*TODO*/ },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                         ProfileSettingItem(
                             item = ProfileSetting(
@@ -322,7 +333,9 @@ fun ProfileScreen(navController: NavController) {
                                 title = "Payment Methods"
                             ),
                             onClick = { /*TODO*/ },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                     }
 
@@ -340,7 +353,9 @@ fun ProfileScreen(navController: NavController) {
                                 title = "Term & Privacy"
                             ),
                             onClick = { /*TODO*/ },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                         ProfileSettingItem(
                             item = ProfileSetting(
@@ -348,22 +363,28 @@ fun ProfileScreen(navController: NavController) {
                                 title = "Rate Stuntion App"
                             ),
                             onClick = { /*TODO*/ },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                         ProfileSettingItem(
                             item = ProfileSetting(icon = R.drawable.ic_help, title = "Help Centre"),
                             onClick = { /*TODO*/ },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                         ProfileSettingItem(
                             item = ProfileSetting(icon = R.drawable.ic_about, title = "About Us"),
                             onClick = { /*TODO*/ },
-                            modifier = Modifier.padding(
-                                start = 16.dp,
-                                top = 8.dp,
-                                end = 16.dp,
-                                bottom = (LocalConfiguration.current.screenWidthDp / 6).dp
-                            )
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = 16.dp,
+                                    top = 8.dp,
+                                    end = 16.dp,
+                                    bottom = (LocalConfiguration.current.screenWidthDp / 6).dp
+                                )
                         )
                     }
                 }

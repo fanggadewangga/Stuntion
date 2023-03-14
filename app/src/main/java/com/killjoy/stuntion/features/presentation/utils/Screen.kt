@@ -90,4 +90,7 @@ sealed class Screen(val route: String) {
 
     // Notification
     object NotificationScreen : Screen("notification_screen")
+
+    // Account Management
+    object AccountManagementScreen : Screen("account_management_screen")
 }

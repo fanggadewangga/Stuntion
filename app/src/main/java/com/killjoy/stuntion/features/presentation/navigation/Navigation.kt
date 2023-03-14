@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.killjoy.stuntion.features.domain.model.child.Child
+import com.killjoy.stuntion.features.presentation.screen.account_management.AccountManagementScreen
 import com.killjoy.stuntion.features.presentation.screen.activity_list.ActivityListScreen
 import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.video.detail.VideoDetailScreen
@@ -279,6 +280,11 @@ fun Navigation() {
         // Notification
         composable(route = Screen.NotificationScreen.route) {
             NotificationScreen(navController = navController)
+        }
+
+        // Account Management
+        composable(route = Screen.AccountManagementScreen.route) {
+            AccountManagementScreen(navController = navController)
         }
     }
 }
