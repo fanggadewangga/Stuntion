@@ -1,11 +1,18 @@
 package com.killjoy.stuntion.features.presentation.screen.healthy_tips
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -65,87 +72,126 @@ fun HealthyTipsDetailScreen(navController: NavController) {
 
         // Age
         item {
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(horizontal = 16.dp)
+            Card(
+                shape = RoundedCornerShape(16.dp),
+                elevation = 4.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             ) {
-                AsyncImage(
-                    model = R.drawable.ic_age,
-                    contentDescription = "Baby icon",
-                    modifier = Modifier.size(20.dp)
-                )
-                StuntionText(text = "Age", textStyle = Type.labelLarge())
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 16.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        AsyncImage(
+                            model = R.drawable.ic_age,
+                            contentDescription = "Baby icon",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        StuntionText(text = "Age", textStyle = Type.labelLarge())
+                    }
+                    StuntionText(
+                        text = "0.5 - 4 Years",
+                        textStyle = Type.bodyMedium(),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
             }
-        }
-        item {
-            StuntionText(
-                text = "0.5 - 4 Years",
-                textStyle = Type.bodyMedium(),
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
         }
 
         // Material
         item {
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(start = 16.dp)
+            Card(
+                shape = RoundedCornerShape(16.dp),
+                elevation = 4.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             ) {
-                AsyncImage(
-                    model = R.drawable.ic_material,
-                    contentDescription = "Material icon",
-                    modifier = Modifier.size(20.dp)
-                )
-                StuntionText(text = "Material", textStyle = Type.labelLarge())
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 16.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.padding(start = 16.dp)
+                    ) {
+                        AsyncImage(
+                            model = R.drawable.ic_material,
+                            contentDescription = "Material icon",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        StuntionText(text = "Material", textStyle = Type.labelLarge())
+                    }
+                    StuntionText(
+                        text = "Formula milk",
+                        textStyle = Type.bodyMedium(),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
             }
-        }
-        item {
-            StuntionText(
-                text = "Formula milk",
-                textStyle = Type.bodyMedium(),
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
         }
 
         // Instruction
         item {
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(horizontal = 16.dp)
+            Card(
+                shape = RoundedCornerShape(16.dp),
+                elevation = 4.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             ) {
-                AsyncImage(
-                    model = R.drawable.ic_instruction,
-                    contentDescription = "Instruction icon",
-                    modifier = Modifier.size(20.dp)
-                )
-                StuntionText(text = "Material", textStyle = Type.labelLarge())
-            }
-        }
-        itemsIndexed(
-            items = listOf(
-                "Wash your hands thoroughly with soap and water.",
-                "Sterilize all the equipment, including the bottle, nipple, and any other utensils, according to the manufacturer's instructions.",
-                "Boil water and let it cool down to the recommended temperature. Check the instructions on the formula milk package for the exact temperature.",
-                "Pour the correct amount of water into the sterilized bottle.",
-                "Add the correct amount of formula milk powder to the water in the bottle. Make sure to use the scoop that comes with the formula, and level it off with a clean knife.",
-                "Feed your baby the prepared formula milk immediately.",
-                "If your baby doesn't finish the bottle, discard any remaining formula milk within one hour of preparation.",
-            )
-        ) { index, instruction ->
-            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                StuntionText(
-                    text = "${index + 1}.",
-                    textStyle = Type.bodyMedium(),
-                    modifier = Modifier.padding(start = 18.dp)
-                )
-                StuntionText(
-                    text = instruction,
-                    textStyle = Type.bodyMedium(),
-                    modifier = Modifier.padding(end = 16.dp)
-                )
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 16.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        AsyncImage(
+                            model = R.drawable.ic_instruction,
+                            contentDescription = "Instruction icon",
+                            modifier = Modifier.size(26.dp)
+                        )
+                        StuntionText(text = "Instruction", textStyle = Type.labelLarge())
+                    }
+                    viewModel.instructions.forEachIndexed { index, instruction ->
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                        ) {
+                            Row(
+                                verticalAlignment = CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            ) {
+                                Box(
+                                    contentAlignment = Center,
+                                    modifier = Modifier
+                                        .size(24.dp)
+                                        .background(color = PrimaryBlue, shape = CircleShape)
+                                ) {
+                                    StuntionText(
+                                        text = "${index + 1}",
+                                        color = Color.White,
+                                        textStyle = Type.labelMedium(),
+                                    )
+                                }
+                                StuntionText(
+                                    text = instruction,
+                                    textStyle = Type.bodyMedium(),
+                                    modifier = Modifier.padding(start = 6.dp)
+                                )
+                            }
+                            if (index < viewModel.instructions.size-1)
+                                Divider(color = Color.LightGray, modifier = Modifier.fillMaxWidth())
+                        }
+                    }
+                }
             }
         }
 
