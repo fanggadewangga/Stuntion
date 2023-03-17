@@ -17,6 +17,7 @@ import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ChildNotesItem
 import com.killjoy.stuntion.features.presentation.utils.components.ChildNotesItemShimmer
+import com.killjoy.stuntion.features.presentation.utils.components.EmptyActivityScreen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
 
 @Composable
@@ -57,21 +58,24 @@ fun ChildNotesScreen(navController: NavController) {
             is Resource.Error -> Log.d("FETCH NOTES ERROR", notesResponse.value.message.toString())
             is Resource.Empty -> Log.d("FETCH NOTES ERROR", notesResponse.value.message.toString())
             is Resource.Success -> {
-                items(viewModel.noteResponse.value.data!!) {
-                    ChildNotesItem(
-                        note = it,
-                        onClick = {
-                            navController.currentBackStackEntry?.savedStateHandle?.set(
-                                key = "noteId",
-                                value = it.noteId
-                            )
-                            navController.navigate(Screen.ChildNotesDetailScreen.route)
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 6.dp)
-                    )
-                }
+                val notes = viewModel.noteResponse.value.data!!
+                if (notes.isEmpty()) item { EmptyActivityScreen() }
+                else
+                    items(notes) {
+                        ChildNotesItem(
+                            note = it,
+                            onClick = {
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    key = "noteId",
+                                    value = it.noteId
+                                )
+                                navController.navigate(Screen.ChildNotesDetailScreen.route)
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 6.dp)
+                        )
+                    }
             }
         }
     }

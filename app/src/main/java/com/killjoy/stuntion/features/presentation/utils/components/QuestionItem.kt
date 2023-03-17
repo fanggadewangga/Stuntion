@@ -13,7 +13,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
@@ -46,15 +45,16 @@ fun QuestionItem(
                     modifier = Modifier
                         .size(64.dp)
                 )
-                AsyncImage(
-                    model = question.expertAvatarUrl,
-                    contentDescription = "Expert Avatar",
-                    modifier = Modifier
-                        .border(width = 4.dp, color = Color.White, shape = CircleShape)
-                        .clip(CircleShape)
-                        .size(40.dp)
-                        .align(Alignment.BottomEnd)
-                )
+                if (!question.expertAvatarUrl.isNullOrEmpty())
+                    AsyncImage(
+                        model = question.expertAvatarUrl,
+                        contentDescription = "Expert Avatar",
+                        modifier = Modifier
+                            .border(width = 4.dp, color = Color.White, shape = CircleShape)
+                            .clip(CircleShape)
+                            .size(40.dp)
+                            .align(Alignment.BottomEnd)
+                    )
             }
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -72,14 +72,16 @@ fun QuestionItem(
                 )
 
                 // Expert's name
-                Spacer(modifier = Modifier.height(2.dp))
-                StuntionText(
-                    text = "Answered by ${question.expertName}",
-                    textStyle = Type.bodySmall(),
-                    color = PrimaryBlue,
-                    maxLine = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (!question.expertName.isNullOrEmpty()) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                    StuntionText(
+                        text = "Answered by ${question.expertName}",
+                        textStyle = Type.bodySmall(),
+                        color = PrimaryBlue,
+                        maxLine = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         }
 
