@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.killjoy.stuntion.features.data.source.remote.api.response.task.TaskListResponse
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -23,11 +23,10 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun HealthyTipsItem(
     modifier: Modifier = Modifier,
-    title: String,
-    isDone: Boolean = false,
+    tips : TaskListResponse,
     onClick: () -> Unit,
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = modifier) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -39,7 +38,7 @@ fun HealthyTipsItem(
                 }
         ) {
             Checkbox(
-                checked = isDone,
+                checked = tips.done,
                 onCheckedChange = {},
                 colors = CheckboxDefaults.colors(
                     checkmarkColor = Color.White,
@@ -48,7 +47,7 @@ fun HealthyTipsItem(
             )
             Spacer(modifier = Modifier.width(4.dp))
             StuntionText(
-                text = title,
+                text = tips.task,
                 textStyle = Type.labelLarge(),
                 modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.66).dp)
             )
@@ -64,9 +63,4 @@ fun HealthyTipsItem(
         }
         Divider(color = Color.LightGray, modifier = modifier)
     }
-}
-
-@Preview
-@Composable
-fun HealthyTipsItemPreview() {
 }

@@ -15,11 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.domain.model.child.Child
@@ -28,7 +26,6 @@ import com.killjoy.stuntion.features.presentation.utils.components.MultipleChoic
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionStepper
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
-import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.LighterGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -116,7 +113,12 @@ fun QuestionScreen(navController: NavController, child: Child) {
             listOfAnswer.forEach {
                 StuntionButton(
                     onClick = {
-
+                        if (currentStep.value < listOfQuestions.size)
+                            currentStep.value += 1
+                        else {
+                            val childJson = Uri.encode(Gson().toJson(child))
+                            navController.navigate("${Screen.ChildProfileScreen.route}/$childJson")
+                        }
                     },
                     backgroundColor = LighterGray,
                     contentAlignment = Alignment.CenterStart,
@@ -156,10 +158,4 @@ fun QuestionScreen(navController: NavController, child: Child) {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun QuestionPreview() {
-
 }

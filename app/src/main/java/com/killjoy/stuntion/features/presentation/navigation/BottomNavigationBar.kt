@@ -73,6 +73,7 @@ fun BottomNavigationBar(navController: NavController) {
                 selected = currentRoute == item.route,
                 selectedContentColor = PrimaryBlue,
                 unselectedContentColor = Color.LightGray,
+                enabled = currentRoute != item.route,
                 modifier = Modifier.height(56.dp)
             )
         }

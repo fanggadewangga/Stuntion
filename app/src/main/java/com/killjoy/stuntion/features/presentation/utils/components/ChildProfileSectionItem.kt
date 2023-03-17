@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +33,7 @@ fun ChildProfileSectionItem(
 ) {
 
     val isExpanded = remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
 
     Card(shape = RoundedCornerShape(16.dp), elevation = 4.dp, modifier = modifier) {
@@ -51,7 +52,7 @@ fun ChildProfileSectionItem(
                     StuntionText(text = title, textStyle = Type.titleMedium())
                 }
                 Image(
-                    imageVector = if (isExpanded.value) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                    imageVector = if (isExpanded.value) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowLeft,
                     contentDescription = "Arrow",
                     colorFilter = ColorFilter.tint(Color.Black),
                     modifier = Modifier

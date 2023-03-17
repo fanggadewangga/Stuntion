@@ -265,7 +265,10 @@ fun Navigation() {
 
         // Healthy tips
         composable(route = Screen.HealthyTipsDetailScreen.route) {
-            HealthyTipsDetailScreen(navController = navController)
+            val taskId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
+                key = "taskId"
+            )
+            taskId?.let { it1 -> HealthyTipsDetailScreen(navController = navController, taskId = it1) }
         }
 
         // Activity List

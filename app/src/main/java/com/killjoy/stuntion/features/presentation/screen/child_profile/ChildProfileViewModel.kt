@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.killjoy.stuntion.features.data.repository.note.NoteRepository
+import com.killjoy.stuntion.features.data.repository.task.TaskRepository
 import com.killjoy.stuntion.features.data.repository.user.UserRepository
 import com.killjoy.stuntion.features.data.source.remote.api.response.note.NoteBody
+import com.killjoy.stuntion.features.data.source.remote.api.response.task.TaskListResponse
 import com.killjoy.stuntion.features.data.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +22,7 @@ import javax.inject.Inject
 class ChildProfileViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
     private val userRepository: UserRepository,
+    private val taskRepository: TaskRepository,
 ) : ViewModel() {
     val ageInYear = mutableStateOf(0)
     val ageInMonth = mutableStateOf(0)
@@ -28,8 +31,13 @@ class ChildProfileViewModel @Inject constructor(
     val idealHeight = mutableStateOf(0.0)
     val heightDescription = mutableStateOf("")
     val weightDescription = mutableStateOf("")
+
     private val _postNoteResponse = MutableStateFlow<Resource<String>>(Resource.Empty())
     val postNoteResponse = _postNoteResponse.asStateFlow()
+
+    private val _fetchTaskResponse = MutableStateFlow<Resource<List<TaskListResponse>>>(Resource.Loading())
+    val fetchTaskResponse = _fetchTaskResponse.asStateFlow()
+
 
     fun postNewNote(
         childName: String,
@@ -60,6 +68,16 @@ class ChildProfileViewModel @Inject constructor(
                     _postNoteResponse.value = it
                 }
             }
+        }
+    }
+
+    fun fetchTask() {
+        viewModelScope.launch {
+            val uid = userRepository.readUid().first()
+            if (uid != null)
+                taskRepository.fetchTaskByUser(uid).collect {
+                    _fetchTaskResponse.value = it
+                }
         }
     }
 }

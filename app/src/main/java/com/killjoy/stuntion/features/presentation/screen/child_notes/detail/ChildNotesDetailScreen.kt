@@ -354,41 +354,7 @@ fun ChildNotesDetailScreen(navController: NavController, noteId: String) {
                         title = "Healthy Tips",
                         visibleContent = {
                             Column {
-                                HealthyTipsItem(
-                                    title = "Give your baby a drink with formula milk that contains high calcium",
-                                    isDone = false,
-                                    onClick = {
-                                        navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                                    },
-                                )
-                                HealthyTipsItem(
-                                    title = "Invite children to do simple jobs such as cleaning desks, tidying up toys, sweeping and so on",
-                                    isDone = false,
-                                    onClick = {
-                                        navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                                    },
-                                )
-                                HealthyTipsItem(
-                                    title = "Teach children to scribble on paper",
-                                    isDone = false,
-                                    onClick = {
-                                        navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                                    },
-                                )
-                                HealthyTipsItem(
-                                    title = "Show and name the body parts of the child. Ask the child to say again",
-                                    isDone = false,
-                                    onClick = {
-                                        navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                                    },
-                                )
-                                HealthyTipsItem(
-                                    title = "Invite children to tell stories. Tell children's stories. Teach children to sing. Invite children to play together",
-                                    isDone = false,
-                                    onClick = {
-                                        navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                                    },
-                                )
+
                             }
                         },
                         invisibleContent = {

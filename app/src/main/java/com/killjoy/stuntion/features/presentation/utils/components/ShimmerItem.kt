@@ -1,19 +1,21 @@
 package com.killjoy.stuntion.features.presentation.utils.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.Surface
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
@@ -25,6 +27,7 @@ import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.source.remote.api.response.note.NoteResponse
+import com.killjoy.stuntion.features.data.source.remote.api.response.task.TaskListResponse
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.*
 
@@ -857,8 +860,70 @@ fun ChildNotesItemShimmer(modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+fun HealthyTipsItemShimmer(modifier: Modifier = Modifier) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+
+        ) {
+            Checkbox(
+                checked = false,
+                onCheckedChange = {},
+                colors = CheckboxDefaults.colors(
+                    checkmarkColor = Color.White,
+                    checkedColor = PrimaryBlue
+                ),
+                modifier = Modifier
+                    .placeholder(
+                        visible = true,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(16.dp),
+                        highlight = PlaceholderHighlight
+                            .shimmer(highlightColor = Color.White),
+                    )
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            StuntionText(
+                text = "Task tips",
+                textStyle = Type.labelLarge(),
+                modifier = Modifier
+                    .width((LocalConfiguration.current.screenWidthDp * 0.66).dp)
+                    .placeholder(
+                        visible = true,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(16.dp),
+                        highlight = PlaceholderHighlight
+                            .shimmer(highlightColor = Color.White),
+                    )
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Image(
+                imageVector = Icons.Default.KeyboardArrowRight,
+                contentDescription = "Arrow",
+                colorFilter = ColorFilter.tint(
+                    PrimaryBlue
+                ),
+                modifier = Modifier
+                    .size(32.dp)
+                    .placeholder(
+                        visible = true,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(16.dp),
+                        highlight = PlaceholderHighlight
+                            .shimmer(highlightColor = Color.White),
+                    )
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 fun ShimmerPreview() {
-    QuestionItemShimmer()
+    HealthyTipsItemShimmer()
 }

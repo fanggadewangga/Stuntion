@@ -24,10 +24,7 @@ import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.utils.*
-import com.killjoy.stuntion.features.presentation.utils.components.ChildProfileSectionItem
-import com.killjoy.stuntion.features.presentation.utils.components.HealthyTipsItem
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
+import com.killjoy.stuntion.features.presentation.utils.components.*
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -38,6 +35,7 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
     val context = LocalContext.current
     val viewModel = hiltViewModel<ChildProfileViewModel>()
     val postNoteResponse = viewModel.postNoteResponse.collectAsState()
+    val taskResponse = viewModel.fetchTaskResponse.collectAsState()
 
     LaunchedEffect(postNoteResponse.value) {
         when (postNoteResponse.value) {
@@ -55,6 +53,8 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
         }
 
         viewModel.apply {
+            fetchTask()
+
             ageInYear.value = countPeriod(child.birthDate)
             ageInMonth.value = countPeriod(child.birthDate, showMonth = true)
             ageInDay.value = countPeriod(child.birthDate, showDay = true)
@@ -83,7 +83,7 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
     ) {
         StuntionTopBar(
             title = "Child Profile",
-            onBackPressed = { navController.navigate(Screen.CheckScreen.route) }
+            onBackPressed = { navController.popBackStack() }
         )
 
         Column(
@@ -301,6 +301,9 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                 },
                 title = "Notes",
                 visibleContent = {
+
+                },
+                invisibleContent = {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         Row(modifier = Modifier.fillMaxWidth()) {
                             StuntionText(text = "Ideal height ", textStyle = Type.titleSmall())
@@ -320,9 +323,6 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                         }
                     }
                 },
-                invisibleContent = {
-
-                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
@@ -339,6 +339,9 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                 },
                 title = "Nutritional",
                 visibleContent = {
+
+                },
+                invisibleContent = {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         StuntionText(text = "ASI", textStyle = Type.bodyMedium())
                         StuntionText(text = "Family Meal", textStyle = Type.bodyMedium())
@@ -347,9 +350,6 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                             textStyle = Type.bodyMedium()
                         )
                     }
-                },
-                invisibleContent = {
-
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -368,46 +368,43 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                 },
                 title = "Healthy Tips",
                 visibleContent = {
-                    Column {
-                        HealthyTipsItem(
-                            title = "Give your baby a drink with formula milk that contains high calcium",
-                            isDone = false,
-                            onClick = {
-                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                            },
-                        )
-                        HealthyTipsItem(
-                            title = "Invite children to do simple jobs such as cleaning desks, tidying up toys, sweeping and so on",
-                            isDone = false,
-                            onClick = {
-                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                            },
-                        )
-                        HealthyTipsItem(
-                            title = "Teach children to scribble on paper",
-                            isDone = false,
-                            onClick = {
-                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                            },
-                        )
-                        HealthyTipsItem(
-                            title = "Show and name the body parts of the child. Ask the child to say again",
-                            isDone = false,
-                            onClick = {
-                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                            },
-                        )
-                        HealthyTipsItem(
-                            title = "Invite children to tell stories. Tell children's stories. Teach children to sing. Invite children to play together",
-                            isDone = false,
-                            onClick = {
-                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                            },
-                        )
-                    }
+
                 },
                 invisibleContent = {
-
+                    when (taskResponse.value) {
+                        is Resource.Loading -> {
+                            Log.d("FETCH TASK", "LOADING")
+                            for (i in 1..5) {
+                                HealthyTipsItemShimmer()
+                            }
+                        }
+                        is Resource.Error -> Log.d(
+                            "FETCH TASK",
+                            taskResponse.value.message.toString()
+                        )
+                        is Resource.Empty -> Log.d(
+                            "FETCH TASK",
+                            taskResponse.value.message.toString()
+                        )
+                        is Resource.Success -> {
+                            Log.d("FETCH TASK", "SUCCESS")
+                            Column {
+                                val taskList = taskResponse.value.data!!.take(5)
+                                taskList.forEach {
+                                    HealthyTipsItem(
+                                        tips = it,
+                                        onClick = {
+                                            navController.currentBackStackEntry?.savedStateHandle?.set(
+                                                key = "taskId",
+                                                value = it.taskId
+                                            )
+                                            navController.navigate(Screen.HealthyTipsDetailScreen.route)
+                                        },
+                                    )
+                                }
+                            }
+                        }
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -419,7 +416,7 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                 text = "* Complete all tasks to get lots of rewards",
                 textStyle = Type.bodySmall(),
                 color = Color.Gray,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 17).dp)
             )
         }
     }
