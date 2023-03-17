@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.auth.signup
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,10 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,20 +21,36 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
+import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
-import kotlinx.coroutines.launch
 
 @Composable
 fun SignupScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<SignupViewModel>()
     val checkedState = remember { mutableStateOf(false) }
-    val coroutineScope = rememberCoroutineScope()
+    val userResponse = viewModel.userResponse.collectAsState()
+
+    LaunchedEffect(userResponse.value) {
+        when(userResponse.value) {
+            is Resource.Loading -> Log.d("Sign Up", "Loading")
+            is Resource.Error -> Log.d("Sign Up", userResponse.value.message.toString())
+            is Resource.Empty -> Log.d("Sign Up", "Empty")
+            is Resource.Success -> {
+                Log.d("Sign Up", "Success")
+                navController.navigate(Screen.LoginScreen.route) {
+                    popUpTo(Screen.SignupScreen.route) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier

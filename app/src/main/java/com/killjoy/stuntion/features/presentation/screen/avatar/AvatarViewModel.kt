@@ -17,8 +17,8 @@ import javax.inject.Inject
 class AvatarViewModel @Inject constructor(private val repository: UserRepository) :
     ViewModel() {
 
-    private val _remoteResponse = MutableStateFlow<Resource<String?>>(Resource.Empty())
-    val remoteResponse = _remoteResponse.asStateFlow()
+    private val _updateAvatarResponse = MutableStateFlow<Resource<String?>>(Resource.Empty())
+    val updateAvatarResponse = _updateAvatarResponse.asStateFlow()
 
     val listOfAvatar = listOf(
         Avatar(
@@ -65,7 +65,7 @@ class AvatarViewModel @Inject constructor(private val repository: UserRepository
         viewModelScope.launch {
             val uid = repository.readUid().first()!!
             repository.updateUserAvatar(uid, selectedAvatar.value.avatarUrl).collect {
-                _remoteResponse.value = it
+                _updateAvatarResponse.value = it
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.avatar
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -7,18 +8,17 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Avatar
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.AvatarItem
@@ -33,6 +33,23 @@ fun AvatarScreen(navController: NavController) {
     val viewModel = hiltViewModel<AvatarViewModel>()
     val listOfAvatar: List<Avatar> = viewModel.listOfAvatar
     val coroutineScope = rememberCoroutineScope()
+    val updateAvatarResponse = viewModel.updateAvatarResponse.collectAsState()
+
+    LaunchedEffect(updateAvatarResponse.value) {
+        when (updateAvatarResponse.value) {
+            is Resource.Loading -> Log.d("Update Avatar", "Loading")
+            is Resource.Error -> Log.d("Update Avatar", updateAvatarResponse.value.message.toString())
+            is Resource.Empty -> Log.d("Update Avatar", "Empty")
+            is Resource.Success -> {
+                Log.d("Update Avatar", "Success")
+                navController.navigate(Screen.LocationPermissionScreen.route) {
+                    popUpTo(Screen.AvatarScreen.route) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -102,7 +119,6 @@ fun AvatarScreen(navController: NavController) {
                         coroutineScope.launch {
                             viewModel.saveHaveCreatedAccount()
                         }
-                        navController.navigate(Screen.LocationPermissionScreen.route)
                     }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(
@@ -125,10 +141,4 @@ fun AvatarScreen(navController: NavController) {
         }
 
     }
-}
-
-@Preview
-@Composable
-fun AvatarScreenPrev() {
-    AvatarScreen(navController = rememberNavController())
 }

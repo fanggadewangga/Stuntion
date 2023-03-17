@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -40,7 +39,21 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
     val viewModel = hiltViewModel<ChildProfileViewModel>()
     val postNoteResponse = viewModel.postNoteResponse.collectAsState()
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(postNoteResponse.value) {
+        when (postNoteResponse.value) {
+            is Resource.Loading -> Log.d("POST NOTE", "Loading")
+            is Resource.Error -> Log.d("POST NOTE", "ERROR")
+            is Resource.Empty -> Log.d("POST NOTE", "EMPTY")
+            is Resource.Success -> {
+                Log.d("POST NOTE", "SUCCESS")
+                navController.navigate(Screen.CheckScreen.route) {
+                    popUpTo(Screen.ChildProfileScreen.route) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+
         viewModel.apply {
             ageInYear.value = countPeriod(child.birthDate)
             ageInMonth.value = countPeriod(child.birthDate, showMonth = true)
@@ -60,13 +73,6 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                 weight = child.weight
             )
         }
-    }
-
-    when (postNoteResponse.value) {
-        is Resource.Loading -> Log.d("POST NOTE", "Loading")
-        is Resource.Error -> Log.d("POST NOTE", postNoteResponse.value.message.toString())
-        is Resource.Empty -> Log.d("POST NOTE", postNoteResponse.value.message.toString())
-        is Resource.Success -> Log.d("POST NOTE", postNoteResponse.value.message.toString())
     }
 
     Column(
@@ -228,7 +234,11 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                     borderWidth = 1.dp,
                     contentPadding = PaddingValues(vertical = 12.dp),
                     onClick = {
-
+                        navController.navigate(Screen.CheckScreen.route) {
+                            popUpTo(Screen.ChildProfileScreen.route) {
+                                inclusive = true
+                            }
+                        }
                     },
                     modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.44).dp)
                 ) {
@@ -252,7 +262,6 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                             weight = child.weight,
                             birthday = child.birthDate
                         )
-                        navController.navigate(Screen.CheckScreen.route)
                     },
                     modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.44).dp)
                 ) {

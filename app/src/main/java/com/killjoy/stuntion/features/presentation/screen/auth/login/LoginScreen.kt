@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.auth.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,7 +12,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -24,10 +26,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
+import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
@@ -35,7 +38,31 @@ import com.killjoy.stuntion.ui.theme.Type
 fun LoginScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<LoginViewModel>()
-    val coroutineScope = rememberCoroutineScope()
+    val userResponse = viewModel.userResponse.collectAsState()
+
+    LaunchedEffect(userResponse.value) {
+        when (userResponse.value) {
+            is Resource.Loading -> Log.d("Sign In", "Loading")
+            is Resource.Error -> Log.d("Sign In", userResponse.value.message.toString())
+            is Resource.Empty -> Log.d("Sign In", "Empty")
+            is Resource.Success -> {
+                Log.d("Sign In", "Success")
+                if (userResponse.value.data!!.gender != null) {
+                    navController.navigate(Screen.HomeScreen.route) {
+                        popUpTo(Screen.LoginScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                } else {
+                    navController.navigate(Screen.GeneralInformationScreen.route) {
+                        popUpTo(Screen.LoginScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -142,7 +169,6 @@ fun LoginScreen(navController: NavController) {
                 StuntionButton(
                     onClick = {
                         viewModel.signInUser()
-                        navController.navigate(Screen.GeneralInformationScreen.route)
                     }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(
@@ -171,7 +197,7 @@ fun LoginScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(24.dp))
                 StuntionButton(
                     onClick = {
-                        navController.navigate(Screen.GeneralInformationScreen.route)
+
                     },
                     backgroundColor = Color.White,
                     borderColor = Color.Gray,
@@ -206,10 +232,4 @@ fun LoginScreen(navController: NavController) {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun LoginPrev() {
-    LoginScreen(navController = rememberNavController())
 }

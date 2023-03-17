@@ -36,12 +36,12 @@ class SignupViewModel @Inject constructor(private val userRepository: UserReposi
         passwordConfirmState.value.isNotEmpty() && (passwordState.value != passwordConfirmState.value)
     }
 
-    val userData = MutableStateFlow<Resource<UserResponse?>>(Resource.Empty())
-
+    private val _userResponse = MutableStateFlow<Resource<UserResponse?>>(Resource.Empty())
+    val userResponse = _userResponse.asStateFlow()
     fun signUpUser() {
         viewModelScope.launch {
             userRepository.signUpUser(email = emailState.value, password = passwordState.value).collect {
-                userData.value = it
+                _userResponse.value = it
             }
         }
     }

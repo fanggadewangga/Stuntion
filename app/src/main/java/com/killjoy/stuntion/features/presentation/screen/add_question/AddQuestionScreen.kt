@@ -1,6 +1,7 @@
 package com.killjoy.stuntion.features.presentation.screen.add_question
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.*
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -40,6 +42,24 @@ fun AddQuestionScreen(navController: NavController) {
     val viewModel = hiltViewModel<AddQuestionViewModel>()
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberBottomSheetScaffoldState()
+    val questionResponse = viewModel.questionResponse.collectAsState()
+
+    LaunchedEffect(questionResponse.value) {
+        when (questionResponse.value) {
+            is Resource.Error -> Log.d("Post Question", questionResponse.value.message.toString())
+            is Resource.Empty -> Log.d("Post Question", questionResponse.value.message.toString())
+            is Resource.Loading -> Log.d("Post Question", "Loading")
+            is Resource.Success -> {
+                Log.d("Post Question", questionResponse.value.message.toString())
+                navController.navigate(Screen.ConsultScreen.route) {
+                    popUpTo(Screen.AddQuestionScreen.route) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+    }
+
 
     Scaffold(
         content = {
@@ -319,7 +339,7 @@ fun AddQuestionScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(16.dp))
                     StuntionButton(
                         onClick = {
-                            navController.navigate(Screen.HomeScreen.route)
+                            viewModel.postNewQuestion()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -335,10 +355,4 @@ fun AddQuestionScreen(navController: NavController) {
         },
         modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 15).dp)
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AddQuestionScreen() {
-    AddQuestionScreen(navController = rememberNavController())
 }

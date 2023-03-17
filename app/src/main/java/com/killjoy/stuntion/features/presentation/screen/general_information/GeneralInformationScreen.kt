@@ -10,18 +10,17 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Constants.GENDER
@@ -43,17 +42,21 @@ fun GeneralInformationScreen(navController: NavController) {
     val viewModel = hiltViewModel<GeneralInformationViewModel>()
     val userUpdateInfoState = viewModel.userState.collectAsState()
 
-    /*when (userUpdateInfoState.value) {
-        is Resource.Empty -> {}
-        is Resource.Success -> {
-            Log.d("Success", userUpdateInfoState.toString())
-            navController.navigate(Screen.AvatarScreen.route)
+    LaunchedEffect(userUpdateInfoState.value) {
+        when (userUpdateInfoState.value) {
+            is Resource.Loading -> Log.d("Update general information", "Loading")
+            is Resource.Error -> Log.d("Update general information", "Error")
+            is Resource.Empty -> Log.d("Update general information", "Empty")
+            is Resource.Success -> {
+                Log.d("Update general information", "Success")
+                navController.navigate(Screen.LocationPermissionScreen.route) {
+                    popUpTo(Screen.GeneralInformationScreen.route) {
+                        inclusive = true
+                    }
+                }
+            }
         }
-        is Resource.Error -> {}
-        is Resource.Loading -> {
-            Log.d("Loading", userUpdateInfoState.toString())
-        }
-    }*/
+    }
 
     MaterialDialog(
         shape = RoundedCornerShape(28.dp),
@@ -243,10 +246,4 @@ fun GeneralInformationScreen(navController: NavController) {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun GeneralInformationPreview() {
-    GeneralInformationScreen(navController = rememberNavController())
 }

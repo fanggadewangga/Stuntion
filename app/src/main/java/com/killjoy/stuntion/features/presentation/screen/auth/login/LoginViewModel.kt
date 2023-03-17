@@ -10,6 +10,7 @@ import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserRe
 import com.killjoy.stuntion.features.data.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,13 +27,14 @@ class LoginViewModel @Inject constructor(
         passwordState.value.isNotEmpty() && passwordState.value.length < 6
     }
 
-    val userData = MutableStateFlow<Resource<UserResponse?>>(Resource.Empty())
+    private val _userResponse = MutableStateFlow<Resource<UserResponse?>>(Resource.Empty())
+    val userResponse = _userResponse.asStateFlow()
 
     fun signInUser() {
         viewModelScope.launch {
             userRepository.signInUser(email = emailState.value, password = passwordState.value)
                 .collect {
-                    userData.value = it
+                    _userResponse.value = it
                 }
         }
     }
