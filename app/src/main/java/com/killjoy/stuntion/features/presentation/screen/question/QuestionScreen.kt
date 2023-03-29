@@ -42,7 +42,7 @@ fun QuestionScreen(navController: NavController, child: Child) {
     val isMultipleChoice = listOfQuestions[currentStep.value - 1].isMultipleChoices
     val listOfAnswer = listOfQuestions[currentStep.value - 1].listOfAnswer
 
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize().padding(vertical = 24.dp)) {
 
         // Progress bar
         Box(

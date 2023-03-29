@@ -37,7 +37,7 @@ fun ActivityListScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
         }
 
-        items(3) {
+        item {
             RequestHelpActivityItem(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -45,7 +45,7 @@ fun ActivityListScreen(navController: NavController) {
             )
         }
 
-        items(3) {
+        item {
             ChatActivityItem(
                 modifier = Modifier
                     .fillMaxWidth()

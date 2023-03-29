@@ -1,6 +1,7 @@
 package com.killjoy.stuntion.features.presentation.screen.home
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,12 +24,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
@@ -45,7 +48,9 @@ import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import kotlinx.coroutines.delay
 
+@OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -58,6 +63,18 @@ fun HomeScreen(navController: NavController) {
     val user = viewModel.userResponse.collectAsState()
     val donations = viewModel.donationResponse.collectAsState()
     val smartstuns = viewModel.smartstunResponse.collectAsState()
+    val pages = viewModel.listOfBanner
+    val pagerState = rememberPagerState()
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(2500L)
+            pagerState.animateScrollToPage(
+                page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+                animationSpec = tween(500)
+            )
+        }
+    }
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) },
@@ -513,15 +530,23 @@ fun HomeScreen(navController: NavController) {
                 textStyle = Type.titleMedium(),
                 modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
             )
-            LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
-                items(viewModel.listOfBanner) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                HorizontalPager(
+                    count = pages.size,
+                    state = pagerState,
+                ) {
                     AsyncImage(
-                        model = it,
+                        model = pages[it],
                         contentDescription = "Banner",
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
+                            .fillMaxWidth()
                             .height(160.dp)
-                            .padding(end = 16.dp)
                     )
                 }
             }
