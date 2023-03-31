@@ -185,9 +185,6 @@ fun AskExpertDetailScreen(navController: NavController, questionId: String) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
-                            .clickable {
-                                navController.navigate(Screen.ExpertDetailScreen.route)
-                            }
                     ) {
                         Row(
                             Modifier
@@ -345,7 +342,11 @@ fun AskExpertDetailScreen(navController: NavController, questionId: String) {
                                         key = "questionId",
                                         value = it.questionId
                                     )
-                                    navController.navigate(Screen.AskExpertDetailScreen.route)
+                                    navController.navigate(Screen.AskExpertDetailScreen.route) {
+                                        popUpTo(Screen.ConsultScreen.route) {
+                                            inclusive = false
+                                        }
+                                    }
                                 },
                                 modifier = Modifier.fillMaxWidth()
                             )

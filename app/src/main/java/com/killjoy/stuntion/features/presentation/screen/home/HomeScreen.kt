@@ -317,7 +317,7 @@ fun HomeScreen(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    StuntionText(text = "My Healty Tips", textStyle = Type.titleMedium())
+                    StuntionText(text = "My Healthy Tips", textStyle = Type.titleMedium())
                     StuntionText(
                         text = "View All",
                         textStyle = Type.labelMedium(),
