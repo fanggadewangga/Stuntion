@@ -21,6 +21,9 @@ data class QuestionResponse(
     @field:SerializedName("user_name")
     val userName: String,
 
+    @field:SerializedName("expert_id")
+    val expertId: String,
+
     @field:SerializedName("user_avatar_url")
     val userAvatarUrl: String,
 

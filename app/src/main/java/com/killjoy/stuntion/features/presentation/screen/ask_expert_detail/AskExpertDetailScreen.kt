@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
@@ -35,7 +36,7 @@ import com.killjoy.stuntion.ui.theme.Type
 fun AskExpertDetailScreen(navController: NavController, questionId: String) {
 
     val viewModel = hiltViewModel<AskExpertDetailViewModel>()
-    val questionListResponse = viewModel.questionListResponse.collectAsState()
+    val questionListResponse = viewModel.questionListResponse.collectAsStateWithLifecycle()
     val questionResponse = viewModel.questionResponse.collectAsState()
 
     LaunchedEffect(key1 = true) {
@@ -185,6 +186,13 @@ fun AskExpertDetailScreen(navController: NavController, questionId: String) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
+                            .clickable {
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    key = "expertId",
+                                    value = questionResponse.value.data!!.expertId
+                                )
+                                navController.navigate(Screen.ExpertDetailScreen.route)
+                            }
                     ) {
                         Row(
                             Modifier
