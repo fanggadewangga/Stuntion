@@ -20,7 +20,7 @@ class AskExpertDetailViewModel @Inject constructor(private val repository: Quest
 
     private val _questionResponse = MutableStateFlow<Resource<QuestionResponse?>>(Resource.Loading())
     val questionResponse = _questionResponse.asStateFlow()
-    fun fetchQuestions() {
+    private fun fetchQuestions() {
         viewModelScope.launch {
             repository.fetchQuestions().collect {
                 _questionListResponse.value = it
@@ -28,7 +28,7 @@ class AskExpertDetailViewModel @Inject constructor(private val repository: Quest
         }
     }
 
-    suspend fun fetchQuestionDetail(questionId: String) {
+    fun fetchQuestionDetail(questionId: String) {
         viewModelScope.launch {
             repository.fetchQuestionDetail(questionId).collect {
                 _questionResponse.value = it

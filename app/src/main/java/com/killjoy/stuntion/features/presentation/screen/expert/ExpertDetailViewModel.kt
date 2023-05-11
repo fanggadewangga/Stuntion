@@ -16,7 +16,7 @@ class ExpertDetailViewModel @Inject constructor(private val repository: ExpertRe
 
     private val _expertResponse = MutableStateFlow<Resource<ExpertResponse?>>(Resource.Loading())
     val expertResponse = _expertResponse.asStateFlow()
-    suspend fun fetchExpertDetail(expertId: String) {
+    fun fetchExpertDetail(expertId: String) {
         viewModelScope.launch {
             repository.fetchExpertDetail(expertId).collect {
                 _expertResponse.value = it

@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
@@ -40,7 +41,7 @@ import com.killjoy.stuntion.ui.theme.Type
 fun AskExpertScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<AskExpertViewModel>()
-    val questionResponse = viewModel.questionResponse.collectAsState()
+    val questionResponse = viewModel.questionResponse.collectAsStateWithLifecycle()
 
     Scaffold(
         floatingActionButton = {
@@ -141,10 +142,4 @@ fun AskExpertScreen(navController: NavController) {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun AskExpertPrev() {
-    AskExpertScreen(navController = rememberNavController())
 }

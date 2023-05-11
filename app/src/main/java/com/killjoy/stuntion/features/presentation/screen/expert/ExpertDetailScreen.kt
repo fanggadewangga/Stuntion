@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -40,13 +41,13 @@ import com.killjoy.stuntion.ui.theme.Type
 fun ExpertDetailScreen(navController: NavController, expertId: String) {
     val viewModel = hiltViewModel<ExpertDetailViewModel>()
     val systemUiController = rememberSystemUiController()
-    systemUiController.apply {
-        setStatusBarColor(color = Color.Transparent, darkIcons = true)
-        setNavigationBarColor(color = Color.White, darkIcons = true)
-    }
-    val expertResponse = viewModel.expertResponse.collectAsState()
+    val expertResponse = viewModel.expertResponse.collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(true) {
+        systemUiController.apply {
+            setStatusBarColor(color = Color.Transparent, darkIcons = true)
+            setNavigationBarColor(color = Color.White, darkIcons = true)
+        }
         viewModel.fetchExpertDetail(expertId)
     }
 
@@ -74,7 +75,7 @@ fun ExpertDetailScreen(navController: NavController, expertId: String) {
                                     color = LightGray
                                 )
                                 StuntionText(
-                                    text = "IDR${expertResponse.value.data!!.fee}",
+                                    text = "IDR${expertResponse.value.data?.fee}",
                                     textStyle = Type.titleMedium(),
                                     color = PrimaryBlue
                                 )
@@ -107,7 +108,7 @@ fun ExpertDetailScreen(navController: NavController, expertId: String) {
                     // Image
                     Box(modifier = Modifier.fillMaxWidth()) {
                         AsyncImage(
-                            model = expertResponse.value.data!!.avatarUrl,
+                            model = expertResponse.value.data?.avatarUrl,
                             contentDescription = "Expert image",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.height(280.dp)
@@ -172,21 +173,23 @@ fun ExpertDetailScreen(navController: NavController, expertId: String) {
 
                     // Name
                     Spacer(modifier = Modifier.height(24.dp))
-                    StuntionText(
-                        text = expertResponse.value.data!!.name,
-                        textStyle = Type.titleMedium()
-                    )
+                    expertResponse.value.data?.name?.let { it1 ->
+                        StuntionText(
+                            text = it1,
+                            textStyle = Type.titleMedium()
+                        )
+                    }
 
                     // Role
                     Spacer(modifier = Modifier.height(8.dp))
                     Row {
-                        expertResponse.value.data!!.categories.forEachIndexed { index, category ->
+                        expertResponse.value.data?.categories?.forEachIndexed { index, category ->
                             StuntionText(
                                 text = category,
                                 textStyle = Type.bodySmall(),
                                 color = LightGray
                             )
-                            if (index+1 < expertResponse.value.data!!.categories.size)
+                            if (index+1 < expertResponse.value.data?.categories!!.size)
                                 StuntionText(
                                     text = " - ",
                                     textStyle = Type.bodySmall(),
@@ -209,7 +212,7 @@ fun ExpertDetailScreen(navController: NavController, expertId: String) {
                                 modifier = Modifier.size(38.dp)
                             )
                             Column {
-                                StuntionText(text = "${expertResponse.value.data!!.rating} Out of 5.0", textStyle = Type.titleSmall())
+                                StuntionText(text = "${expertResponse.value.data?.rating} Out of 5.0", textStyle = Type.titleSmall())
                                 StuntionText(
                                     text = "500 Patiens review",
                                     textStyle = Type.bodySmall()
@@ -228,7 +231,7 @@ fun ExpertDetailScreen(navController: NavController, expertId: String) {
                                 modifier = Modifier.size(38.dp)
                             )
                             Column {
-                                StuntionText(text = "${expertResponse.value.data!!.experienceYear} Year", textStyle = Type.titleSmall())
+                                StuntionText(text = "${expertResponse.value.data?.experienceYear} Year", textStyle = Type.titleSmall())
                                 StuntionText(text = "Experience", textStyle = Type.bodySmall())
                             }
                         }
@@ -255,7 +258,7 @@ fun ExpertDetailScreen(navController: NavController, expertId: String) {
                                 )
                                 StuntionText(text = "STR Number", textStyle = Type.titleMedium())
                             }
-                            StuntionText(text = expertResponse.value.data!!.str, textStyle = Type.bodyMedium())
+                            expertResponse.value.data?.str?.let { it1 -> StuntionText(text = it1, textStyle = Type.bodyMedium()) }
                         }
                     }
 
@@ -297,7 +300,7 @@ fun ExpertDetailScreen(navController: NavController, expertId: String) {
                             }
 
                             // Value
-                            expertResponse.value.data!!.educations.forEach {
+                            expertResponse.value.data?.educations?.forEach {
                                 Box(modifier = Modifier.fillMaxWidth()) {
                                     StuntionText(
                                         text = it,
@@ -353,7 +356,7 @@ fun ExpertDetailScreen(navController: NavController, expertId: String) {
                             }
 
                             // Value
-                            expertResponse.value.data!!.workplaces.forEach {
+                            expertResponse.value.data?.workplaces?.forEach {
                                 StuntionText(
                                     text = it,
                                     textStyle = Type.bodyMedium()
