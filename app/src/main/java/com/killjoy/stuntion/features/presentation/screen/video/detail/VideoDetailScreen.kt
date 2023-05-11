@@ -40,6 +40,7 @@ import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ArticleItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
+import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.OtherArticleItem
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -63,7 +64,18 @@ fun VideoDetailScreen(navController: NavController, smartstunId: String) {
     }
 
     when (detailResponse.value) {
-        is Resource.Loading -> {}
+        is Resource.Loading -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                LoadingAnimation(
+                    circleSize = 16.dp,
+                    spaceBetweenCircle = 10.dp,
+                    travelDistance = 24.dp
+                )
+            }
+        }
         is Resource.Error -> ErrorLayout()
         is Resource.Empty -> ErrorLayout("Something went wrong")
         is Resource.Success -> {

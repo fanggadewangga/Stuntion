@@ -4,7 +4,16 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -20,14 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
+import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -164,70 +172,90 @@ fun LoginScreen(navController: NavController) {
                     modifier = Modifier.align(Alignment.End)
                 )
 
-                // Button
                 Spacer(modifier = Modifier.height(32.dp))
-                StuntionButton(
-                    onClick = {
-                        viewModel.signInUser()
-                    }, modifier = Modifier.fillMaxWidth()
-                ) {
-                    StuntionText(
-                        text = "Log in", color = Color.White, textStyle = Type.labelLarge()
-                    )
-                }
-
-                // Or
-                Spacer(modifier = Modifier.height(24.dp))
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.width(160.dp))
-                    StuntionText(
-                        text = "OR",
-                        color = Color.Gray,
-                        textStyle = Type.bodyLarge(),
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                    Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.width(160.dp))
-                }
-
-                // Google Button
-                Spacer(modifier = Modifier.height(24.dp))
-                StuntionButton(
-                    onClick = {
-
-                    },
-                    backgroundColor = Color.White,
-                    borderColor = Color.Gray,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_google),
-                            contentDescription = "Google Icon"
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
+                if (userResponse.value is Resource.Loading)
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        LoadingAnimation()
+                    }
+                else {
+                    // Button
+                    StuntionButton(
+                        onClick = {
+                            viewModel.signInUser()
+                        }, modifier = Modifier.fillMaxWidth()
+                    ) {
                         StuntionText(
-                            text = "Log in with Google", textStyle = Type.labelLarge()
+                            text = "Log in", color = Color.White, textStyle = Type.labelLarge()
                         )
                     }
-                }
 
-                // Already have account
-                Spacer(modifier = Modifier.height(24.dp))
-                Row(
-                    modifier = Modifier
-                        .align(CenterHorizontally)
-                ) {
-                    StuntionText(text = "Don’t have an account? ", textStyle = Type.bodyMedium())
-                    StuntionText(
-                        text = "Sign up ",
-                        color = PrimaryBlue,
-                        textStyle = Type.bodyMedium(),
-                        modifier = Modifier.clickable { navController.navigate(Screen.SignupScreen.route) }
-                    )
+                    // Or
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Divider(
+                            color = Color.Gray,
+                            thickness = 1.dp,
+                            modifier = Modifier.width(160.dp)
+                        )
+                        StuntionText(
+                            text = "OR",
+                            color = Color.Gray,
+                            textStyle = Type.bodyLarge(),
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                        Divider(
+                            color = Color.Gray,
+                            thickness = 1.dp,
+                            modifier = Modifier.width(160.dp)
+                        )
+                    }
+
+                    // Google Button
+                    Spacer(modifier = Modifier.height(24.dp))
+                    StuntionButton(
+                        onClick = {
+
+                        },
+                        backgroundColor = Color.White,
+                        borderColor = Color.Gray,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Row {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_google),
+                                contentDescription = "Google Icon"
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            StuntionText(
+                                text = "Log in with Google", textStyle = Type.labelLarge()
+                            )
+                        }
+                    }
+
+                    // Already have account
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Row(
+                        modifier = Modifier
+                            .align(CenterHorizontally)
+                    ) {
+                        StuntionText(
+                            text = "Don’t have an account? ",
+                            textStyle = Type.bodyMedium()
+                        )
+                        StuntionText(
+                            text = "Sign up ",
+                            color = PrimaryBlue,
+                            textStyle = Type.bodyMedium(),
+                            modifier = Modifier.clickable { navController.navigate(Screen.SignupScreen.route) }
+                        )
+                    }
                 }
             }
         }

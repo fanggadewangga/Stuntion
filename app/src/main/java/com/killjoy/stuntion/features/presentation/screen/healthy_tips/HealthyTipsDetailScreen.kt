@@ -12,6 +12,7 @@ import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
+import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.dashedBorder
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -62,7 +64,18 @@ fun HealthyTipsDetailScreen(navController: NavController, taskId: String) {
     }
 
     when (fetchTaskDetailResponse.value) {
-        is Resource.Loading -> Log.d("FETCH TASK DETAIL", "Loading")
+        is Resource.Loading -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                LoadingAnimation(
+                    circleSize = 16.dp,
+                    spaceBetweenCircle = 10.dp,
+                    travelDistance = 24.dp
+                )
+            }
+        }
         is Resource.Error -> Log.d(
             "FETCH TASK DETAIL",
             fetchTaskDetailResponse.value.message.toString()

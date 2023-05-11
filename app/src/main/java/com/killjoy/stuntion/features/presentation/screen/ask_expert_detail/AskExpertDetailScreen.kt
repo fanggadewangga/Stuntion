@@ -2,6 +2,7 @@ package com.killjoy.stuntion.features.presentation.screen.ask_expert_detail
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -38,6 +39,7 @@ import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
+import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItem
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
@@ -60,8 +62,18 @@ fun AskExpertDetailScreen(navController: NavController, questionId: String) {
 
     when (questionResponse.value) {
         is Resource.Loading -> {
-
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                LoadingAnimation(
+                    circleSize = 16.dp,
+                    spaceBetweenCircle = 10.dp,
+                    travelDistance = 24.dp
+                )
+            }
         }
+
         is Resource.Success -> {
             questionResponse.value.data.let { data ->
                 LazyColumn(
@@ -357,7 +369,7 @@ fun AskExpertDetailScreen(navController: NavController, questionId: String) {
 
                         is Resource.Success -> {
                             questionListResponse.value.data?.shuffled()?.let {
-                                items(it.take(2)) {item ->
+                                items(it.take(2)) { item ->
                                     QuestionItem(
                                         question = item,
                                         onClick = {

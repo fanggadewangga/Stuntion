@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +28,7 @@ import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
+import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
@@ -52,7 +52,18 @@ fun ExpertDetailScreen(navController: NavController, expertId: String) {
     }
 
     when (expertResponse.value) {
-        is Resource.Loading -> {}
+        is Resource.Loading -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                LoadingAnimation(
+                    circleSize = 16.dp,
+                    spaceBetweenCircle = 10.dp,
+                    travelDistance = 24.dp
+                )
+            }
+        }
         is Resource.Success -> {
             Scaffold(
                 bottomBar = {

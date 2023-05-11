@@ -28,9 +28,9 @@ import kotlinx.coroutines.delay
 @Composable
 fun LoadingAnimation(
     modifier: Modifier = Modifier,
-    circleSize: Dp = 16.dp,
+    circleSize: Dp = 12.dp,
     circleColor: Color = PrimaryBlue,
-    spaceBetweenCircle: Dp = 4.dp,
+    spaceBetweenCircle: Dp = 2.dp,
     travelDistance: Dp = 16.dp,
 ) {
     val circles = listOf(
@@ -62,24 +62,27 @@ fun LoadingAnimation(
     val distance = with(LocalDensity.current) { travelDistance.toPx() }
     val lastCircle = circleValues.size - 1
 
-    Row(modifier = modifier) {
-        circleValues.forEachIndexed { index, value ->
-            Box(
-                modifier = Modifier
-                    .size(circleSize)
-                    .graphicsLayer {
-                        translationY = -value * distance
-                    }
-                    .background(
-                        color = circleColor,
-                        shape = CircleShape
-                    )
-            )
-            if (index != lastCircle) {
-                Spacer(modifier = Modifier.width(spaceBetweenCircle))
+    Box(modifier = modifier) {
+        Row{
+            circleValues.forEachIndexed { index, value ->
+                Box(
+                    modifier = Modifier
+                        .size(circleSize)
+                        .graphicsLayer {
+                            translationY = -value * distance
+                        }
+                        .background(
+                            color = circleColor,
+                            shape = CircleShape
+                        )
+                )
+                if (index != lastCircle) {
+                    Spacer(modifier = Modifier.width(spaceBetweenCircle))
+                }
             }
         }
     }
+
 }
 
 @Preview

@@ -3,7 +3,18 @@ package com.killjoy.stuntion.features.presentation.screen.child_notes.detail
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -15,17 +26,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
-import com.killjoy.stuntion.features.domain.model.child.Child
-import com.killjoy.stuntion.features.presentation.screen.child_profile.ChildProfileViewModel
-import com.killjoy.stuntion.features.presentation.utils.*
-import com.killjoy.stuntion.features.presentation.utils.components.*
+import com.killjoy.stuntion.features.presentation.utils.Screen
+import com.killjoy.stuntion.features.presentation.utils.components.ChildProfileSectionItem
+import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
+import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -41,15 +53,29 @@ fun ChildNotesDetailScreen(navController: NavController, noteId: String) {
     }
 
     when (noteResponse.value) {
-        is Resource.Loading -> Log.d("FETCH NOTE DETAIL", "Loading")
+        is Resource.Loading -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                LoadingAnimation(
+                    circleSize = 16.dp,
+                    spaceBetweenCircle = 10.dp,
+                    travelDistance = 24.dp
+                )
+            }
+        }
+
         is Resource.Empty -> {
             Log.d("FETCH NOTE DETAIL", "Empty")
             ErrorLayout(errorMessage = noteResponse.value.message.toString())
         }
+
         is Resource.Error -> {
             Log.d("FETCH NOTE DETAIL", "Error")
             ErrorLayout(errorMessage = noteResponse.value.message.toString())
         }
+
         is Resource.Success -> {
             Log.d("FETCH NOTE DETAIL", "Success")
             Column(

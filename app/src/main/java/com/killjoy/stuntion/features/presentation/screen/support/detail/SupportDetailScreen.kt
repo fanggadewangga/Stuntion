@@ -30,6 +30,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
+import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -54,7 +55,18 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
     }
 
     when (donationResponse.value) {
-        is Resource.Loading -> {}
+        is Resource.Loading -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                LoadingAnimation(
+                    circleSize = 16.dp,
+                    spaceBetweenCircle = 10.dp,
+                    travelDistance = 24.dp
+                )
+            }
+        }
         is Resource.Error -> ErrorLayout()
         is Resource.Empty -> ErrorLayout("Something went wrong")
         is Resource.Success -> {

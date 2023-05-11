@@ -33,6 +33,7 @@ import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.utils.ProfileSetting
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
+import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.ProfileSettingItem
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
@@ -51,7 +52,18 @@ fun ProfileScreen(navController: NavController) {
     ) {
 
         when (userResponse.value) {
-            is Resource.Loading -> {}
+            is Resource.Loading -> {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    LoadingAnimation(
+                        circleSize = 16.dp,
+                        spaceBetweenCircle = 10.dp,
+                        travelDistance = 24.dp
+                    )
+                }
+            }
             is Resource.Error -> ErrorLayout()
             is Resource.Empty -> ErrorLayout("Something went wrong")
             is Resource.Success -> {
