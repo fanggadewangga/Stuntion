@@ -28,10 +28,10 @@ import kotlinx.coroutines.delay
 @Composable
 fun LoadingAnimation(
     modifier: Modifier = Modifier,
-    circleSize: Dp = 25.dp,
+    circleSize: Dp = 16.dp,
     circleColor: Color = PrimaryBlue,
-    spaceBetweenCircle: Dp = 10.dp,
-    travelDistance: Dp = 20.dp,
+    spaceBetweenCircle: Dp = 4.dp,
+    travelDistance: Dp = 16.dp,
 ) {
     val circles = listOf(
         remember { Animatable(initialValue = 0f) },
