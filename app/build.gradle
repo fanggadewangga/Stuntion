@@ -171,4 +171,7 @@ dependencies {
 
     // Camposer
     implementation 'io.github.ujizin:camposer:0.1.0'
+
+    // Custom toast
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
 }

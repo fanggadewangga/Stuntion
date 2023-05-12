@@ -1,12 +1,16 @@
 package com.killjoy.stuntion.features.presentation.screen.check
 
-import android.util.Log
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.killjoy.stuntion.features.presentation.utils.countPeriod
 import javax.inject.Inject
 
 class CheckViewModel @Inject constructor() : ViewModel() {
+    val ageInYear = derivedStateOf {
+        countPeriod(dateState.value)
+    }
+
     val genderState = mutableStateOf("Male")
     private val isGenderValid = derivedStateOf {
         genderState.value.isNotEmpty()

@@ -2,6 +2,7 @@ package com.killjoy.stuntion.features.presentation.screen.check
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,6 +39,7 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import es.dmoral.toasty.Toasty
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -50,7 +53,7 @@ fun CheckScreen(navController: NavController) {
     }
     val calendarState = rememberMaterialDialogState()
     val viewModel = hiltViewModel<CheckViewModel>()
-    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
     val pickedDate = remember {
         mutableStateOf(LocalDate.now())
     }
@@ -321,15 +324,19 @@ fun CheckScreen(navController: NavController) {
                     ) {
                         StuntionButton(
                             onClick = {
-                                val child = Child(
-                                    name = viewModel.nameState.value,
-                                    gender = viewModel.genderState.value,
-                                    birthDate = viewModel.dateState.value,
-                                    height = viewModel.heightState.value.toDouble(),
-                                    weight = viewModel.weightState.value.toDouble()
-                                )
-                                val childJson = Uri.encode(Gson().toJson(child))
-                                navController.navigate("${Screen.QuestionScreen.route}/$childJson")
+                                if (viewModel.ageInYear.value !in 0..5)
+                                    Toasty.error(context, "Age should not be more than 5 years", Toast.LENGTH_SHORT).show()
+                                else {
+                                    val child = Child(
+                                        name = viewModel.nameState.value,
+                                        gender = viewModel.genderState.value,
+                                        birthDate = viewModel.dateState.value,
+                                        height = viewModel.heightState.value.toDouble(),
+                                        weight = viewModel.weightState.value.toDouble()
+                                    )
+                                    val childJson = Uri.encode(Gson().toJson(child))
+                                    navController.navigate("${Screen.QuestionScreen.route}/$childJson")
+                                }
                             },
                             modifier = Modifier.width(180.dp),
                             enabled = viewModel.isFormNotValid.value

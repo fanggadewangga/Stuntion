@@ -1,6 +1,7 @@
 package com.killjoy.stuntion.features.presentation.screen.child_profile
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -29,6 +30,7 @@ import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import es.dmoral.toasty.Toasty
 
 @Composable
 fun ChildProfileScreen(navController: NavController, child: Child) {
@@ -39,11 +41,11 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
 
     LaunchedEffect(postNoteResponse.value) {
         when (postNoteResponse.value) {
-            is Resource.Loading -> Log.d("POST NOTE", "Loading")
-            is Resource.Error -> Log.d("POST NOTE", "ERROR")
-            is Resource.Empty -> Log.d("POST NOTE", "EMPTY")
+            is Resource.Loading -> {}
+            is Resource.Error -> Toasty.error(context, postNoteResponse.value.message.toString(), Toast.LENGTH_SHORT).show()
+            is Resource.Empty -> {}
             is Resource.Success -> {
-                Log.d("POST NOTE", "SUCCESS")
+                Toasty.success(context, "Successfully added child note!", Toast.LENGTH_SHORT).show()
                 navController.navigate(Screen.CheckScreen.route) {
                     popUpTo(Screen.ChildProfileScreen.route) {
                         inclusive = true

@@ -1,7 +1,7 @@
 package com.killjoy.stuntion.features.presentation.screen.add_question
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,11 +11,11 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +31,7 @@ import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -42,14 +43,15 @@ fun AddQuestionScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberBottomSheetScaffoldState()
     val questionResponse = viewModel.questionResponse.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(questionResponse.value) {
         when (questionResponse.value) {
-            is Resource.Error -> Log.d("Post Question", questionResponse.value.message.toString())
-            is Resource.Empty -> Log.d("Post Question", questionResponse.value.message.toString())
-            is Resource.Loading -> Log.d("Post Question", "Loading")
+            is Resource.Error -> Toasty.error(context, questionResponse.value.message.toString(), Toast.LENGTH_SHORT).show()
+            is Resource.Empty -> {}
+            is Resource.Loading -> {}
             is Resource.Success -> {
-                Log.d("Post Question", questionResponse.value.message.toString())
+                Toasty.success(context, "Add question success!", Toast.LENGTH_SHORT).show()
                 navController.navigate(Screen.ConsultScreen.route) {
                     popUpTo(Screen.AddQuestionScreen.route) {
                         inclusive = true

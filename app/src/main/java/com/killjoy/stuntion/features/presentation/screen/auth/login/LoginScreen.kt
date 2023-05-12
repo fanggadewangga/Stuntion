@@ -1,6 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.auth.login
 
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,11 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
@@ -41,20 +43,30 @@ import com.killjoy.stuntion.features.presentation.utils.components.StuntionTextF
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import es.dmoral.toasty.Toasty
 
 @Composable
 fun LoginScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<LoginViewModel>()
     val userResponse = viewModel.userResponse.collectAsState()
+    val context = LocalContext.current
+    val systemUiController = rememberSystemUiController()
+
+    LaunchedEffect(key1 = true) {
+        systemUiController.apply {
+            setStatusBarColor(color = PrimaryBlue, darkIcons = true)
+            setNavigationBarColor(color = Color.White, darkIcons = true)
+        }
+    }
 
     LaunchedEffect(userResponse.value) {
         when (userResponse.value) {
-            is Resource.Loading -> Log.d("Sign In", "Loading")
-            is Resource.Error -> Log.d("Sign In", userResponse.value.message.toString())
-            is Resource.Empty -> Log.d("Sign In", "Empty")
+            is Resource.Loading -> {}
+            is Resource.Error -> Toasty.error(context, userResponse.value.message.toString(), Toast.LENGTH_SHORT).show()
+            is Resource.Empty -> {}
             is Resource.Success -> {
-                Log.d("Sign In", "Success")
+                Toasty.success(context, "Login success!", Toast.LENGTH_SHORT).show()
                 if (userResponse.value.data!!.gender != null) {
                     navController.navigate(Screen.HomeScreen.route) {
                         popUpTo(Screen.LoginScreen.route) {
