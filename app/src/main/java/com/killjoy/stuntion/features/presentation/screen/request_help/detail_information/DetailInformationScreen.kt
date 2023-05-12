@@ -16,14 +16,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpViewModel
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun DetailInformationScreen(navController: NavController) {
-    val viewModel = hiltViewModel<DetailInformationViewModel>()
+fun DetailInformationScreen() {
+    val viewModel = hiltViewModel<RequestHelpViewModel>()
 
     Column{
 
@@ -117,10 +118,4 @@ fun DetailInformationScreen(navController: NavController) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun DetailInformationPreview() {
-    DetailInformationScreen(navController = rememberNavController())
 }

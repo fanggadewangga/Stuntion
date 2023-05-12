@@ -40,6 +40,7 @@ import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.question.QuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpSuccessScreen
+import com.killjoy.stuntion.features.presentation.screen.request_help.confirmation.ConfirmationScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.detail_information.DetailInformationScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.help_target.HelpTargetScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.personal_data.PersonalDataScreen
@@ -211,19 +212,19 @@ fun Navigation() {
             RequestHelpSuccessScreen(navController = navController)
         }
         composable(route = Screen.PersonalDataScreen.route) {
-            PersonalDataScreen(navController = navController)
+            PersonalDataScreen()
         }
         composable(route = Screen.HelpTargetScreen.route) {
-            HelpTargetScreen(navController = navController)
+            HelpTargetScreen()
         }
         composable(route = Screen.TitleScreen.route) {
-            TitleScreen(navController = navController)
+            TitleScreen()
         }
         composable(route = Screen.DetailInformationScreen.route) {
-            DetailInformationScreen(navController = navController)
+            DetailInformationScreen()
         }
         composable(route = Screen.ConfirmationScreen.route) {
-
+            ConfirmationScreen()
         }
 
         // Verification success

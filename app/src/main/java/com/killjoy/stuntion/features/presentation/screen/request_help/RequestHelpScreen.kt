@@ -1,8 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.request_help
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -71,11 +69,11 @@ fun RequestHelpScreen(navController: NavController) {
         )
 
         when (viewModel.currentStep.value) {
-            1 -> PersonalDataScreen(navController = navController)
-            2 -> HelpTargetScreen(navController = navController)
-            3 -> TitleScreen(navController = navController)
-            4 -> DetailInformationScreen(navController = navController)
-            else -> ConfirmationScreen(navController = navController)
+            1 -> PersonalDataScreen()
+            2 -> HelpTargetScreen()
+            3 -> TitleScreen()
+            4 -> DetailInformationScreen()
+            else -> ConfirmationScreen()
         }
 
         Row(

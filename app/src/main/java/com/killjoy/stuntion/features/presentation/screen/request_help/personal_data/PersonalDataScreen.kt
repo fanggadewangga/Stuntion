@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpViewModel
 import com.killjoy.stuntion.features.presentation.screen.request_help.title.TitleScreen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
@@ -27,9 +28,9 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun PersonalDataScreen(navController: NavController) {
+fun PersonalDataScreen() {
 
-    val viewModel = hiltViewModel<PersonalDataViewModel>()
+    val viewModel = hiltViewModel<RequestHelpViewModel>()
 
     Column(Modifier.verticalScroll(rememberScrollState())) {
         Spacer(modifier = Modifier.height(16.dp))
@@ -181,10 +182,4 @@ fun PersonalDataScreen(navController: NavController) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun PersonalDataScreenPreview() {
-    TitleScreen(navController = rememberNavController())
 }
