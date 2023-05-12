@@ -6,6 +6,4 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ActivityListViewModel @Inject constructor(private val userRepository: UserRepository): ViewModel() {
-
-}
+class ActivityListViewModel @Inject constructor(private val userRepository: UserRepository): ViewModel()

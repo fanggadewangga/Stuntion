@@ -111,7 +111,7 @@ fun DataVerificationScreen(navController: NavController) {
 
         // Button
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(bottom = 48.dp)
         ) {

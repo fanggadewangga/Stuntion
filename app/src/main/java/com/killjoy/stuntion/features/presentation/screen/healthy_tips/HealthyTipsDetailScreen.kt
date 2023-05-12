@@ -66,7 +66,7 @@ fun HealthyTipsDetailScreen(navController: NavController, taskId: String) {
     when (fetchTaskDetailResponse.value) {
         is Resource.Loading -> {
             Box(
-                contentAlignment = Alignment.Center,
+                contentAlignment = Center,
                 modifier = Modifier.fillMaxSize()
             ) {
                 LoadingAnimation(

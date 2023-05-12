@@ -69,9 +69,9 @@ fun HomeScreen(navController: NavController) {
     LaunchedEffect(Unit) {
         while (true) {
             delay(2500L)
+            tween<Float>(500)
             pagerState.animateScrollToPage(
-                page = (pagerState.currentPage + 1) % (pagerState.pageCount),
-                animationSpec = tween(500)
+                page = (pagerState.currentPage + 1) % (pagerState.pageCount)
             )
         }
     }
