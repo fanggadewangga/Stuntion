@@ -8,15 +8,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.exoplayer2.ExoPlayer
@@ -56,8 +55,17 @@ fun VideoDetailScreen(navController: NavController, smartstunId: String) {
         setNavigationBarColor(color = Color.White, darkIcons = true)
     }
     val context = LocalContext.current
-    val detailResponse = viewModel.detailResponse.collectAsState()
-    val listResponse = viewModel.listResponse.collectAsState()
+    val detailResponse = viewModel.detailResponse.collectAsStateWithLifecycle()
+    val listResponse = viewModel.listResponse.collectAsStateWithLifecycle()
+    val player = remember {
+        ExoPlayer.Builder(context).build()
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            player.release()
+        }
+    }
 
     LaunchedEffect(key1 = true) {
         viewModel.fetchSmartstunDetail(smartstunId)
@@ -81,14 +89,12 @@ fun VideoDetailScreen(navController: NavController, smartstunId: String) {
         is Resource.Success -> {
             val smartstun = detailResponse.value.data!!
             Log.d("Video URL", smartstun.videoUrl)
-            val player = remember {
-                ExoPlayer.Builder(context).build().apply {
-                    val dataSource = DefaultDataSource.Factory(context)
-                    val source = ProgressiveMediaSource.Factory(dataSource)
-                        .createMediaSource(MediaItem.fromUri(Uri.parse(smartstun.videoUrl)))
-                    addMediaSource(source)
-                    prepare()
-                }
+            player.apply {
+                val dataSource = DefaultDataSource.Factory(context)
+                val source = ProgressiveMediaSource.Factory(dataSource)
+                    .createMediaSource(MediaItem.fromUri(Uri.parse(smartstun.videoUrl)))
+                addMediaSource(source)
+                prepare()
             }
 
             LazyColumn(
@@ -235,6 +241,7 @@ fun VideoDetailScreen(navController: NavController, smartstunId: String) {
                                 ArticleItemShimmer(Modifier.width(180.dp))
                             }
                         }
+
                         is Resource.Empty -> {}
                         is Resource.Success -> {
                             val otherList = listResponse.value.data!!.shuffled().take(2)
@@ -257,6 +264,7 @@ fun VideoDetailScreen(navController: NavController, smartstunId: String) {
                                 }
                             }
                         }
+
                         is Resource.Error -> {}
                     }
                 }
