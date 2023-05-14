@@ -158,10 +158,10 @@ fun HelpTargetScreen() {
             }
             StuntionBasicTextField(
                 placeHolder = "Enter the need for additional food",
-                value = if (viewModel.foodState.value != 0) viewModel.foodState.value.toString() else "",
+                value = viewModel.foodState.value.toString(),
                 onValueChange = {
                     viewModel.isFoodFieldClicked.value = true
-                    viewModel.foodState.value = it.toInt()
+                    viewModel.foodState.value = it.toIntOrNull() ?: 0
                 },
                 shape = RoundedCornerShape(100.dp),
                 singleLine = true,
@@ -184,10 +184,10 @@ fun HelpTargetScreen() {
             }
             StuntionBasicTextField(
                 placeHolder = "Enter the cost of the food",
-                value = if (viewModel.costState.value != 0) viewModel.costState.value.toString() else "",
+                value = viewModel.costState.value.toString(),
                 onValueChange = {
                     viewModel.isCostFieldClicked.value = true
-                    viewModel.costState.value = it.toInt()
+                    viewModel.costState.value = it.toIntOrNull() ?: 0
                 },
                 leadingIcon = {
                     StuntionText(
