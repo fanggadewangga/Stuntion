@@ -23,8 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpViewModel
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
@@ -32,11 +34,53 @@ import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
 
 @Composable
 fun HelpTargetScreen() {
 
     val viewModel = hiltViewModel<RequestHelpViewModel>()
+    val calendarState = rememberMaterialDialogState()
+
+    MaterialDialog(
+        shape = RoundedCornerShape(28.dp),
+        dialogState = calendarState,
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true
+        ),
+        buttons = {
+            positiveButton(text = "Ok", textStyle = TextStyle(color = PrimaryBlue)) {
+                viewModel.dateState.value = viewModel.formattedEndDate.value
+                calendarState.hide()
+            }
+            negativeButton(text = "Cancel", textStyle = TextStyle(color = PrimaryBlue)) {
+                calendarState.hide()
+            }
+        }
+    ) {
+        datepicker(
+            title = "Select date",
+            initialDate = LocalDate.now(),
+            waitForPositiveButton = true,
+            colors = DatePickerDefaults.colors(
+                headerBackgroundColor = PrimaryBlue,
+                headerTextColor = Color.White,
+                dateActiveBackgroundColor = PrimaryBlue,
+                dateActiveTextColor = Color.White
+            )
+        ) {
+            viewModel.apply {
+                isPickedAnEndDate.value = true
+                endDate.value = it
+                dateState.value = viewModel.formattedEndDate.value
+            }
+        }
+    }
 
     Column {
         // Indicator
@@ -114,15 +158,16 @@ fun HelpTargetScreen() {
             }
             StuntionBasicTextField(
                 placeHolder = "Enter the need for additional food",
-                value = viewModel.foodState.value,
+                value = if (viewModel.foodState.value != 0) viewModel.foodState.value.toString() else "",
                 onValueChange = {
                     viewModel.isFoodFieldClicked.value = true
-                    viewModel.foodState.value = it
+                    viewModel.foodState.value = it.toInt()
                 },
                 shape = RoundedCornerShape(100.dp),
                 singleLine = true,
                 isError = !viewModel.isValidFood.value,
                 showWarningMessage = !viewModel.isValidFood.value,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 warningMessage = "Field could not be empty.",
                 modifier = Modifier.fillMaxWidth()
             )
@@ -139,10 +184,10 @@ fun HelpTargetScreen() {
             }
             StuntionBasicTextField(
                 placeHolder = "Enter the cost of the food",
-                value = viewModel.costState.value,
+                value = if (viewModel.costState.value != 0) viewModel.costState.value.toString() else "",
                 onValueChange = {
                     viewModel.isCostFieldClicked.value = true
-                    viewModel.costState.value = it
+                    viewModel.costState.value = it.toInt()
                 },
                 leadingIcon = {
                     StuntionText(
@@ -268,6 +313,7 @@ fun HelpTargetScreen() {
                             selected = viewModel.selectedDuration.value == viewModel.listOfDuration[3],
                             onClick = {
                                 viewModel.selectedDuration.value = viewModel.listOfDuration[3]
+                                calendarState.show()
                             },
                             colors = RadioButtonDefaults.colors(PrimaryBlue)
                         )

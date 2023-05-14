@@ -1,6 +1,15 @@
 package com.killjoy.stuntion.features.presentation.screen.request_help
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +31,7 @@ import com.killjoy.stuntion.features.presentation.utils.components.StuntionButto
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import java.time.LocalDate
 
 @Composable
 fun RequestHelpScreen(navController: NavController) {
@@ -104,7 +114,15 @@ fun RequestHelpScreen(navController: NavController) {
                 onClick = {
                     if (viewModel.currentStep.value < 5)
                         viewModel.currentStep.value += 1
-                    else navController.navigate(Screen.RequestHelpSuccessScreen.route)
+                    else {
+                        when (viewModel.selectedDuration.value) {
+                            viewModel.listOfDuration[0] -> viewModel.endDate.value = LocalDate.now().plusDays(10)
+                            viewModel.listOfDuration[1] -> viewModel.endDate.value = LocalDate.now().plusDays(30)
+                            viewModel.listOfDuration[2] -> viewModel.endDate.value = LocalDate.now().plusDays(60)
+                        }
+                        viewModel.postNewDonation()
+                        //navController.navigate(Screen.RequestHelpSuccessScreen.route)
+                    }
                 },
                 modifier = Modifier.width((LocalConfiguration.current.screenWidthDp / 2.2).dp)
             ) {

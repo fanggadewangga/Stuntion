@@ -1,15 +1,29 @@
 package com.killjoy.stuntion.features.presentation.screen.request_help
 
+import android.net.Uri
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.killjoy.stuntion.features.presentation.utils.Screen
+import androidx.lifecycle.viewModelScope
+import com.killjoy.stuntion.features.data.repository.donation.DonationRepository
+import com.killjoy.stuntion.features.data.repository.user.UserRepository
+import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationBody
+import com.killjoy.stuntion.features.data.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
-class RequestHelpViewModel @Inject constructor() : ViewModel() {
+class RequestHelpViewModel @Inject constructor(
+    private val donationRepository: DonationRepository,
+    private val userRepository: UserRepository,
+) : ViewModel() {
     val currentStep = mutableStateOf(1)
     val listOfStep = listOf(
         "Personal Data",
@@ -44,6 +58,9 @@ class RequestHelpViewModel @Inject constructor() : ViewModel() {
     }
 
     // Help targets
+    val endDate = mutableStateOf(LocalDate.now())
+    val isPickedAnEndDate = mutableStateOf(false)
+
     val listOfDuration = listOf(
         "10 days",
         "30 days",
@@ -53,16 +70,22 @@ class RequestHelpViewModel @Inject constructor() : ViewModel() {
 
     val selectedDuration = mutableStateOf(listOfDuration[0])
 
-    val foodState = mutableStateOf("")
+    val foodState = mutableStateOf(0)
     val isFoodFieldClicked = mutableStateOf(false)
     val isValidFood = derivedStateOf {
-        foodState.value.isNotEmpty() || !isFoodFieldClicked.value
+        foodState.value != 0 || !isFoodFieldClicked.value
     }
 
-    val costState = mutableStateOf("")
+    val costState = mutableStateOf(0)
     val isCostFieldClicked = mutableStateOf(false)
     val isValidCost = derivedStateOf {
-        costState.value.isNotEmpty() || !isCostFieldClicked.value
+        costState.value != 0 || !isCostFieldClicked.value
+    }
+
+    val dateState = mutableStateOf("")
+
+    val formattedEndDate = derivedStateOf {
+        DateTimeFormatter.ofPattern("MMMM dd yyyy").format(endDate.value)
     }
 
     // Title
@@ -89,4 +112,34 @@ class RequestHelpViewModel @Inject constructor() : ViewModel() {
     )
 
     val listOfChecked = mutableStateListOf<String>()
+
+    var selectedImageUri = mutableStateOf<Uri?>(null)
+
+    private val _postDonationResponse = MutableStateFlow<Resource<String>>(Resource.Empty())
+    val postDonationResponse = _postDonationResponse.asStateFlow()
+
+    fun postNewDonation() {
+        viewModelScope.launch {
+            val uid = userRepository.readUid().first()
+            if (uid != null && selectedImageUri.value != null) {
+                val newDonationBody = DonationBody(
+                    uid = uid,
+                    phone = phoneState.value,
+                    title = titleState.value,
+                    address = addressState.value,
+                    story = storyState.value,
+                    deadlineAt = formattedEndDate.value,
+                    maxValue = foodState.value,
+                    fee = costState.value,
+                )
+                donationRepository.postNewDonation(
+                    body = newDonationBody,
+                    imageUri = selectedImageUri.value!!
+                )
+                    .collect {
+                        _postDonationResponse.value = it
+                    }
+            }
+        }
+    }
 }

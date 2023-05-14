@@ -19,7 +19,7 @@ data class DonationBody(
     val story: String = "",
 
     @field:SerializedName("image_url")
-    val imageUrl: String = "",
+    var imageUrl: String = "",
 
     @field:SerializedName("deadline_at")
     val deadlineAt: String = "",

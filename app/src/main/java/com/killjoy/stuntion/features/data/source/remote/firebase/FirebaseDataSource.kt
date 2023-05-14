@@ -65,4 +65,20 @@ class FirebaseDataSource @Inject constructor(
             emit(FirebaseResponse.Error(e.message.toString()))
         }
     }
+
+    fun uploadImage(imageUri: Uri, imageName: String): Flow<FirebaseResponse<String>> = flow {
+        val imageUrl = firebaseStorage.getReference("donation/$imageName")
+            .putFile(imageUri).await()
+            .storage.downloadUrl.await()
+        if (imageUrl != null) {
+            Log.d("Firebase Image", "Success")
+            emit(FirebaseResponse.Success(imageUrl.toString()))
+        } else {
+            Log.d("Firebase Image", "Empty")
+            emit(FirebaseResponse.Empty)
+        }
+    }.catch {
+        Log.d("Firebase Image", "Error ${it.message}")
+        emit(FirebaseResponse.Error(it.message.toString()))
+    }
 }
