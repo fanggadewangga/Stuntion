@@ -1,25 +1,42 @@
 package com.killjoy.stuntion.features.presentation.screen.request_help
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.presentation.utils.Constants
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import kotlinx.coroutines.delay
 
 @Composable
 fun RequestHelpSuccessScreen(navController: NavController) {
+
+    LaunchedEffect(true) {
+        delay(Constants.TIME_SUCCESS_SCREEN)
+        navController.navigate(Screen.SupportScreen.route) {
+            popUpTo(Screen.RequestHelpSuccessScreen.route) {
+                inclusive = true
+            }
+        }
+    }
+
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
@@ -57,7 +74,11 @@ fun RequestHelpSuccessScreen(navController: NavController) {
             borderColor = PrimaryBlue,
             borderWidth = 0.5.dp,
             onClick = {
-                navController.navigate(Screen.HomeScreen.route)
+                navController.navigate(Screen.SupportScreen.route) {
+                    popUpTo(Screen.RequestHelpSuccessScreen.route) {
+                        inclusive = true
+                    }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,10 +92,4 @@ fun RequestHelpSuccessScreen(navController: NavController) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun RequestHelpSuccessPreview() {
-    RequestHelpSuccessScreen(navController = rememberNavController())
 }

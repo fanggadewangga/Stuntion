@@ -114,9 +114,15 @@ fun ConfirmationScreen() {
                     checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[0]),
                     onCheckedChange = {
                         if (viewModel.listOfChecked.contains(viewModel.listOfCheck[0]))
-                            viewModel.listOfChecked.remove(viewModel.listOfCheck[0])
+                            viewModel.apply {
+                                listOfChecked.remove(viewModel.listOfCheck[0])
+                                formValidationCounter.value--
+                            }
                         else
-                            viewModel.listOfChecked.add(viewModel.listOfCheck[0])
+                            viewModel.apply {
+                                listOfChecked.add(viewModel.listOfCheck[0])
+                                formValidationCounter.value++
+                            }
                     },
                     colors = CheckboxDefaults.colors(
                         checkmarkColor = Color.White,
@@ -141,9 +147,15 @@ fun ConfirmationScreen() {
                     checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[1]),
                     onCheckedChange = {
                         if (viewModel.listOfChecked.contains(viewModel.listOfCheck[1]))
-                            viewModel.listOfChecked.remove(viewModel.listOfCheck[1])
+                            viewModel.apply {
+                                listOfChecked.remove(viewModel.listOfCheck[1])
+                                formValidationCounter.value--
+                            }
                         else
-                            viewModel.listOfChecked.add(viewModel.listOfCheck[1])
+                            viewModel.apply {
+                                listOfChecked.add(viewModel.listOfCheck[1])
+                                formValidationCounter.value++
+                            }
                     },
                     colors = CheckboxDefaults.colors(
                         checkmarkColor = Color.White,
@@ -168,9 +180,15 @@ fun ConfirmationScreen() {
                     checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[2]),
                     onCheckedChange = {
                         if (viewModel.listOfChecked.contains(viewModel.listOfCheck[2]))
-                            viewModel.listOfChecked.remove(viewModel.listOfCheck[2])
+                            viewModel.apply {
+                                listOfChecked.remove(viewModel.listOfCheck[2])
+                                formValidationCounter.value--
+                            }
                         else
-                            viewModel.listOfChecked.add(viewModel.listOfCheck[2])
+                            viewModel.apply {
+                                listOfChecked.add(viewModel.listOfCheck[2])
+                                formValidationCounter.value++
+                            }
                     },
                     colors = CheckboxDefaults.colors(
                         checkmarkColor = Color.White,
@@ -195,9 +213,15 @@ fun ConfirmationScreen() {
                     checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[3]),
                     onCheckedChange = {
                         if (viewModel.listOfChecked.contains(viewModel.listOfCheck[3]))
-                            viewModel.listOfChecked.remove(viewModel.listOfCheck[3])
+                            viewModel.apply {
+                                listOfChecked.remove(viewModel.listOfCheck[3])
+                                formValidationCounter.value--
+                            }
                         else
-                            viewModel.listOfChecked.add(viewModel.listOfCheck[3])
+                            viewModel.apply {
+                                listOfChecked.add(viewModel.listOfCheck[3])
+                                formValidationCounter.value++
+                            }
                     },
                     colors = CheckboxDefaults.colors(
                         checkmarkColor = Color.White,
@@ -222,9 +246,15 @@ fun ConfirmationScreen() {
                     checked = viewModel.listOfChecked.contains(viewModel.listOfCheck[4]),
                     onCheckedChange = {
                         if (viewModel.listOfChecked.contains(viewModel.listOfCheck[4]))
-                            viewModel.listOfChecked.remove(viewModel.listOfCheck[4])
+                            viewModel.apply {
+                                listOfChecked.remove(viewModel.listOfCheck[4])
+                                formValidationCounter.value--
+                            }
                         else
-                            viewModel.listOfChecked.add(viewModel.listOfCheck[4])
+                            viewModel.apply {
+                                listOfChecked.add(viewModel.listOfCheck[4])
+                                formValidationCounter.value++
+                            }
                     },
                     colors = CheckboxDefaults.colors(
                         checkmarkColor = Color.White,

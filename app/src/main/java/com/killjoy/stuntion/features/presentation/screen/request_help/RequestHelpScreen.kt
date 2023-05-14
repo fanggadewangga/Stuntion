@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.request_help
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,31 +13,54 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.screen.request_help.confirmation.ConfirmationScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.detail_information.DetailInformationScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.help_target.HelpTargetScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.personal_data.PersonalDataScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.title.TitleScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
+import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import es.dmoral.toasty.Toasty
 import java.time.LocalDate
 
 @Composable
 fun RequestHelpScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<RequestHelpViewModel>()
+    val context = LocalContext.current
+    val donationResponse = viewModel.postDonationResponse.collectAsStateWithLifecycle()
+
+    LaunchedEffect(donationResponse.value) {
+        when (donationResponse.value) {
+            is Resource.Success -> {
+                Toasty.success(context, "Successfully added a support request!", Toast.LENGTH_SHORT)
+                    .show()
+                navController.navigate(Screen.RequestHelpSuccessScreen.route) {
+                    popUpTo(Screen.RequestHelpScreen.route) {
+                        inclusive = true
+                    }
+                }
+            }
+            is Resource.Error -> Toasty.error(context, donationResponse.value.message.toString(), Toast.LENGTH_SHORT).show()
+            is Resource.Loading -> {}
+            is Resource.Empty -> {}
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -93,51 +117,65 @@ fun RequestHelpScreen(navController: NavController) {
                 .fillMaxWidth()
                 .padding(top = 16.dp)
         ) {
-            StuntionButton(
-                backgroundColor = Color.White,
-                borderColor = PrimaryBlue,
-                borderWidth = 0.5.dp,
-                onClick = {
-                    if (viewModel.currentStep.value > 1)
-                        viewModel.currentStep.value -= 1
-                    else navController.navigate(Screen.SupportScreen.route)
-                },
-                modifier = Modifier.width((LocalConfiguration.current.screenWidthDp / 2.2).dp)
-            ) {
-                StuntionText(
-                    text = "Back",
-                    color = PrimaryBlue,
-                    textStyle = Type.labelLarge()
-                )
-            }
-            StuntionButton(
-                onClick = {
-                    if (viewModel.currentStep.value < 5)
-                        viewModel.currentStep.value += 1
-                    else {
-                        when (viewModel.selectedDuration.value) {
-                            viewModel.listOfDuration[0] -> viewModel.endDate.value = LocalDate.now().plusDays(10)
-                            viewModel.listOfDuration[1] -> viewModel.endDate.value = LocalDate.now().plusDays(30)
-                            viewModel.listOfDuration[2] -> viewModel.endDate.value = LocalDate.now().plusDays(60)
+            if (donationResponse.value is Resource.Loading)
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    LoadingAnimation()
+                }
+            else {
+                StuntionButton(
+                    backgroundColor = Color.White,
+                    borderColor = PrimaryBlue,
+                    borderWidth = 0.5.dp,
+                    onClick = {
+                        if (viewModel.currentStep.value > 1)
+                            viewModel.currentStep.value -= 1
+                        else navController.navigate(Screen.SupportScreen.route)
+                    },
+                    modifier = Modifier.width((LocalConfiguration.current.screenWidthDp / 2.2).dp)
+                ) {
+                    StuntionText(
+                        text = "Back",
+                        color = PrimaryBlue,
+                        textStyle = Type.labelLarge()
+                    )
+                }
+                StuntionButton(
+                    onClick = {
+                        if (viewModel.currentStep.value < 5)
+                            viewModel.currentStep.value += 1
+                        else {
+                            when (viewModel.selectedDuration.value) {
+                                viewModel.listOfDuration[0] -> viewModel.endDate.value =
+                                    LocalDate.now().plusDays(10)
+
+                                viewModel.listOfDuration[1] -> viewModel.endDate.value =
+                                    LocalDate.now().plusDays(30)
+
+                                viewModel.listOfDuration[2] -> viewModel.endDate.value =
+                                    LocalDate.now().plusDays(60)
+                            }
+                            if (viewModel.isFormValid.value)
+                                viewModel.postNewDonation()
+                            else
+                                Toasty.warning(
+                                    context,
+                                    "Please complete all forms first!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                         }
-                        viewModel.postNewDonation()
-                        //navController.navigate(Screen.RequestHelpSuccessScreen.route)
-                    }
-                },
-                modifier = Modifier.width((LocalConfiguration.current.screenWidthDp / 2.2).dp)
-            ) {
-                StuntionText(
-                    text = if (viewModel.currentStep.value <= viewModel.listOfStep.size) "Next" else "Finish",
-                    color = Color.White,
-                    textStyle = Type.labelLarge()
-                )
+                    },
+                    modifier = Modifier.width((LocalConfiguration.current.screenWidthDp / 2.2).dp)
+                ) {
+                    StuntionText(
+                        text = if (viewModel.currentStep.value <= viewModel.listOfStep.size) "Next" else "Finish",
+                        color = Color.White,
+                        textStyle = Type.labelLarge()
+                    )
+                }
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun RequestHelpScreenPreview() {
-    RequestHelpScreen(navController = rememberNavController())
 }

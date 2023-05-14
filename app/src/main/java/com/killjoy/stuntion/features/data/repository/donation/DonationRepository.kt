@@ -26,7 +26,8 @@ class DonationRepository @Inject constructor(
         imageUri: Uri,
     ): Flow<Resource<String>> = channelFlow<Resource<String>> {
         send(Resource.Loading())
-        firebaseDataSource.uploadImage(imageUri = imageUri, imageName = body.title)
+        val imageName = "${body.uid}-${body.title}"
+        firebaseDataSource.uploadImage(imageUri = imageUri, imageName = imageName)
             .collect { response ->
                 when (response) {
                     is FirebaseResponse.Success -> {
@@ -35,12 +36,10 @@ class DonationRepository @Inject constructor(
                         try {
                             val donationResponse = stuntionApi.postNewDonation(body)
                             if (!donationResponse.isError) {
-                                Log.d("POST DONATION", donationResponse.message)
                                 send(Resource.Success(donationResponse.message))
                             } else
                                 send(Resource.Error(donationResponse.message))
                         } catch (e: Exception) {
-                            Log.d("POST DONATION", e.message.toString())
                             send(Resource.Error(e.message.toString()))
                         }
                     }

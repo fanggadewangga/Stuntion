@@ -94,6 +94,7 @@ class RequestHelpViewModel @Inject constructor(
     val isValidTitle = derivedStateOf {
         titleState.value.isNotEmpty() || !isTitleFieldClicked.value
     }
+    var selectedImageUri = mutableStateOf<Uri?>(null)
 
     // Detail Information
     val storyState = mutableStateOf("")
@@ -110,10 +111,11 @@ class RequestHelpViewModel @Inject constructor(
         "The story you describe already includes the information in your request for help",
         "You agree to the Terms & Conditions of Stuntion",
     )
-
     val listOfChecked = mutableStateListOf<String>()
-
-    var selectedImageUri = mutableStateOf<Uri?>(null)
+    val formValidationCounter = mutableStateOf(0)
+    val isFormValid = derivedStateOf {
+        formValidationCounter.value == listOfCheck.size
+    }
 
     private val _postDonationResponse = MutableStateFlow<Resource<String>>(Resource.Empty())
     val postDonationResponse = _postDonationResponse.asStateFlow()
