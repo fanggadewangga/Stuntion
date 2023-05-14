@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -41,7 +42,7 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun SupportScreen(navController: NavController) {
     val viewModel = hiltViewModel<SupportViewModel>()
-    val donations = viewModel.donationResponse.collectAsState()
+    val donations = viewModel.donationResponse.collectAsStateWithLifecycle()
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) },

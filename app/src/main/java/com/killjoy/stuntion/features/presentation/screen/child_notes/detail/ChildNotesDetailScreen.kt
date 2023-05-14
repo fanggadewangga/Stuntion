@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -25,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,7 +33,6 @@ import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ChildProfileSectionItem
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
 import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
 import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
@@ -234,52 +230,8 @@ fun ChildNotesDetailScreen(navController: NavController, noteId: String) {
                         }
                     }
 
-                    // Buttons
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        // Retry
-                        StuntionButton(
-                            backgroundColor = Color.White,
-                            borderColor = PrimaryBlue,
-                            rippleColor = PrimaryBlue,
-                            borderWidth = 1.dp,
-                            contentPadding = PaddingValues(vertical = 12.dp),
-                            onClick = {
-
-                            },
-                            modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.44).dp)
-                        ) {
-                            StuntionText(
-                                text = "Retry",
-                                textStyle = Type.labelLarge(),
-                                color = PrimaryBlue,
-                                modifier = Modifier.padding(horizontal = 24.dp)
-                            )
-                        }
-
-                        // Save
-                        StuntionButton(
-                            backgroundColor = PrimaryBlue,
-                            contentPadding = PaddingValues(vertical = 12.dp),
-                            onClick = {
-
-                            },
-                            modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.44).dp)
-                        ) {
-                            StuntionText(
-                                text = "Save",
-                                textStyle = Type.labelLarge(),
-                                color = Color.White,
-                                modifier = Modifier.padding(horizontal = 24.dp)
-                            )
-                        }
-                    }
-
                     // Text
+                    Spacer(modifier = Modifier.height(8.dp))
                     Row {
                         StuntionText(
                             text = "* ",
