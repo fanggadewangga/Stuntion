@@ -44,7 +44,7 @@ import com.killjoy.stuntion.features.presentation.utils.components.QuestionItem
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.Gray
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.Type

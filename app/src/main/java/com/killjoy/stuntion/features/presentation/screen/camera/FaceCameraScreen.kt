@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.utils.Screen
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.Type
 import com.ujizin.camposer.CameraPreview
 import com.ujizin.camposer.state.CamSelector

@@ -23,7 +23,7 @@ import com.killjoy.stuntion.features.presentation.utils.Avatar
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.AvatarItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 import kotlinx.coroutines.launch

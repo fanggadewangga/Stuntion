@@ -25,7 +25,7 @@ import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.MultipleChoiceItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionStepper
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.LighterGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type

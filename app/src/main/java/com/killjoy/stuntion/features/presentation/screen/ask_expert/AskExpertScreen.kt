@@ -13,18 +13,15 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
@@ -32,7 +29,7 @@ import com.killjoy.stuntion.features.presentation.utils.components.QuestionCateg
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItem
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 

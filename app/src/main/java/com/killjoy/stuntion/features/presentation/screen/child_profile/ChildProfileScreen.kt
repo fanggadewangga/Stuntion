@@ -26,7 +26,7 @@ import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.utils.*
 import com.killjoy.stuntion.features.presentation.utils.components.*
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type

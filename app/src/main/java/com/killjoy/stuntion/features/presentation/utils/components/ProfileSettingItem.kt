@@ -7,16 +7,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.Type
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.utils.ProfileSetting
-import com.killjoy.stuntion.ui.theme.PrimaryBlue
 
 @Composable
 fun ProfileSettingItem(

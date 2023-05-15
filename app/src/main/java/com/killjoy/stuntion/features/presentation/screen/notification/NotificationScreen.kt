@@ -8,16 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.features.presentation.utils.components.NotificationItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
-import com.killjoy.stuntion.ui.theme.PrimaryBlue
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable

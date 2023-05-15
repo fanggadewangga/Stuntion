@@ -43,7 +43,7 @@ import com.killjoy.stuntion.features.presentation.utils.components.HomeArticleIt
 import com.killjoy.stuntion.features.presentation.utils.components.HomeArticleItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItem
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItemShimmer
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue

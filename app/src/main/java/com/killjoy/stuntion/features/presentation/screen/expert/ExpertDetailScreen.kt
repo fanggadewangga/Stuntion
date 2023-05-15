@@ -30,7 +30,7 @@ import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
 import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue

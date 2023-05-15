@@ -2,8 +2,6 @@ package com.killjoy.stuntion.features.presentation.screen.chat_expert
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -25,7 +23,7 @@ import com.killjoy.stuntion.features.presentation.utils.components.ExpertCategor
 import com.killjoy.stuntion.features.presentation.utils.components.ExpertChatItem
 import com.killjoy.stuntion.features.presentation.utils.components.ExpertChatItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 

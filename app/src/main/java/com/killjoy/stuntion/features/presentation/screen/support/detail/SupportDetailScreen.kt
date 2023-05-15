@@ -20,11 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
@@ -32,7 +30,7 @@ import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
 import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 

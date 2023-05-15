@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.ui.stuntionUI
+package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

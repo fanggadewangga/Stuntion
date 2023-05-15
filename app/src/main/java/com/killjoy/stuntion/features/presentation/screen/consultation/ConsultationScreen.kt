@@ -25,7 +25,7 @@ import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.screen.chat_expert.ChatExpertsScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert.AskExpertScreen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type

@@ -2,7 +2,6 @@ package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -26,9 +25,6 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import com.killjoy.stuntion.R
-import com.killjoy.stuntion.features.data.source.remote.api.response.note.NoteResponse
-import com.killjoy.stuntion.features.data.source.remote.api.response.task.TaskListResponse
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.*
 
 @Composable

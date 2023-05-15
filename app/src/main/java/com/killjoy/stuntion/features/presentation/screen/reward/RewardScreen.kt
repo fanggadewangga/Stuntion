@@ -30,7 +30,7 @@ import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
 import com.killjoy.stuntion.features.presentation.utils.components.RewardItem
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 

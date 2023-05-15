@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.source.remote.api.response.article.ArticleListResponse
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
 import com.killjoy.stuntion.ui.theme.Gray
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue

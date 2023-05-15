@@ -1,6 +1,5 @@
 package com.killjoy.stuntion.features.presentation.screen.check
 
-import android.app.ActivityManager.AppTask
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -12,7 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable

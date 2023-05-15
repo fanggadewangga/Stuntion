@@ -13,7 +13,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,8 +25,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
@@ -35,7 +37,7 @@ import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
 import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.ProfileSettingItem
-import com.killjoy.stuntion.ui.stuntionUI.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -44,7 +46,15 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun ProfileScreen(navController: NavController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
-    val userResponse = viewModel.userResponse.collectAsState()
+    val userResponse = viewModel.userResponse.collectAsStateWithLifecycle()
+    val systemUiController = rememberSystemUiController()
+
+    LaunchedEffect(key1 = true) {
+        systemUiController.apply {
+            setStatusBarColor(color = PrimaryBlue, darkIcons = true)
+            setNavigationBarColor(color = Color.White, darkIcons = true)
+        }
+    }
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) },
