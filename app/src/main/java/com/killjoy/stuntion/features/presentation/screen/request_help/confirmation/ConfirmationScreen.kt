@@ -36,9 +36,8 @@ fun ConfirmationScreen() {
     val viewModel = hiltViewModel<RequestHelpViewModel>()
 
     Column {
-        Spacer(modifier = Modifier.height(32.dp))
-
         // Indicator
+        Spacer(modifier = Modifier.height(16.dp))
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier

@@ -1,6 +1,10 @@
 package com.killjoy.stuntion.features.presentation.screen.request_help
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,9 +24,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.android.gms.maps.model.LatLng
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.screen.request_help.confirmation.ConfirmationScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.detail_information.DetailInformationScreen
@@ -33,6 +39,7 @@ import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.getCurrentLocation
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 import es.dmoral.toasty.Toasty
@@ -44,6 +51,29 @@ fun RequestHelpScreen(navController: NavController) {
     val viewModel = hiltViewModel<RequestHelpViewModel>()
     val context = LocalContext.current
     val donationResponse = viewModel.postDonationResponse.collectAsStateWithLifecycle()
+    val permissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            viewModel.isPermissionGranted.value = isGranted
+            if (isGranted) {
+                getCurrentLocation(context) {
+                    viewModel.userPositionState.value = LatLng(it.latitude, it.longitude)
+                }
+            }
+        }
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ),
+        -> {
+            viewModel.isPermissionGranted.value = true
+            getCurrentLocation(context) {
+                viewModel.userPositionState.value = LatLng(it.latitude, it.longitude)
+            }
+        }
+        else -> viewModel.isPermissionGranted.value = false
+    }
+
 
     LaunchedEffect(donationResponse.value) {
         when (donationResponse.value) {
@@ -157,8 +187,12 @@ fun RequestHelpScreen(navController: NavController) {
                                 viewModel.listOfDuration[2] -> viewModel.endDate.value =
                                     LocalDate.now().plusDays(60)
                             }
-                            if (viewModel.isFormValid.value)
-                                viewModel.postNewDonation()
+                            if (viewModel.isFormValid.value) {
+                                if (viewModel.isPermissionGranted.value)
+                                    viewModel.postNewDonation()
+                                else
+                                    permissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                            }
                             else
                                 Toasty.warning(
                                     context,

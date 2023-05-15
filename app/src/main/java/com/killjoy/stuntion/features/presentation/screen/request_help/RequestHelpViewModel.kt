@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.model.LatLng
 import com.killjoy.stuntion.features.data.repository.donation.DonationRepository
 import com.killjoy.stuntion.features.data.repository.user.UserRepository
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationBody
@@ -29,7 +30,7 @@ class RequestHelpViewModel @Inject constructor(
         "Personal Data",
         "Help Targets",
         "Tittle",
-        "Information",
+        "Confirmation",
     )
 
     // Personal Data
@@ -116,6 +117,8 @@ class RequestHelpViewModel @Inject constructor(
     val isFormValid = derivedStateOf {
         formValidationCounter.value == listOfCheck.size
     }
+    val userPositionState = mutableStateOf(LatLng(0.0, 0.0))
+    val isPermissionGranted = mutableStateOf(false)
 
     private val _postDonationResponse = MutableStateFlow<Resource<String>>(Resource.Empty())
     val postDonationResponse = _postDonationResponse.asStateFlow()
@@ -133,6 +136,8 @@ class RequestHelpViewModel @Inject constructor(
                     deadlineAt = formattedEndDate.value,
                     maxValue = foodState.value,
                     fee = costState.value,
+                    lat = userPositionState.value.latitude,
+                    lon = userPositionState.value.longitude
                 )
                 donationRepository.postNewDonation(
                     body = newDonationBody,

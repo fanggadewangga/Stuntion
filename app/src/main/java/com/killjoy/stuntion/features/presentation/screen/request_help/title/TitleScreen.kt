@@ -33,8 +33,8 @@ import coil.compose.AsyncImage
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpViewModel
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
-import com.killjoy.stuntion.features.presentation.utils.dashedBorder
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.dashedBorder
 import com.killjoy.stuntion.ui.theme.Gray
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
