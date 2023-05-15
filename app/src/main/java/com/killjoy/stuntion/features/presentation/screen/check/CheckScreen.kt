@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.gson.Gson
 import com.killjoy.stuntion.R
@@ -127,19 +128,38 @@ fun CheckScreen(navController: NavController) {
                         }
                 )
             }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+            ) {
+                StuntionText(
+                    text = "Calculation of Child's Nutritional Status",
+                    color = Color.White,
+                    textStyle = Type.titleSmall(),
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                StuntionText(
+                    text = " Based on the",
+                    color = Color.White,
+                    textStyle = Type.bodyMedium(),
+                    modifier = Modifier.padding(end = 16.dp)
+                )
+            }
             StuntionText(
-                text = "Please enter your baby's data for stunting checking!",
+                text = "Indonesian Ministry of Health's Anthropometric Standards",
                 color = Color.White,
-                textStyle = Type.bodySmall(),
+                textStyle = Type.bodyMedium(),
                 modifier = Modifier.padding(start = 16.dp)
             )
 
             // Illustration image
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_baby),
+            Box(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp), contentAlignment = Alignment.Center) {
+                AsyncImage(
+                    model = R.drawable.iv_check,
                     contentDescription = "General information icon",
-                    modifier = Modifier.size(220.dp)
+                    modifier = Modifier.height(110.dp)
                 )
             }
 
@@ -155,7 +175,6 @@ fun CheckScreen(navController: NavController) {
                 Column(
                     modifier = Modifier
                         .matchParentSize()
-                        .verticalScroll(rememberScrollState())
                         .padding(vertical = 24.dp)
                 ) {
 
@@ -316,16 +335,19 @@ fun CheckScreen(navController: NavController) {
                     }
 
                     // Button
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     Box(
-                        contentAlignment = Alignment.Center, modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
+                        contentAlignment = Alignment.BottomCenter, modifier = Modifier
+                            .fillMaxSize()
                     ) {
                         StuntionButton(
                             onClick = {
                                 if (viewModel.ageInYear.value !in 0..5)
-                                    Toasty.error(context, "Age should not be more than 5 years", Toast.LENGTH_SHORT).show()
+                                    Toasty.error(
+                                        context,
+                                        "Age should not be more than 5 years",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 else {
                                     val child = Child(
                                         name = viewModel.nameState.value,
