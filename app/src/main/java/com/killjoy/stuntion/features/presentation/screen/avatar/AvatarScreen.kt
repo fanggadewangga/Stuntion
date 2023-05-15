@@ -6,7 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -55,6 +57,7 @@ fun AvatarScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(PrimaryBlue)
+            .verticalScroll(rememberScrollState())
     ) {
         // Avatar Text
         Spacer(modifier = Modifier.height(72.dp))

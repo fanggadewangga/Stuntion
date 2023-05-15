@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Divider
@@ -84,6 +86,7 @@ fun SignupScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(PrimaryBlue)
+            .verticalScroll(rememberScrollState())
     ) {
         // Login Text
         Spacer(modifier = Modifier.height(72.dp))

@@ -1,6 +1,11 @@
 package com.killjoy.stuntion.features.presentation.screen.support.detail
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -22,17 +27,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.RoundCap
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.Polyline
+import com.google.maps.android.compose.rememberCameraPositionState
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
 import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.getCurrentLocation
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
@@ -46,9 +64,41 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
         setStatusBarColor(color = Color.Transparent, darkIcons = true)
         setNavigationBarColor(color = Color.White, darkIcons = true)
     }
-    val donationResponse = viewModel.donationResponse.collectAsState()
-    val isDescriptionVisible = remember {
-        mutableStateOf(true)
+    val donationResponse = viewModel.donationResponse.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val cameraPositionState = rememberCameraPositionState {
+        CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 10f)
+    }
+    val userMarkerState = MarkerState(position = LatLng(0.0, 0.0))
+    val donationMarkerState = MarkerState(position = LatLng(0.0, 0.0))
+    val permissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            viewModel.isPermissionGranted.value = isGranted
+            if (isGranted) {
+                getCurrentLocation(context) {
+                    cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 10f)
+                    userMarkerState.position = it
+                }
+            }
+        }
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ),
+        -> {
+            viewModel.isPermissionGranted.value = true
+            getCurrentLocation(context) {
+                cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 10f)
+                userMarkerState.position = it
+            }
+        }
+
+        else -> {
+            SideEffect {
+                permissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+            }
+        }
     }
 
     LaunchedEffect(key1 = true) {
@@ -68,12 +118,14 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                 )
             }
         }
+
         is Resource.Error -> ErrorLayout()
         is Resource.Empty -> ErrorLayout("Something went wrong")
         is Resource.Success -> {
             val donation = remember {
                 donationResponse.value.data!!
             }
+            donationMarkerState.position = LatLng(donation.lat, donation.lon)
             Scaffold(
                 bottomBar = {
                     StuntionButton(
@@ -83,7 +135,7 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                         contentPadding = PaddingValues(vertical = 8.dp),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal =  16.dp)
+                            .padding(horizontal = 16.dp)
                     ) {
                         StuntionText(
                             text = "Support",
@@ -94,7 +146,11 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                 },
                 modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 14).dp)
             ) {
-                LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = (LocalConfiguration.current.screenHeightDp / 17).dp)
+                ) {
                     // Image
                     item {
                         Box(modifier = Modifier.fillMaxWidth()) {
@@ -310,6 +366,45 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                         }
                     }
 
+                    item {
+                        if (viewModel.isPermissionGranted.value) {
+                            GoogleMap(
+                                cameraPositionState = cameraPositionState,
+                                properties = MapProperties(
+                                    isMyLocationEnabled = true
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                                    .height(240.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+                            ) {
+                                Marker(
+                                    title = "My location",
+                                    state = userMarkerState
+                                )
+                                Marker(
+                                    title = "${donation.name}\'s location",
+                                    state = donationMarkerState
+                                )
+                                Polyline(
+                                    points = listOf(
+                                        LatLng(
+                                            userMarkerState.position.latitude,
+                                            userMarkerState.position.longitude
+                                        ),
+                                        LatLng(donation.lat, donation.lon)
+                                    ),
+                                    width = 8f,
+                                    color = PrimaryBlue,
+                                    startCap = RoundCap()
+                                )
+                            }
+                        } else {
+                            Log.d("Maps", "Permission is not granted")
+                        }
+                    }
+
                     // Information
                     item {
                         StuntionText(
@@ -320,7 +415,7 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                     }
                     item {
                         AnimatedVisibility(
-                            visible = isDescriptionVisible.value,
+                            visible = viewModel.isDescriptionVisibleState.value,
                             enter = fadeIn() + slideInVertically(),
                             exit = fadeOut() + slideOutVertically()
                         ) {
@@ -341,7 +436,8 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                                 textStyle = Type.labelMedium(),
                                 modifier = Modifier
                                     .clickable {
-                                        isDescriptionVisible.value = !isDescriptionVisible.value
+                                        viewModel.isDescriptionVisibleState.value =
+                                            !viewModel.isDescriptionVisibleState.value
                                     }
                                     .align(Alignment.Center)
                             )

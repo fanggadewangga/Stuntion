@@ -1,6 +1,7 @@
 package com.killjoy.stuntion.features.presentation.utils
 
 import android.content.Context
+import android.location.Location
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
@@ -10,6 +11,8 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.killjoy.stuntion.features.domain.model.zscore.ZScoreStandard
 import com.killjoy.stuntion.features.presentation.utils.zscore_util.HeightCategory
 import com.killjoy.stuntion.features.presentation.utils.zscore_util.WeightCategory
@@ -221,5 +224,22 @@ fun countIdealHeight(
             5 -> 90.5
             else -> 0.0
         }
+    }
+}
+
+fun getCurrentLocation(
+    context: Context,
+    onMyLocation:(LatLng) -> Unit
+) {
+    try {
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                val currentLocation = LatLng(location.latitude, location.longitude)
+                onMyLocation(currentLocation)
+            } ?: run{}
+        }
+    } catch (e: SecurityException) {
+        e.printStackTrace()
     }
 }

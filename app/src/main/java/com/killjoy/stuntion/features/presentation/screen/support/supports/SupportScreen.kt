@@ -233,8 +233,8 @@ fun SupportScreen(navController: NavController) {
                             for (i in 1..5)
                                 HomeDonationItemShimmer(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 16.dp, vertical = 4.dp)
+                                        .width(196.dp)
+                                        .padding(end = 16.dp)
                                 )
                         }
 

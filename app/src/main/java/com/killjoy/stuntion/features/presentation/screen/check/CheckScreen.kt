@@ -155,7 +155,9 @@ fun CheckScreen(navController: NavController) {
             )
 
             // Illustration image
-            Box(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp), contentAlignment = Alignment.Center) {
                 AsyncImage(
                     model = R.drawable.iv_check,
                     contentDescription = "General information icon",
@@ -176,6 +178,7 @@ fun CheckScreen(navController: NavController) {
                     modifier = Modifier
                         .matchParentSize()
                         .padding(vertical = 24.dp)
+                        .verticalScroll(rememberScrollState())
                 ) {
 
                     // Gender
