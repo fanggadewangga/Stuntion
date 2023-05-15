@@ -84,7 +84,7 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
             .padding(vertical = 24.dp)
     ) {
         StuntionTopBar(
-            title = "Child Profile",
+            title = "Calculation Result",
             onBackPressed = { navController.popBackStack() }
         )
 
