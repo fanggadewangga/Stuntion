@@ -98,4 +98,10 @@ object Type {
         fontSize = 12.sp,
         lineHeight = 16.sp
     )
+
+    fun wallet() = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_bold)),
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    )
 }

@@ -44,6 +44,7 @@ import com.killjoy.stuntion.features.presentation.utils.components.HomeArticleIt
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItem
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.Wallet
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -91,7 +92,7 @@ fun HomeScreen(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height((LocalConfiguration.current.screenHeightDp / 3).dp)
+                    .height((LocalConfiguration.current.screenHeightDp / 2.8).dp)
             ) {
                 // Background
                 AsyncImage(
@@ -100,7 +101,14 @@ fun HomeScreen(navController: NavController) {
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height((LocalConfiguration.current.screenHeightDp / 3.5).dp)
+                        .height((LocalConfiguration.current.screenHeightDp / 3).dp)
+                )
+                AsyncImage(
+                    model = R.drawable.iv_doll,
+                    contentDescription = "Doll",
+                    modifier = Modifier
+                        .size(width = 98.dp, height = 160.dp)
+                        .align(Alignment.BottomEnd)
                 )
                 Column(
                     modifier = Modifier
@@ -172,6 +180,7 @@ fun HomeScreen(navController: NavController) {
                                         )
                                 )
                             }
+
                             is Resource.Success -> {
                                 StuntionText(
                                     text = "${user.value.data?.name}",
@@ -179,9 +188,11 @@ fun HomeScreen(navController: NavController) {
                                     color = Color.White,
                                 )
                             }
+
                             is Resource.Empty -> {
 
                             }
+
                             is Resource.Error -> {
 
                             }
@@ -201,9 +212,11 @@ fun HomeScreen(navController: NavController) {
                     )
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.clickable {
-                            navController.navigate(Screen.CheckScreen.route)
-                        }
+                        modifier = Modifier
+                            .clickable {
+                                navController.navigate(Screen.CheckScreen.route)
+                            }
+                            .padding(bottom = 12.dp)
                     ) {
                         StuntionText(
                             text = "baby's health ",
@@ -217,21 +230,23 @@ fun HomeScreen(navController: NavController) {
                             modifier = Modifier.size(24.dp)
                         )
                     }
+
+                    // Wallet
+                    user.value.data?.xp?.let { it1 ->
+                        Wallet(
+                            balance = it1.toDouble(),
+                            onTopUpClicked = {},
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
-                AsyncImage(
-                    model = R.drawable.iv_doll,
-                    contentDescription = "Doll",
-                    modifier = Modifier
-                        .size(width = 98.dp, height = 160.dp)
-                        .align(Alignment.BottomEnd)
-                )
             }
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             ) {
 
                 // Child notes
@@ -433,9 +448,11 @@ fun HomeScreen(navController: NavController) {
                             )
                         }
                     }
+
                     is Resource.Empty -> {
 
                     }
+
                     is Resource.Success -> {
                         items(donations.value.data!!) {
                             HomeDonationItem(
@@ -453,6 +470,7 @@ fun HomeScreen(navController: NavController) {
                             )
                         }
                     }
+
                     is Resource.Error -> {
 
                     }
@@ -500,9 +518,11 @@ fun HomeScreen(navController: NavController) {
                             )
                         }
                     }
+
                     is Resource.Empty -> {
 
                     }
+
                     is Resource.Success -> {
                         items(smartstuns.value.data!!) {
                             HomeArticleItem(
@@ -518,6 +538,7 @@ fun HomeScreen(navController: NavController) {
                             )
                         }
                     }
+
                     is Resource.Error -> {
 
                     }
