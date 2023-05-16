@@ -86,7 +86,6 @@ fun SignupScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(PrimaryBlue)
-            .verticalScroll(rememberScrollState())
     ) {
         // Login Text
         Spacer(modifier = Modifier.height(72.dp))
@@ -108,7 +107,10 @@ fun SignupScreen(navController: NavController) {
                 )
                 .padding(horizontal = 16.dp, vertical = 24.dp)
         ) {
-            Column(modifier = Modifier.matchParentSize()) {
+            Column(modifier = Modifier
+                .matchParentSize()
+                .verticalScroll(rememberScrollState())
+            ) {
 
                 // Welcome to Stuntion
                 Row(

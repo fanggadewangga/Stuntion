@@ -90,7 +90,10 @@ fun CheckScreen(navController: NavController) {
                 headerTextColor = Color.White,
                 dateActiveBackgroundColor = PrimaryBlue,
                 dateActiveTextColor = Color.White
-            )
+            ),
+            allowedDateValidator = { date ->
+                date <= LocalDate.now()
+            }
         ) {
             pickedDate.value = it
             viewModel.dateState.value = formattedDate.value

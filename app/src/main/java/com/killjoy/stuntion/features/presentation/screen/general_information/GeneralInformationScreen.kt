@@ -5,7 +5,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.IconButton
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
@@ -84,7 +86,11 @@ fun GeneralInformationScreen(navController: NavController) {
                 headerTextColor = Color.White,
                 dateActiveBackgroundColor = PrimaryBlue,
                 dateActiveTextColor = Color.White
-            )
+            ),
+            yearRange = IntRange(1950, 2006),
+            allowedDateValidator = { date ->
+                date <= LocalDate.now()
+            }
         ) {
             viewModel.pickedDate.value = it
             viewModel.dateState.value = viewModel.formattedDate.value
@@ -116,7 +122,11 @@ fun GeneralInformationScreen(navController: NavController) {
                 )
                 .padding(horizontal = 16.dp, vertical = 24.dp)
         ) {
-            Column(modifier = Modifier.matchParentSize()) {
+            Column(
+                modifier = Modifier
+                    .matchParentSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
 
                 // General information
                 StuntionText(text = "General Information", textStyle = Type.headlineLarge())
