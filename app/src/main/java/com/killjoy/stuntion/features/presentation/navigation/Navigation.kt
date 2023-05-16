@@ -38,6 +38,7 @@ import com.killjoy.stuntion.features.presentation.screen.notification.Notificati
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
 import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.question.QuestionScreen
+import com.killjoy.stuntion.features.presentation.screen.redirect.RedirectScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.RequestHelpSuccessScreen
 import com.killjoy.stuntion.features.presentation.screen.request_help.confirmation.ConfirmationScreen
@@ -316,6 +317,11 @@ fun Navigation() {
         // Account Management
         composable(route = Screen.AccountManagementScreen.route) {
             AccountManagementScreen(navController = navController)
+        }
+        
+        // Redirect
+        composable(route = Screen.RedirectScreen.route) {
+            RedirectScreen(navController = navController)
         }
     }
 }
