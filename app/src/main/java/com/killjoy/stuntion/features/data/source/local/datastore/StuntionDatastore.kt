@@ -37,6 +37,12 @@ class StuntionDatastore @Inject constructor(context: Context) {
         }
     }
 
+    suspend fun savePrefRegistrationProgress(progressIndex: Int) {
+        stuntionDatastore.edit {
+            it[DatastoreUtil.REGISTER_PROGRESS_PREF_KEY] = progressIndex
+        }
+    }
+
     fun readPrefHaveRunAppBefore() = stuntionDatastore.data.map {
         it[DatastoreUtil.HAVE_RUN_APP_BEFORE_PREF_KEY] ?: false
     }
@@ -51,6 +57,10 @@ class StuntionDatastore @Inject constructor(context: Context) {
 
     fun readPrefHaveCreatedAccount() = stuntionDatastore.data.map {
         it[DatastoreUtil.HAVE_CREATE_ACCOUNT_SUCCESSFULLY] ?: false
+    }
+
+    fun readPrefRegistrationProgress() = stuntionDatastore.data.map {
+        it[DatastoreUtil.REGISTER_PROGRESS_PREF_KEY] ?: 1
     }
 
     suspend fun deleteUid() = stuntionDatastore.edit {

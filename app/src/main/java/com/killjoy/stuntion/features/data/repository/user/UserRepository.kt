@@ -38,9 +38,11 @@ class UserRepository @Inject constructor(
                             send((Resource.Error(e.message.toString())))
                         }
                     }
+
                     is FirebaseResponse.Error -> {
                         send(Resource.Error(response.errorMessage))
                     }
+
                     is FirebaseResponse.Empty -> send(Resource.Empty())
                 }
             }
@@ -63,9 +65,11 @@ class UserRepository @Inject constructor(
                             send(Resource.Error(e.message.toString()))
                         }
                     }
+
                     is FirebaseResponse.Error -> {
                         send(Resource.Error(response.errorMessage))
                     }
+
                     is FirebaseResponse.Empty -> send(Resource.Empty())
                 }
             }
@@ -169,6 +173,10 @@ class UserRepository @Inject constructor(
     override suspend fun saveHaveCreatedAccountSuccessfully(isCreatedAccount: Boolean) =
         datastore.savePrefHaveCreatedAccount(isCreatedAccount)
 
+    override suspend fun saveRegisterProgressIndex(progressIndex: Int) {
+        datastore.savePrefRegistrationProgress(progressIndex)
+    }
+
     override suspend fun readUid(): Flow<String?> = datastore.readPrevUid()
     override suspend fun readHaveRunAppBefore(): Flow<Boolean> =
         datastore.readPrefHaveRunAppBefore()
@@ -178,6 +186,10 @@ class UserRepository @Inject constructor(
 
     override suspend fun readHaveCreatedAccount(): Flow<Boolean> =
         datastore.readPrefHaveCreatedAccount()
+
+    override suspend fun readRegisterProgressIndex(): Flow<Int> =
+        datastore.readPrefRegistrationProgress()
+
 
     override suspend fun deleteUid() {
         datastore.deleteUid()

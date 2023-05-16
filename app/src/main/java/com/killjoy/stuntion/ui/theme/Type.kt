@@ -104,4 +104,16 @@ object Type {
         fontSize = 16.sp,
         lineHeight = 24.sp
     )
+
+    fun registrationStepTitle() = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_bold)),
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    )
+
+    fun notification() = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+        fontSize = 12.sp,
+        lineHeight = 0.sp
+    )
 }

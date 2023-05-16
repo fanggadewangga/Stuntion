@@ -43,6 +43,7 @@ import com.killjoy.stuntion.features.presentation.utils.components.HomeArticleIt
 import com.killjoy.stuntion.features.presentation.utils.components.HomeArticleItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItem
 import com.killjoy.stuntion.features.presentation.utils.components.HomeDonationItemShimmer
+import com.killjoy.stuntion.features.presentation.utils.components.RegistrationProgress
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.features.presentation.utils.components.Wallet
 import com.killjoy.stuntion.ui.theme.LightBlue
@@ -135,7 +136,7 @@ fun HomeScreen(navController: NavController) {
                                 imageVector = Icons.Default.Notifications,
                                 contentDescription = "Notification icon",
                                 colorFilter = ColorFilter.tint(Color.White),
-                                modifier = Modifier.size(24.dp)
+                                modifier = Modifier.size(28.dp)
                             )
                             Box(
                                 contentAlignment = Alignment.Center,
@@ -150,7 +151,7 @@ fun HomeScreen(navController: NavController) {
                                 StuntionText(
                                     text = "3",
                                     color = Color.White,
-                                    textStyle = Type.bodySmall()
+                                    textStyle = Type.notification()
                                 )
                             }
                         }
@@ -242,6 +243,29 @@ fun HomeScreen(navController: NavController) {
                 }
             }
 
+            if (viewModel.currentRegistrationState.value < 4) {
+                // Registration Progress
+                Spacer(modifier = Modifier.height(16.dp))
+                RegistrationProgress(
+                    currentRegistrationStep = viewModel.currentRegistrationState.value,
+                    registrationStep = viewModel.listOfRegistrationStep[viewModel.currentRegistrationState.value-1],
+                    progressBarWidth = (LocalConfiguration.current.screenWidthDp * 0.75 / 4).dp,
+                    progressBarShape = RoundedCornerShape(100.dp),
+                    progressBarHeight = 8.dp,
+                    onClick = {
+                        when (viewModel.currentRegistrationState.value) {
+                            1 -> navController.navigate(Screen.SignupScreen.route)
+                            2 -> navController.navigate(Screen.GeneralInformationScreen.route)
+                            3 -> navController.navigate(Screen.AvatarScreen.route)
+                            4 -> navController.navigate(Screen.LocationPermissionScreen.route)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+            }
+
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
@@ -259,7 +283,7 @@ fun HomeScreen(navController: NavController) {
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp)
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                     ) {
                         Box(
                             contentAlignment = Alignment.Center,
@@ -294,7 +318,7 @@ fun HomeScreen(navController: NavController) {
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp)
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                     ) {
                         Box(
                             contentAlignment = Alignment.Center,

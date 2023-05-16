@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.home
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.killjoy.stuntion.R
@@ -10,6 +11,7 @@ import com.killjoy.stuntion.features.data.source.remote.api.response.article.Art
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationListResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserResponse
 import com.killjoy.stuntion.features.data.util.Resource
+import com.killjoy.stuntion.features.domain.model.registration.RegistrationStep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,6 +28,15 @@ class HomeViewModel @Inject constructor(
     val listOfBanner =
         listOf(R.drawable.iv_banner_1, R.drawable.iv_banner_2, R.drawable.iv_banner_3)
 
+    val listOfRegistrationStep = listOf(
+        RegistrationStep(title = "Login or create your account", subtitle = "Login to access all features"),
+        RegistrationStep(title = "Next, complete your personal data", subtitle = "Personal data to make your account verified"),
+        RegistrationStep(title = "Next, choose your avatar", subtitle = "Avatar that will be displayed throughout the application"),
+        RegistrationStep(title = "Next, enable your location", subtitle = "We need your location if you need help fulfilling stunting nutrition"),
+    )
+
+    val currentRegistrationState = mutableStateOf(1)
+
     private val _userResponse = MutableStateFlow<Resource<UserResponse?>>(Resource.Loading())
     val userResponse = _userResponse.asStateFlow()
 
@@ -37,7 +48,7 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow<Resource<List<ArticleListResponse>>>(Resource.Loading())
     val smartstunResponse = _smartstunResponse.asStateFlow()
 
-    fun fetchUserDetail() {
+    private fun fetchUserDetail() {
         viewModelScope.launch {
             val uid = userRepository.readUid().first()!!
             userRepository.fetchUserDetail(uid).collect {
@@ -46,7 +57,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun fetchDonations() {
+    private fun fetchDonations() {
         viewModelScope.launch {
             donationRepository.fetchDonations().collect {
                 _donationResponse.value = it
@@ -54,11 +65,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun fetchSmartstuns() {
+    private fun fetchSmartstuns() {
         viewModelScope.launch {
             articleRepository.fetchArticles().collect {
                 _smartstunResponse.value = it
             }
+        }
+    }
+    private fun getUserRegisterProgressIndex() {
+        viewModelScope.launch {
+            val progressIndex = userRepository.readRegisterProgressIndex().first()
+            currentRegistrationState.value = progressIndex
         }
     }
 
@@ -66,5 +83,6 @@ class HomeViewModel @Inject constructor(
         fetchUserDetail()
         fetchDonations()
         fetchSmartstuns()
+        getUserRegisterProgressIndex()
     }
 }
