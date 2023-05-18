@@ -3,7 +3,14 @@ package com.killjoy.stuntion.features.presentation.utils.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,7 +33,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.killjoy.stuntion.R
@@ -192,6 +198,7 @@ fun StuntionBasicTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     singleLine: Boolean = true,
+    isWithBorder: Boolean = true,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -209,7 +216,7 @@ fun StuntionBasicTextField(
                 .background(color = backgroundColor, shape = shape)
                 .height(textFieldHeight)
                 .border(
-                    width = 1.dp, color = if (isError) Color.Red else borderColor, shape = shape
+                    width = if (isWithBorder) 1.dp else 0.dp, color = if (isError) Color.Red else borderColor, shape = shape
                 ),
             value = value,
             onValueChange = onValueChange,
@@ -265,14 +272,4 @@ fun StuntionBasicTextField(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun TextFieldPreview() {
-    StuntionBasicTextField(
-        placeHolder = "tes",
-        textStyle = Type.labelMedium(),
-        value = "",
-        onValueChange = {})
 }
