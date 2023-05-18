@@ -3,6 +3,7 @@ package com.killjoy.stuntion.features.presentation.screen.support.detail
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,6 +36,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.RoundCap
@@ -60,10 +63,7 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
 
     val viewModel = hiltViewModel<SupportDetailViewModel>()
     val systemUiController = rememberSystemUiController()
-    systemUiController.apply {
-        setStatusBarColor(color = Color.Transparent, darkIcons = true)
-        setNavigationBarColor(color = Color.White, darkIcons = true)
-    }
+    val resource = LocalContext.current.resources
     val donationResponse = viewModel.donationResponse.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val cameraPositionState = rememberCameraPositionState {
@@ -102,6 +102,10 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
     }
 
     LaunchedEffect(key1 = true) {
+        systemUiController.apply {
+            setStatusBarColor(color = Color.Transparent, darkIcons = true)
+            setNavigationBarColor(color = Color.White, darkIcons = true)
+        }
         viewModel.fetchDonationDetail(donationId)
     }
 
@@ -315,6 +319,7 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                         ) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(8.dp)
@@ -339,12 +344,6 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                                     StuntionText(
                                         text = donationResponse.value.data!!.name,
                                         textStyle = Type.labelLarge()
-                                    )
-                                    // User Location
-                                    StuntionText(
-                                        text = donationResponse.value.data!!.address,
-                                        textStyle = Type.bodySmall(),
-                                        color = Color.Gray
                                     )
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
@@ -381,11 +380,13 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                             ) {
                                 Marker(
                                     title = "My location",
-                                    state = userMarkerState
+                                    state = userMarkerState,
+                                    icon =  BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resource, R.drawable.ic_red_marker))
                                 )
                                 Marker(
                                     title = "${donation.name}\'s location",
-                                    state = donationMarkerState
+                                    state = donationMarkerState,
+                                    icon =  BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resource, R.drawable.ic_blue_marker))
                                 )
                                 Polyline(
                                     points = listOf(
@@ -400,6 +401,25 @@ fun SupportDetailScreen(navController: NavController, donationId: String) {
                                     startCap = RoundCap()
                                 )
                             }
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 8.dp, end = 16.dp)
+                            ) {
+                                // Pin
+                                AsyncImage(
+                                    model = R.drawable.ic_red_marker,
+                                    contentDescription = "Red marker",
+                                    modifier = Modifier.size(23.dp)
+                                )
+
+                                // User Location
+                                StuntionText(
+                                    text = donationResponse.value.data!!.address,
+                                    textStyle = Type.bodyMedium()
+                                )
+                            }
+
                         } else {
                             Log.d("Maps", "Permission is not granted")
                         }
