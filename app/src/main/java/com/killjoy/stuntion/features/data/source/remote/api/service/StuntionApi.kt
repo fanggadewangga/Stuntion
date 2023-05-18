@@ -11,6 +11,7 @@ import com.killjoy.stuntion.features.data.source.remote.api.response.expert.Expe
 import com.killjoy.stuntion.features.data.source.remote.api.response.expert.ExpertResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.note.NoteBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.note.NoteResponse
+import com.killjoy.stuntion.features.data.source.remote.api.response.payment.PaymentResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.question.QuestionBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.question.QuestionListResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.question.QuestionResponse
@@ -21,6 +22,7 @@ import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserAv
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserGeneralInfoBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserResponse
+import com.killjoy.stuntion.features.data.source.remote.api.response.voucher.VoucherResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -144,4 +146,11 @@ interface StuntionApi {
         @Path("task_id") taskId: String,
     ): BaseResponse<TaskResponse>
 
+    // Payment
+    @GET("/payment")
+    suspend fun fetchPayments(): BaseResponse<List<PaymentResponse>>
+
+    // Voucher
+    @GET("/user/{uid}/voucher")
+    suspend fun fetchVouchersByUser(@Path("uid") uid: String): BaseResponse<List<VoucherResponse>>
 }

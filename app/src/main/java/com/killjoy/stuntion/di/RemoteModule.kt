@@ -8,12 +8,16 @@ import com.killjoy.stuntion.features.data.repository.expert.ExpertRepository
 import com.killjoy.stuntion.features.data.repository.expert.IExpertRepository
 import com.killjoy.stuntion.features.data.repository.note.INoteRepository
 import com.killjoy.stuntion.features.data.repository.note.NoteRepository
+import com.killjoy.stuntion.features.data.repository.payment.IPaymentRepository
+import com.killjoy.stuntion.features.data.repository.payment.PaymentRepository
 import com.killjoy.stuntion.features.data.repository.question.IQuestionRepository
 import com.killjoy.stuntion.features.data.repository.question.QuestionRepository
 import com.killjoy.stuntion.features.data.repository.task.ITaskRepository
 import com.killjoy.stuntion.features.data.repository.task.TaskRepository
 import com.killjoy.stuntion.features.data.repository.user.IUserRepository
 import com.killjoy.stuntion.features.data.repository.user.UserRepository
+import com.killjoy.stuntion.features.data.repository.voucher.IVoucherRepository
+import com.killjoy.stuntion.features.data.repository.voucher.VoucherRepository
 import com.killjoy.stuntion.features.data.source.local.datastore.StuntionDatastore
 import com.killjoy.stuntion.features.data.source.remote.api.service.StuntionApi
 import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseDataSource
@@ -58,7 +62,7 @@ class RemoteModule {
     fun provideUserRepository(
         stuntionApi: StuntionApi,
         firebaseDataSource: FirebaseDataSource,
-        dataStore: StuntionDatastore
+        dataStore: StuntionDatastore,
     ): IUserRepository = UserRepository(stuntionApi, firebaseDataSource, dataStore)
 
     @Provides
@@ -79,7 +83,7 @@ class RemoteModule {
     @Provides
     fun provideDonationRepository(
         stuntionApi: StuntionApi,
-        firebaseDataSource: FirebaseDataSource
+        firebaseDataSource: FirebaseDataSource,
     ): IDonationRepository = DonationRepository(stuntionApi, firebaseDataSource)
 
     @Provides
@@ -91,4 +95,14 @@ class RemoteModule {
     fun provideTaskRepository(
         stuntionApi: StuntionApi,
     ): ITaskRepository = TaskRepository(stuntionApi)
+
+    @Provides
+    fun providePaymentRepository(
+        stuntionApi: StuntionApi,
+    ): IPaymentRepository = PaymentRepository(stuntionApi)
+
+    @Provides
+    fun provideVoucherRepository(
+        stuntionApi: StuntionApi,
+    ): IVoucherRepository = VoucherRepository(stuntionApi)
 }
