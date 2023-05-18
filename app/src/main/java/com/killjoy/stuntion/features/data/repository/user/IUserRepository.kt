@@ -12,6 +12,7 @@ interface IUserRepository {
     suspend fun updateUserGeneralInformation(uid: String, body: UserGeneralInfoBody): Flow<Resource<String?>>
     suspend fun updateUserAvatar(uid: String, avatarUrl: String): Flow<Resource<String?>>
     suspend fun updateUserLevel(uid: String): Flow<Resource<String?>>
+    suspend fun updateUserWalletBalance(uid: String, balance: Double): Flow<Resource<String?>>
     suspend fun saveUid(uid: String)
     suspend fun saveHaveRunAppBefore(isPassedOnboard: Boolean)
     suspend fun saveHaveUpdateGeneralInfo(isHaveUpdateGeneralInfo: Boolean)

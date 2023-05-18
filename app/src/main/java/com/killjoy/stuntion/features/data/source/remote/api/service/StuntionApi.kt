@@ -19,6 +19,7 @@ import com.killjoy.stuntion.features.data.source.remote.api.response.task.TaskLi
 import com.killjoy.stuntion.features.data.source.remote.api.response.task.TaskResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.task.UserTaskBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserAvatarBody
+import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBalanceBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserGeneralInfoBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserResponse
@@ -53,6 +54,12 @@ interface StuntionApi {
     suspend fun updateUserAvatar(
         @Path("uid") uid: String,
         @Body body: UserAvatarBody,
+    ): BaseResponse<String>
+
+    @PUT("/user/{uid}/wallet")
+    suspend fun updateUserWalletBalance(
+        @Path("uid") uid: String,
+        @Body body: UserBalanceBody,
     ): BaseResponse<String>
 
     @PUT("/user/{uid}/level")

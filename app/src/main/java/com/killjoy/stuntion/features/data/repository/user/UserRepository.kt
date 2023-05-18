@@ -3,6 +3,7 @@ package com.killjoy.stuntion.features.data.repository.user
 import android.util.Log
 import com.killjoy.stuntion.features.data.source.local.datastore.StuntionDatastore
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserAvatarBody
+import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBalanceBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserGeneralInfoBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserResponse
@@ -143,6 +144,25 @@ class UserRepository @Inject constructor(
                 Log.d("UPDATE USER AVATAR: ", e.message.toString())
             }
         }.flowOn(Dispatchers.IO)
+
+    override suspend fun updateUserWalletBalance(
+        uid: String,
+        balance: Double,
+    ): Flow<Resource<String?>> = flow {
+        emit(Resource.Loading())
+        try {
+            val body = UserBalanceBody(balance)
+            val response = stuntionApi.updateUserWalletBalance(uid, body)
+            if (!response.isError) {
+                emit(Resource.Success(response.message))
+                Log.d("UPDATE USER BALANCE: ", "SUCCESS")
+            } else
+                emit(Resource.Empty())
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message))
+            Log.d("UPDATE USER BALANCE: ", e.message.toString())
+        }
+    }
 
     override suspend fun logout(): Flow<Resource<String>> =
         channelFlow {

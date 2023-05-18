@@ -21,6 +21,9 @@ data class UserResponse(
     @field:SerializedName("avatar_url")
     val avatarUrl: String?,
 
+    @field:SerializedName("balance")
+    val balance: Double,
+
     @field:SerializedName("xp")
     val xp: Int,
 
