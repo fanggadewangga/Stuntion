@@ -38,6 +38,7 @@ import com.killjoy.stuntion.features.presentation.screen.location_permission.Loc
 import com.killjoy.stuntion.features.presentation.screen.my_healthy_tips.MyHealthyTipsScreen
 import com.killjoy.stuntion.features.presentation.screen.notification.NotificationScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
+import com.killjoy.stuntion.features.presentation.screen.payment.instruction.PaymentInstructionScreen
 import com.killjoy.stuntion.features.presentation.screen.payment.PaymentMethodScreen
 import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.question.QuestionScreen
@@ -331,6 +332,9 @@ fun Navigation() {
         // Payment
         composable(route = Screen.PaymentScreen.route) {
             PaymentMethodScreen(navController = navController, homePaymentSharedViewModel)
+        }
+        composable(route = Screen.PaymentInstructionScreen.route) {
+            PaymentInstructionScreen(navController = navController, sharedViewModel = homePaymentSharedViewModel)
         }
     }
 }

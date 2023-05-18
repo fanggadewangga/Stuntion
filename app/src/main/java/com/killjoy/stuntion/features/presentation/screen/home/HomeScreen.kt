@@ -104,11 +104,14 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
         sheetContent = {
             PaymentBottomSheet(
                 modifier = Modifier
-                    .height((LocalConfiguration.current.screenHeightDp * 0.6).dp)
+                    .height((LocalConfiguration.current.screenHeightDp * 0.68).dp)
                     .padding(16.dp),
                 sharedViewModel = homePaymentSharedViewModel,
                 onMethodClicked = {
                     navController.navigate(Screen.PaymentScreen.route)
+                },
+                navigateToPaymentInstruction = {
+                    navController.navigate(Screen.PaymentInstructionScreen.route)
                 }
             )
         }
@@ -267,9 +270,9 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                         }
 
                         // Wallet
-                        user.value.data?.xp?.let { it1 ->
+                        user.value.data?.let { it1 ->
                             Wallet(
-                                balance = it1.toDouble(),
+                                balance = it1.balance,
                                 onTopUpClicked = {
                                     coroutineScope.launch {
                                         if (modalBottomSheetState.isVisible)

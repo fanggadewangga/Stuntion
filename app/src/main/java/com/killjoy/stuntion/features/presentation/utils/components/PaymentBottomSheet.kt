@@ -36,6 +36,7 @@ fun PaymentBottomSheet(
     modifier: Modifier = Modifier,
     sharedViewModel: HomePaymentSharedViewModel,
     onMethodClicked: () -> Unit,
+    navigateToPaymentInstruction: () -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
@@ -182,6 +183,21 @@ fun PaymentBottomSheet(
                         .padding(end = 16.dp)
                 )
             }
+        }
+
+        // Button
+        StuntionButton(
+            onClick = {
+                navigateToPaymentInstruction()
+            }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp)
+        ) {
+            StuntionText(
+                text = "Fill Your Support Wallet",
+                color = Color.White,
+                textStyle = Type.labelLarge()
+            )
         }
     }
 }
