@@ -2,6 +2,7 @@ package com.killjoy.stuntion.features.presentation.navigation
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -32,10 +33,12 @@ import com.killjoy.stuntion.features.presentation.screen.expert.ExpertDetailScre
 import com.killjoy.stuntion.features.presentation.screen.general_information.GeneralInformationScreen
 import com.killjoy.stuntion.features.presentation.screen.healthy_tips.HealthyTipsDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.home.HomeScreen
+import com.killjoy.stuntion.features.presentation.screen.home.HomePaymentSharedViewModel
 import com.killjoy.stuntion.features.presentation.screen.location_permission.LocationPermissionScreen
 import com.killjoy.stuntion.features.presentation.screen.my_healthy_tips.MyHealthyTipsScreen
 import com.killjoy.stuntion.features.presentation.screen.notification.NotificationScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
+import com.killjoy.stuntion.features.presentation.screen.payment.PaymentMethodScreen
 import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.question.QuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.redirect.RedirectScreen
@@ -61,6 +64,7 @@ import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArg
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
+    val homePaymentSharedViewModel: HomePaymentSharedViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
 
@@ -89,7 +93,7 @@ fun Navigation() {
 
         // Main screen
         composable(route = Screen.HomeScreen.route) {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController, homePaymentSharedViewModel)
         }
         composable(route = Screen.ConsultScreen.route) {
             ConsultationScreen(navController = navController)
@@ -322,6 +326,11 @@ fun Navigation() {
         // Redirect
         composable(route = Screen.RedirectScreen.route) {
             RedirectScreen(navController = navController)
+        }
+
+        // Payment
+        composable(route = Screen.PaymentScreen.route) {
+            PaymentMethodScreen(navController = navController, homePaymentSharedViewModel)
         }
     }
 }

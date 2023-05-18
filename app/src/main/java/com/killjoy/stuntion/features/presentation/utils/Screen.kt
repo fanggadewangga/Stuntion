@@ -97,4 +97,7 @@ sealed class Screen(val route: String) {
 
     // Redirect
     object RedirectScreen: Screen("redirect_screen")
+
+    // Payment
+    object PaymentScreen: Screen("payment_screen")
 }
