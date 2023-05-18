@@ -106,9 +106,7 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                 modifier = Modifier
                     .height((LocalConfiguration.current.screenHeightDp * 0.6).dp)
                     .padding(16.dp),
-                isHasSelected = homePaymentSharedViewModel.isHasSelectedAPayment.value,
-                paymentImageUrl = homePaymentSharedViewModel.selectedPaymentImageUrlState.value,
-                paymentName = homePaymentSharedViewModel.selectedPaymentNameState.value,
+                sharedViewModel = homePaymentSharedViewModel,
                 onMethodClicked = {
                     navController.navigate(Screen.PaymentScreen.route)
                 }

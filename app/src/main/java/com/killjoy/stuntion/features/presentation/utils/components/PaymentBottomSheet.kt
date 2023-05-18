@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,24 +17,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.killjoy.stuntion.features.presentation.screen.home.HomePaymentSharedViewModel
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
 fun PaymentBottomSheet(
     modifier: Modifier = Modifier,
-    isHasSelected: Boolean,
-    paymentImageUrl: String,
-    paymentName: String,
+    sharedViewModel: HomePaymentSharedViewModel,
     onMethodClicked: () -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
@@ -47,12 +48,12 @@ fun PaymentBottomSheet(
         }
         // Text Field
         StuntionBasicTextField(
-            placeHolder = "Enter the cost of the food",
-            value = "",
+            placeHolder = "0",
+            value = sharedViewModel.selectedNominal.value.toString(),
             isWithBorder = false,
-            textStyle = Type.bodyMedium(TextAlign.Center),
+            textStyle = Type.titleLarge(),
             onValueChange = {
-
+                sharedViewModel.selectedNominal.value = it.toInt()
             },
             leadingIcon = {
                 StuntionText(
@@ -82,9 +83,14 @@ fun PaymentBottomSheet(
 
         // Nominal
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-            WalletNominalSelector(selected = true, nominal = "50.000")
-            WalletNominalSelector(selected = false, nominal = "100.000")
-            WalletNominalSelector(selected = false, nominal = "150.000")
+            for (i in 0..2) {
+                WalletNominalSelector(
+                    selected = sharedViewModel.selectedNominal.value == sharedViewModel.listOfNominal[i],
+                    nominal = sharedViewModel.listOfNominal[i].toString(),
+                    onSelected = {
+                        sharedViewModel.selectedNominal.value = sharedViewModel.listOfNominal[i]
+                    })
+            }
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -92,9 +98,14 @@ fun PaymentBottomSheet(
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         ) {
-            WalletNominalSelector(selected = true, nominal = "250.000")
-            WalletNominalSelector(selected = false, nominal = "500.000")
-            WalletNominalSelector(selected = false, nominal = "750.000")
+            for (i in 3..5) {
+                WalletNominalSelector(
+                    selected = sharedViewModel.selectedNominal.value == sharedViewModel.listOfNominal[i],
+                    nominal = sharedViewModel.listOfNominal[i].toString(),
+                    onSelected = {
+                        sharedViewModel.selectedNominal.value = sharedViewModel.listOfNominal[i]
+                    })
+            }
         }
 
         // Payment method text
@@ -115,15 +126,20 @@ fun PaymentBottomSheet(
                     color = LightGray,
                     shape = RoundedCornerShape(100.dp)
                 )
-                .clickable {
-                    onMethodClicked()
-                }
+                .clickable(
+                    enabled = true,
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(color = Color.LightGray),
+                    onClick = onMethodClicked
+                )
         ) {
-            if (isHasSelected) {
+            if (sharedViewModel.isHasSelectedAPayment.value) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth().padding(start = 24.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp)
                 ) {
                     // Logo and name
                     Row(
@@ -131,12 +147,12 @@ fun PaymentBottomSheet(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         AsyncImage(
-                            model = paymentImageUrl,
+                            model = sharedViewModel.selectedPaymentImageUrlState.value,
                             contentDescription = "Payment method logo",
                             modifier = Modifier.size(64.dp)
                         )
                         StuntionText(
-                            text = paymentName,
+                            text = sharedViewModel.selectedPaymentNameState.value,
                             textStyle = Type.bodyLarge(),
                             modifier = Modifier.padding(start = 16.dp)
                         )

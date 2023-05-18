@@ -209,15 +209,22 @@ fun StuntionBasicTextField(
     disablePlaceHolderColor: Color = Color.Gray,
     backgroundColor: Color = if (enabled) Color.White else Gray,
 
-) {
+    ) {
     Column(verticalArrangement = Arrangement.spacedBy(contentSpacing)) {
-        BasicTextField(
-            modifier = modifier
+        val customModifier: Modifier = if (isWithBorder) modifier
+            .background(color = backgroundColor, shape = shape)
+            .height(textFieldHeight)
+            .border(
+                width = 1.dp,
+                color = if (isError) Color.Red else borderColor,
+                shape = shape
+            ) else
+            modifier
                 .background(color = backgroundColor, shape = shape)
                 .height(textFieldHeight)
-                .border(
-                    width = if (isWithBorder) 1.dp else 0.dp, color = if (isError) Color.Red else borderColor, shape = shape
-                ),
+
+        BasicTextField(
+            modifier = customModifier,
             value = value,
             onValueChange = onValueChange,
             keyboardActions = keyboardActions,
