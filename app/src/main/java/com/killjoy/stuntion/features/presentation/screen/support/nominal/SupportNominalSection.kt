@@ -21,7 +21,7 @@ import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun SupportNominal(
+fun SupportNominalSection(
     modifier: Modifier = Modifier,
     viewModel: SupportDetailViewModel,
 ) {

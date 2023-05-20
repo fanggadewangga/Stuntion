@@ -21,7 +21,7 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun SupportType(
+fun SupportTypeSection(
     modifier: Modifier = Modifier,
     viewModel: SupportDetailViewModel,
 ) {

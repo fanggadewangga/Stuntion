@@ -11,8 +11,6 @@ import com.killjoy.stuntion.features.domain.model.child.Child
 import com.killjoy.stuntion.features.presentation.screen.account_management.AccountManagementScreen
 import com.killjoy.stuntion.features.presentation.screen.activity_list.ActivityListScreen
 import com.killjoy.stuntion.features.presentation.screen.add_question.AddQuestionScreen
-import com.killjoy.stuntion.features.presentation.screen.video.detail.VideoDetailScreen
-import com.killjoy.stuntion.features.presentation.screen.video.videos.VideosScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert.AskExpertScreen
 import com.killjoy.stuntion.features.presentation.screen.ask_expert_detail.AskExpertDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.auth.CreateAccountSuccessScreen
@@ -32,14 +30,14 @@ import com.killjoy.stuntion.features.presentation.screen.consultation.Consultati
 import com.killjoy.stuntion.features.presentation.screen.expert.ExpertDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.general_information.GeneralInformationScreen
 import com.killjoy.stuntion.features.presentation.screen.healthy_tips.HealthyTipsDetailScreen
-import com.killjoy.stuntion.features.presentation.screen.home.HomeScreen
 import com.killjoy.stuntion.features.presentation.screen.home.HomePaymentSharedViewModel
+import com.killjoy.stuntion.features.presentation.screen.home.HomeScreen
 import com.killjoy.stuntion.features.presentation.screen.location_permission.LocationPermissionScreen
 import com.killjoy.stuntion.features.presentation.screen.my_healthy_tips.MyHealthyTipsScreen
 import com.killjoy.stuntion.features.presentation.screen.notification.NotificationScreen
 import com.killjoy.stuntion.features.presentation.screen.onboard.OnboardScreen
-import com.killjoy.stuntion.features.presentation.screen.payment.instruction.PaymentInstructionScreen
 import com.killjoy.stuntion.features.presentation.screen.payment.PaymentMethodScreen
+import com.killjoy.stuntion.features.presentation.screen.payment.instruction.PaymentInstructionScreen
 import com.killjoy.stuntion.features.presentation.screen.profile.ProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.question.QuestionScreen
 import com.killjoy.stuntion.features.presentation.screen.redirect.RedirectScreen
@@ -52,13 +50,17 @@ import com.killjoy.stuntion.features.presentation.screen.request_help.personal_d
 import com.killjoy.stuntion.features.presentation.screen.request_help.title.TitleScreen
 import com.killjoy.stuntion.features.presentation.screen.reward.RewardScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
-import com.killjoy.stuntion.features.presentation.screen.support.supports.SupportScreen
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentMethodScreen
+import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentSharedViewModel
+import com.killjoy.stuntion.features.presentation.screen.support.supports.SupportScreen
 import com.killjoy.stuntion.features.presentation.screen.support_tutorial.SupportTutorialScreen
 import com.killjoy.stuntion.features.presentation.screen.verification.VerificationSuccessScreen
 import com.killjoy.stuntion.features.presentation.screen.verification.card.CardVerificationScreen
 import com.killjoy.stuntion.features.presentation.screen.verification.data.DataVerificationScreen
 import com.killjoy.stuntion.features.presentation.screen.verification.identity.IdentityVerificationScreen
+import com.killjoy.stuntion.features.presentation.screen.video.detail.VideoDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.video.videos.VideosScreen
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArgType
 
@@ -66,6 +68,7 @@ import com.killjoy.stuntion.features.presentation.utils.navigation_util.ChildArg
 fun Navigation() {
     val navController = rememberNavController()
     val homePaymentSharedViewModel: HomePaymentSharedViewModel = hiltViewModel()
+    val supportPaymentSharedViewModel: SupportPaymentSharedViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
 
@@ -202,7 +205,8 @@ fun Navigation() {
             donationId?.let { it1 ->
                 SupportDetailScreen(
                     navController = navController,
-                    donationId = it1
+                    donationId = it1,
+                    sharedViewModel = supportPaymentSharedViewModel
                 )
             }
         }
@@ -275,7 +279,12 @@ fun Navigation() {
             val taskId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
                 key = "taskId"
             )
-            taskId?.let { it1 -> HealthyTipsDetailScreen(navController = navController, taskId = it1) }
+            taskId?.let { it1 ->
+                HealthyTipsDetailScreen(
+                    navController = navController,
+                    taskId = it1
+                )
+            }
         }
 
         // Activity List
@@ -323,7 +332,7 @@ fun Navigation() {
         composable(route = Screen.AccountManagementScreen.route) {
             AccountManagementScreen(navController = navController)
         }
-        
+
         // Redirect
         composable(route = Screen.RedirectScreen.route) {
             RedirectScreen(navController = navController)
@@ -334,7 +343,18 @@ fun Navigation() {
             PaymentMethodScreen(navController = navController, homePaymentSharedViewModel)
         }
         composable(route = Screen.PaymentInstructionScreen.route) {
-            PaymentInstructionScreen(navController = navController, sharedViewModel = homePaymentSharedViewModel)
+            PaymentInstructionScreen(
+                navController = navController,
+                sharedViewModel = homePaymentSharedViewModel
+            )
+        }
+
+        // Support payment
+        composable(route = Screen.SupportPaymentScreen.route) {
+            SupportPaymentMethodScreen(
+                navController = navController,
+                viewModel = supportPaymentSharedViewModel
+            )
         }
     }
 }

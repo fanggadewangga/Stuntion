@@ -1,32 +1,45 @@
 package com.killjoy.stuntion.features.presentation.screen.support.payment
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailViewModel
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun SupportPayment(
+fun SupportPaymentSection(
     modifier: Modifier = Modifier,
     viewModel: SupportDetailViewModel,
+    sharedViewModel: SupportPaymentSharedViewModel,
+    onMethodClicked: () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -78,19 +91,76 @@ fun SupportPayment(
         // Method
         StuntionText(
             text = "Payment Method",
-            textStyle = Type.titleMedium(),
-            modifier = Modifier.padding(top = 8.dp)
+            textStyle = Type.titleMedium()
         )
-        StuntionButton(
-            backgroundColor = Color.White,
-            borderColor = Color.LightGray,
-            onClick = {
+        Box(
+            contentAlignment = Alignment.CenterStart,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .border(
+                    width = 1.dp,
+                    color = LightGray,
+                    shape = RoundedCornerShape(100.dp)
+                )
+                .clickable(
+                    enabled = true,
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(color = Color.LightGray),
+                    onClick = onMethodClicked
+                )
+        ) {
+            if (sharedViewModel.isHasSelectedPaymentState.value) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp)
+                ) {
+                    // Logo and name
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        AsyncImage(
+                            model = sharedViewModel.selectedPaymentImageState.value,
+                            contentDescription = "Payment method logo",
+                            modifier = Modifier.size(64.dp)
+                        )
+                        StuntionText(
+                            text = sharedViewModel.selectedPaymentNameState.value,
+                            textStyle = Type.bodyLarge(),
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
 
-            },
-            content = {
-
+                    // Arrow
+                    Image(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = "Arrow icon",
+                        modifier = Modifier.padding(end = 16.dp)
+                    )
+                }
+            } else {
+                StuntionText(
+                    text = "Choose",
+                    textStyle = Type.bodyLarge(),
+                    color = LightGray,
+                    maxLine = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                Image(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Arrow icon",
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 16.dp)
+                )
             }
-        )
+        }
+
 
         // Make sure
         Box(
@@ -114,6 +184,10 @@ fun SupportPayment(
         }
 
         // Anonymous
-        StuntionText(text = "Hide my name (Anonymous)", textStyle = Type.bodyMedium(), color = LightGray)
+        StuntionText(
+            text = "Hide my name (Anonymous)",
+            textStyle = Type.bodyMedium(),
+            color = LightGray
+        )
     }
 }

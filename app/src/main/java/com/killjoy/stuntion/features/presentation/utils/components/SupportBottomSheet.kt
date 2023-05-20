@@ -8,22 +8,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailViewModel
-import com.killjoy.stuntion.features.presentation.screen.support.nominal.SupportNominal
-import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPayment
-import com.killjoy.stuntion.features.presentation.screen.support.type.SupportType
+import com.killjoy.stuntion.features.presentation.screen.support.nominal.SupportNominalSection
+import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentSection
+import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentSharedViewModel
+import com.killjoy.stuntion.features.presentation.screen.support.type.SupportTypeSection
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
 fun SupportBottomSheet(
     modifier: Modifier = Modifier,
+    navigateToSupportPaymentScreen: () -> Unit,
     viewModel: SupportDetailViewModel,
+    sharedViewModel: SupportPaymentSharedViewModel,
 ) {
     Column(modifier = modifier) {
-        when(viewModel.sendSupportStepState.value) {
-            1 -> SupportType(viewModel = viewModel)
-            2 -> SupportNominal(viewModel = viewModel)
-            3 -> SupportPayment(viewModel = viewModel)
+        when (viewModel.sendSupportStepState.value) {
+            1 -> SupportTypeSection(viewModel = viewModel)
+            2 -> SupportNominalSection(viewModel = viewModel)
+            3 -> SupportPaymentSection(
+                viewModel = viewModel,
+                sharedViewModel = sharedViewModel,
+                onMethodClicked = {
+                    navigateToSupportPaymentScreen()
+                }
+            )
         }
 
         // Next

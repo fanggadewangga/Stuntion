@@ -1,5 +1,7 @@
 package com.killjoy.stuntion.features.presentation.screen.support.detail
 
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -15,8 +17,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalMaterialApi::class)
 @HiltViewModel
-class SupportDetailViewModel @Inject constructor(private val repository: DonationRepository): ViewModel() {
+class SupportDetailViewModel @Inject constructor(private val donationRepository: DonationRepository) : ViewModel() {
 
     val isDescriptionVisibleState = mutableStateOf(true)
     val isPermissionGranted = mutableStateOf(false)
@@ -34,13 +37,15 @@ class SupportDetailViewModel @Inject constructor(private val repository: Donatio
         SupportNominal(R.drawable.ic_emoji_4, 20000),
         SupportNominal(R.drawable.ic_emoji_5, 50000),
     )
+    val sheetState = mutableStateOf(ModalBottomSheetValue.Hidden)
 
-    private val _donationResponse = MutableStateFlow<Resource<DonationResponse?>>(Resource.Loading())
+    private val _donationResponse =
+        MutableStateFlow<Resource<DonationResponse?>>(Resource.Loading())
     val donationResponse = _donationResponse.asStateFlow()
 
     suspend fun fetchDonationDetail(donationId: String) {
         viewModelScope.launch {
-            repository.fetchDonationDetail(donationId).collect {
+            donationRepository.fetchDonationDetail(donationId).collect {
                 _donationResponse.value = it
             }
         }
