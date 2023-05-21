@@ -165,6 +165,9 @@ fun SupportDetailScreen(
                             navigateToSupportPaymentScreen = {
                                 navController.navigate(Screen.SupportPaymentScreen.route)
                             },
+                            navigateToSupportPaymentStatusScreen = {
+                                navController.navigate(Screen.SupportPaymentStatusScreen.route)
+                            },
                             sharedViewModel = sharedViewModel,
                             modifier = Modifier
                                 .wrapContentHeight()

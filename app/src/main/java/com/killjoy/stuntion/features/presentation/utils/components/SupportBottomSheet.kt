@@ -19,6 +19,7 @@ import com.killjoy.stuntion.ui.theme.Type
 fun SupportBottomSheet(
     modifier: Modifier = Modifier,
     navigateToSupportPaymentScreen: () -> Unit,
+    navigateToSupportPaymentStatusScreen: () -> Unit,
     viewModel: SupportDetailViewModel,
     sharedViewModel: SupportPaymentSharedViewModel,
 ) {
@@ -41,6 +42,8 @@ fun SupportBottomSheet(
             onClick = {
                 if (viewModel.sendSupportStepState.value in 1 until 3)
                     viewModel.sendSupportStepState.value++
+                else if (viewModel.sendSupportStepState.value == 3)
+                    navigateToSupportPaymentStatusScreen()
             },
             backgroundColor = PrimaryBlue,
             content = {
@@ -52,7 +55,7 @@ fun SupportBottomSheet(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(start = 16.dp, top = 32.dp, end = 16.dp)
         )
     }
 }

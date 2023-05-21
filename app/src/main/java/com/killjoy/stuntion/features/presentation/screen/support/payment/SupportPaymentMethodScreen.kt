@@ -65,7 +65,7 @@ fun SupportPaymentMethodScreen(
                         modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
                     )
                 }
-                items(paymentResponse.value.data!!.filter { it.type == 1 }) {
+                items(paymentResponse.value.data!!.filter { it.type == 1 }.sortedByDescending { it.paymentName }) {
                     PaymentMethodItem(
                         payment = it,
                         onClick = {

@@ -38,6 +38,7 @@ class SupportDetailViewModel @Inject constructor(private val donationRepository:
         SupportNominal(R.drawable.ic_emoji_5, 50000),
     )
     val sheetState = mutableStateOf(ModalBottomSheetValue.Hidden)
+    val isToggleSelected = mutableStateOf(false)
 
     private val _donationResponse =
         MutableStateFlow<Resource<DonationResponse?>>(Resource.Loading())

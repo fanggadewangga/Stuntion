@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailViewModel
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionBasicTextField
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionSwitch
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
@@ -130,7 +131,7 @@ fun SupportPaymentSection(
                         )
                         StuntionText(
                             text = sharedViewModel.selectedPaymentNameState.value,
-                            textStyle = Type.bodyLarge(),
+                            textStyle = Type.wallet(),
                             modifier = Modifier.padding(start = 16.dp)
                         )
                     }
@@ -184,10 +185,22 @@ fun SupportPaymentSection(
         }
 
         // Anonymous
-        StuntionText(
-            text = "Hide my name (Anonymous)",
-            textStyle = Type.bodyMedium(),
-            color = LightGray
-        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            StuntionText(
+                text = "Hide my name (Anonymous)",
+                textStyle = Type.bodyMedium(),
+                color = LightGray
+            )
+            StuntionSwitch(
+                selected = viewModel.isToggleSelected.value,
+                onSelectedChange = {
+                    viewModel.isToggleSelected.value = it
+                },
+            )
+        }
     }
 }

@@ -53,6 +53,7 @@ import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentMethodScreen
 import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentSharedViewModel
+import com.killjoy.stuntion.features.presentation.screen.support.status.SupportPaymentStatusScreen
 import com.killjoy.stuntion.features.presentation.screen.support.supports.SupportScreen
 import com.killjoy.stuntion.features.presentation.screen.support_tutorial.SupportTutorialScreen
 import com.killjoy.stuntion.features.presentation.screen.verification.VerificationSuccessScreen
@@ -354,6 +355,13 @@ fun Navigation() {
             SupportPaymentMethodScreen(
                 navController = navController,
                 viewModel = supportPaymentSharedViewModel
+            )
+        }
+
+        composable(route = Screen.SupportPaymentStatusScreen.route) {
+            SupportPaymentStatusScreen(
+                navController = navController,
+                sharedViewModel = supportPaymentSharedViewModel
             )
         }
     }

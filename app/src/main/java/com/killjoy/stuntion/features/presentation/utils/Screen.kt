@@ -104,4 +104,5 @@ sealed class Screen(val route: String) {
 
     // Support payment
     object SupportPaymentScreen: Screen("support_payment_screen")
+    object SupportPaymentStatusScreen: Screen("support_payment_status_screen")
 }
