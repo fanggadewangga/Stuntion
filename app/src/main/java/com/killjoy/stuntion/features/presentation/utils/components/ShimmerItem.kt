@@ -2,11 +2,28 @@ package com.killjoy.stuntion.features.presentation.utils.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
+import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
@@ -18,14 +35,17 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import com.killjoy.stuntion.R
-import com.killjoy.stuntion.ui.theme.*
+import com.killjoy.stuntion.ui.theme.Gray
+import com.killjoy.stuntion.ui.theme.LightBlue
+import com.killjoy.stuntion.ui.theme.LightGray
+import com.killjoy.stuntion.ui.theme.PrimaryBlue
+import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
 fun ArticleItemShimmer(modifier: Modifier = Modifier) {
@@ -918,8 +938,91 @@ fun HealthyTipsItemShimmer(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
 @Composable
-fun ShimmerPreview() {
-    HealthyTipsItemShimmer()
+fun DonorItemShimmer(modifier: Modifier = Modifier) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        backgroundColor = Color(0xFFF4EFF4),
+        modifier = modifier
+    ) {
+        // Parent
+        Row(
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            // Image, name, and nominal
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.5).dp)
+            ) {
+                // Image
+                AsyncImage(
+                    model = "",
+                    contentDescription = "Avatar",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .placeholder(
+                            visible = true,
+                            color = Color.LightGray,
+                            shape = RoundedCornerShape(16.dp),
+                            highlight = PlaceholderHighlight
+                                .shimmer(highlightColor = Color.White),
+                        )
+                )
+
+                // Name and nominal
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    StuntionText(
+                        text = "Stuntion user",
+                        textStyle = Type.titleSmall(),
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .width((LocalConfiguration.current.screenWidthDp * 0.5).dp)
+                            .placeholder(
+                                visible = true,
+                                color = Color.LightGray,
+                                shape = RoundedCornerShape(16.dp),
+                                highlight = PlaceholderHighlight
+                                    .shimmer(highlightColor = Color.White),
+                            )
+                    )
+                    StuntionText(
+                        text = "Donate IDR 8000",
+                        textStyle = Type.bodySmall(),
+                        modifier = Modifier
+                            .placeholder(
+                                visible = true,
+                                color = Color.LightGray,
+                                shape = RoundedCornerShape(16.dp),
+                                highlight = PlaceholderHighlight
+                                    .shimmer(highlightColor = Color.White),
+                            )
+                    )
+                }
+            }
+
+            // date
+            StuntionText(
+                text = "4 day ago",
+                color = PrimaryBlue,
+                textStyle = Type.bodySmall(),
+                modifier = Modifier
+                    .placeholder(
+                        visible = true,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(16.dp),
+                        highlight = PlaceholderHighlight
+                            .shimmer(highlightColor = Color.White),
+                    )
+            )
+        }
+    }
 }

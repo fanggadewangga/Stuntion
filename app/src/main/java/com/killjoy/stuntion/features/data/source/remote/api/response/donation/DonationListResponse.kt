@@ -21,6 +21,9 @@ data class DonationListResponse(
     @field:SerializedName("max_value")
     val maxValue: Int,
 
+    @field:SerializedName("nominal")
+    val currentNominal: Double,
+
     @field:SerializedName("day_remaining")
     val dayRemaining: Int,
 

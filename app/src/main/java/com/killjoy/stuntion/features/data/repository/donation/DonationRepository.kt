@@ -5,6 +5,8 @@ import android.util.Log
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationListResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationResponse
+import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonorBody
+import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonorResponse
 import com.killjoy.stuntion.features.data.source.remote.api.service.StuntionApi
 import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseDataSource
 import com.killjoy.stuntion.features.data.source.remote.firebase.FirebaseResponse
@@ -111,4 +113,36 @@ class DonationRepository @Inject constructor(
                 emit(Resource.Error(e.message.toString()))
             }
         }.flowOn(Dispatchers.IO)
+
+    override suspend fun postNewDonor(body: DonorBody, donationId: String): Flow<Resource<String>> = flow {
+        emit(Resource.Loading())
+        try {
+            val response = stuntionApi.postNewDonor(body = body, donationId = donationId)
+            if (!response.isError) {
+                Log.d("POST NEW DONOR", response.message)
+                emit(Resource.Success(response.message))
+            }
+            else
+                emit(Resource.Error(response.message))
+        } catch (e: Exception) {
+            Log.d("POST NEW DONOR", e.message.toString())
+            emit(Resource.Error(e.message.toString()))
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun fetchDonationDonors(donationId: String): Flow<Resource<List<DonorResponse>>> = flow {
+        emit(Resource.Loading())
+        try {
+            val response = stuntionApi.fetchDonationDonors(donationId = donationId)
+            if (!response.isError) {
+                Log.d("FETCH DONORS", response.message)
+                emit(Resource.Success(response.data))
+            }
+            else
+                emit(Resource.Error(response.message))
+        } catch (e: Exception) {
+            Log.d("FETCH DONORS", e.message.toString())
+            emit(Resource.Error(e.message.toString()))
+        }
+    }.flowOn(Dispatchers.IO)
 }

@@ -27,6 +27,7 @@ import com.killjoy.stuntion.features.presentation.screen.child_notes.detail.Chil
 import com.killjoy.stuntion.features.presentation.screen.child_notes.notes.ChildNotesScreen
 import com.killjoy.stuntion.features.presentation.screen.child_profile.ChildProfileScreen
 import com.killjoy.stuntion.features.presentation.screen.consultation.ConsultationScreen
+import com.killjoy.stuntion.features.presentation.screen.donor.DonorScreen
 import com.killjoy.stuntion.features.presentation.screen.expert.ExpertDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.general_information.GeneralInformationScreen
 import com.killjoy.stuntion.features.presentation.screen.healthy_tips.HealthyTipsDetailScreen
@@ -363,6 +364,14 @@ fun Navigation() {
                 navController = navController,
                 sharedViewModel = supportPaymentSharedViewModel
             )
+        }
+
+        // Donor
+        composable(route = Screen.DonorScreen.route) {
+            val donationId = navController.previousBackStackEntry?.savedStateHandle?.get<String>(
+                key = "donationId"
+            )
+            donationId?.let { it1 -> DonorScreen(navController = navController, donationId = it1) }
         }
     }
 }

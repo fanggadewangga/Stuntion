@@ -63,7 +63,7 @@ fun VideosScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
         LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
             items(viewModel.videosCategory) { category ->
-                QuestionCategoryChip(
+                CategoryChip(
                     category = category,
                     selected = viewModel.selectedCategory.value,
                     onSelected = {

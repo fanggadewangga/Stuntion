@@ -204,7 +204,7 @@ fun HomeDonationItem(
 
             // Progress Bar
             LinearProgressIndicator(
-                progress = (donation.currentValue / donation.maxValue.toFloat()),
+                progress = (donation.currentNominal.toInt() / (donation.maxValue * donation.fee).toFloat()),
                 backgroundColor = Color.LightGray,
                 color = PrimaryBlue,
                 modifier = Modifier
@@ -222,7 +222,7 @@ fun HomeDonationItem(
                     color = Gray
                 )
                 StuntionText(
-                    text = "IDR ${donation.fee * donation.currentValue}",
+                    text = "IDR ${donation.currentNominal.toInt()}",
                     textStyle = Type.labelMedium()
                 )
             }
@@ -298,7 +298,7 @@ fun SuitableDonationItem(
 
                 // Progress Bar
                 LinearProgressIndicator(
-                    progress = (donation.currentValue / donation.maxValue.toFloat()),
+                    progress = (donation.currentNominal.toInt() / (donation.maxValue * donation.fee).toFloat()),
                     backgroundColor = Color.LightGray,
                     color = PrimaryBlue,
                     modifier = Modifier
@@ -316,7 +316,7 @@ fun SuitableDonationItem(
                         color = Gray
                     )
                     StuntionText(
-                        text = "IDR ${donation.fee * donation.currentValue}",
+                        text = "IDR ${donation.currentNominal.toInt()}",
                         textStyle = Type.labelMedium()
                     )
                 }

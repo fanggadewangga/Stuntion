@@ -329,7 +329,7 @@ fun PaymentInstructionScreen(
                             .padding(top = 24.dp)
                     ) {
                         StuntionText(
-                            text = "Back to home",
+                            text = "Check Payment Status",
                             color = Color.White,
                             textStyle = Type.labelLarge()
                         )

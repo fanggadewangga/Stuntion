@@ -34,6 +34,9 @@ data class DonationResponse(
     @field:SerializedName("max_value")
     val maxValue: Int,
 
+    @field:SerializedName("nominal")
+    val currentNominal: Double,
+
     @field:SerializedName("uploaded_at")
     val uploadedAt: String,
 

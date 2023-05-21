@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.repository.donation.DonationRepository
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationResponse
+import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonorResponse
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.domain.model.support_nominal.SupportNominal
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,10 +45,21 @@ class SupportDetailViewModel @Inject constructor(private val donationRepository:
         MutableStateFlow<Resource<DonationResponse?>>(Resource.Loading())
     val donationResponse = _donationResponse.asStateFlow()
 
+    private val _donorResponse = MutableStateFlow<Resource<List<DonorResponse>>>(Resource.Loading())
+    val donorResponse = _donorResponse.asStateFlow()
+
     suspend fun fetchDonationDetail(donationId: String) {
         viewModelScope.launch {
             donationRepository.fetchDonationDetail(donationId).collect {
                 _donationResponse.value = it
+            }
+        }
+    }
+
+    suspend fun fetchDonationDonors(donationId: String) {
+        viewModelScope.launch {
+            donationRepository.fetchDonationDonors(donationId).collect {
+                _donorResponse.value = it
             }
         }
     }

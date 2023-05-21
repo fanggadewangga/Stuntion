@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
-import com.killjoy.stuntion.features.presentation.utils.components.QuestionCategoryChip
+import com.killjoy.stuntion.features.presentation.utils.components.CategoryChip
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItem
 import com.killjoy.stuntion.features.presentation.utils.components.QuestionItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionSearchField
@@ -84,7 +84,7 @@ fun AskExpertScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
             LazyRow {
                 items(viewModel.questionCategories) { category ->
-                    QuestionCategoryChip(
+                    CategoryChip(
                         category = category,
                         selected = viewModel.selectedCategory.value,
                         onSelected = {

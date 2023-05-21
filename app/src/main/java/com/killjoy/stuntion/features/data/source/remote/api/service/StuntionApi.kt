@@ -7,6 +7,8 @@ import com.killjoy.stuntion.features.data.source.remote.api.response.article.Art
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationListResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationResponse
+import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonorBody
+import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonorResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.expert.ExpertListResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.expert.ExpertResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.note.NoteBody
@@ -123,6 +125,12 @@ interface StuntionApi {
 
     @PUT("/donation/{donation_id}")
     suspend fun updateDonationCurrentValue(@Path("donation_id") donationId: String): BaseResponse<String>
+
+    @POST("/donation/{donation_id}/donor")
+    suspend fun postNewDonor(@Body body: DonorBody, @Path("donation_id") donationId: String): BaseResponse<String>
+
+    @GET("/donation/{donation_id}/donor")
+    suspend fun fetchDonationDonors(@Path("donation_id") donationId: String): BaseListResponse<List<DonorResponse>>
 
     // Note
     @POST("/user/{uid}/note")

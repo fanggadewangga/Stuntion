@@ -17,7 +17,7 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun QuestionCategoryChip(
+fun CategoryChip(
     category: String,
     selected: String,
     onSelected: (String) -> Unit,

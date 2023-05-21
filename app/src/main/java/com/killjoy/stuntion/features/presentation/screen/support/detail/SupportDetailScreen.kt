@@ -13,6 +13,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -55,6 +56,8 @@ import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentSharedViewModel
 import com.killjoy.stuntion.features.presentation.utils.Screen
+import com.killjoy.stuntion.features.presentation.utils.components.DonorItem
+import com.killjoy.stuntion.features.presentation.utils.components.DonorItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
 import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
@@ -64,6 +67,7 @@ import com.killjoy.stuntion.features.presentation.utils.getCurrentLocation
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 import kotlinx.coroutines.launch
+import kotlin.math.floor
 
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -77,6 +81,7 @@ fun SupportDetailScreen(
     val systemUiController = rememberSystemUiController()
     val resource = LocalContext.current.resources
     val donationResponse = viewModel.donationResponse.collectAsStateWithLifecycle()
+    val donorResponse = viewModel.donorResponse.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val modalBottomSheetState = rememberModalBottomSheetState(
@@ -133,7 +138,10 @@ fun SupportDetailScreen(
             setStatusBarColor(color = Color.Transparent, darkIcons = true)
             setNavigationBarColor(color = Color.White, darkIcons = true)
         }
-        viewModel.fetchDonationDetail(donationId)
+        viewModel.apply {
+            fetchDonationDetail(donationId)
+            fetchDonationDonors(donationId)
+        }
     }
 
     when (donationResponse.value) {
@@ -276,7 +284,11 @@ fun SupportDetailScreen(
                             // Collected
                             item {
                                 StuntionText(
-                                    text = "Collected Rp${donation.currentValue * donation.fee} from Rp${donation.maxValue * donation.fee} or ${donation.currentValue} Item from ${donation.maxValue} Item",
+                                    text = "Collected Rp${donation.currentNominal.toInt()} from Rp${donation.maxValue * donation.fee} or ${
+                                        (floor(
+                                            donation.currentNominal / donation.fee
+                                        )).toInt()
+                                    } Item from ${donation.maxValue} Item",
                                     textStyle = Type.bodySmall(),
                                     color = Color.Gray,
                                     maxLine = 2,
@@ -287,7 +299,7 @@ fun SupportDetailScreen(
                             // Progress
                             item {
                                 LinearProgressIndicator(
-                                    progress = (donation.currentValue / donation.maxValue.toFloat()),
+                                    progress = (donation.currentNominal.toInt() / (donation.maxValue * donation.fee).toFloat()),
                                     backgroundColor = Color.LightGray,
                                     color = PrimaryBlue,
                                     modifier = Modifier
@@ -542,6 +554,52 @@ fun SupportDetailScreen(
                                     )
                                 }
                             }
+
+                            // Support
+                            item {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp)
+                                ) {
+                                    StuntionText(
+                                        text = "Support",
+                                        textStyle = Type.titleMedium(),
+                                    )
+                                    StuntionText(
+                                        text = "View All",
+                                        textStyle = Type.labelMedium(),
+                                        color = PrimaryBlue,
+                                        modifier = Modifier.clickable {
+                                            navController.currentBackStackEntry?.savedStateHandle?.set(
+                                                key = "donationId",
+                                                value = donation.donationId
+                                            )
+                                            navController.navigate(Screen.DonorScreen.route)
+                                        }
+                                    )
+                                }
+                            }
+
+                            if (donorResponse.value is Resource.Success && donorResponse.value.data != null) {
+                                items(donorResponse.value.data!!) {
+                                    DonorItem(
+                                        donorResponse = it,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                                    )
+                                }
+                            } else
+                                items(6) {
+                                    DonorItemShimmer(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                                    )
+                                }
                         }
                     }
                 }
