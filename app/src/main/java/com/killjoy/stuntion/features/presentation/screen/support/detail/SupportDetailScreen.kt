@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -66,6 +67,7 @@ import com.killjoy.stuntion.features.presentation.utils.components.SupportBottom
 import com.killjoy.stuntion.features.presentation.utils.getCurrentLocation
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.launch
 import kotlin.math.floor
 
@@ -141,6 +143,7 @@ fun SupportDetailScreen(
         viewModel.apply {
             fetchDonationDetail(donationId)
             fetchDonationDonors(donationId)
+            fetchUserWalletBalance()
         }
     }
 
@@ -170,6 +173,10 @@ fun SupportDetailScreen(
                     sheetContent = {
                         SupportBottomSheet(
                             viewModel = viewModel,
+                            donationId = donationId,
+                            showErrorToast = {
+                                Toasty.error(context, "Your balance is insufficient", Toast.LENGTH_SHORT).show()
+                            },
                             navigateToSupportPaymentScreen = {
                                 navController.navigate(Screen.SupportPaymentScreen.route)
                             },

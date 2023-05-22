@@ -60,10 +60,11 @@ class RemoteModule {
 
     @Provides
     fun provideUserRepository(
+        donationRepository: DonationRepository,
         stuntionApi: StuntionApi,
         firebaseDataSource: FirebaseDataSource,
         dataStore: StuntionDatastore,
-    ): IUserRepository = UserRepository(stuntionApi, firebaseDataSource, dataStore)
+    ): IUserRepository = UserRepository(donationRepository,stuntionApi, firebaseDataSource, dataStore)
 
     @Provides
     fun provideArticleRepository(

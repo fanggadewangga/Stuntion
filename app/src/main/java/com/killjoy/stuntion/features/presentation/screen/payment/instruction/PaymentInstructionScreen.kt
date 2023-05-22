@@ -34,10 +34,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.screen.home.HomePaymentSharedViewModel
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
@@ -47,6 +49,7 @@ import com.killjoy.stuntion.ui.theme.LightGray
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.delay
 
 @Composable
 fun PaymentInstructionScreen(
@@ -56,12 +59,18 @@ fun PaymentInstructionScreen(
     val context = LocalContext.current
     val viewModel = hiltViewModel<PaymentInstructionViewModel>()
     val systemUiController = rememberSystemUiController()
+    val walletResponse = viewModel.walletResponse.collectAsStateWithLifecycle()
+
     LaunchedEffect(Unit) {
         systemUiController.apply {
             setStatusBarColor(color = Color.Transparent, darkIcons = true)
             setNavigationBarColor(color = Color.White, darkIcons = true)
         }
-        viewModel.bankAccountNumber.value = (0..999999999).random()
+        viewModel.apply {
+            bankAccountNumber.value = (0..999999999).random()
+            delay(2000L)
+            updateUserWalletBalance(sharedViewModel.selectedNominal.value)
+        }
     }
 
     LaunchedEffect(viewModel.totalSecond.value) {
@@ -80,6 +89,17 @@ fun PaymentInstructionScreen(
             }
         }
         timer.start()
+    }
+
+    LaunchedEffect(walletResponse.value) {
+        if (walletResponse.value is Resource.Success) {
+            Toasty.success(context, "Balance top up successful!", Toast.LENGTH_SHORT).show()
+            navController.navigate(Screen.HomeScreen.route) {
+                popUpTo(Screen.PaymentInstructionScreen.route) {
+                    inclusive = true
+                }
+            }
+        }
     }
 
 
@@ -319,11 +339,7 @@ fun PaymentInstructionScreen(
                     // Back to home
                     StuntionButton(
                         onClick = {
-                            navController.navigate(Screen.HomeScreen.route) {
-                                popUpTo(Screen.PaymentInstructionScreen.route) {
-                                    inclusive = true
-                                }
-                            }
+
                         }, modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 24.dp)

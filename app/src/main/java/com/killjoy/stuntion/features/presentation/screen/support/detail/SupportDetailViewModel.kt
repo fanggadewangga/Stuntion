@@ -8,19 +8,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.repository.donation.DonationRepository
+import com.killjoy.stuntion.features.data.repository.user.UserRepository
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationResponse
+import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonorBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonorResponse
+import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBalanceResponse
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.domain.model.support_nominal.SupportNominal
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(ExperimentalMaterialApi::class)
 @HiltViewModel
-class SupportDetailViewModel @Inject constructor(private val donationRepository: DonationRepository) : ViewModel() {
+class SupportDetailViewModel @Inject constructor(private val donationRepository: DonationRepository, private val userRepository: UserRepository) : ViewModel() {
 
     val isDescriptionVisibleState = mutableStateOf(true)
     val isPermissionGranted = mutableStateOf(false)
@@ -39,7 +43,7 @@ class SupportDetailViewModel @Inject constructor(private val donationRepository:
         SupportNominal(R.drawable.ic_emoji_5, 50000),
     )
     val sheetState = mutableStateOf(ModalBottomSheetValue.Hidden)
-    val isToggleSelected = mutableStateOf(false)
+    val isAnonymous = mutableStateOf(false)
 
     private val _donationResponse =
         MutableStateFlow<Resource<DonationResponse?>>(Resource.Loading())
@@ -48,6 +52,11 @@ class SupportDetailViewModel @Inject constructor(private val donationRepository:
     private val _donorResponse = MutableStateFlow<Resource<List<DonorResponse>>>(Resource.Loading())
     val donorResponse = _donorResponse.asStateFlow()
 
+    private val _giveDonationResponse = MutableStateFlow<Resource<String?>>(Resource.Empty())
+    val giveDonationResponse = _giveDonationResponse.asStateFlow()
+
+    private val _userBalanceResponse = MutableStateFlow<Resource<UserBalanceResponse?>>(Resource.Empty())
+    val userBalanceResponse = _userBalanceResponse.asStateFlow()
     suspend fun fetchDonationDetail(donationId: String) {
         viewModelScope.launch {
             donationRepository.fetchDonationDetail(donationId).collect {
@@ -63,4 +72,29 @@ class SupportDetailViewModel @Inject constructor(private val donationRepository:
             }
         }
     }
+
+    suspend fun fetchUserWalletBalance() {
+        viewModelScope.launch {
+            val uid = userRepository.readUid().first()
+            if (uid != null) {
+                userRepository.fetchUserBalance(uid).collect {
+                    _userBalanceResponse.value = it
+                }
+            }
+        }
+    }
+
+    suspend fun giveNewDonation(donationId: String, isAnonymous: Boolean) {
+        viewModelScope.launch {
+            val uid = userRepository.readUid().first()
+            if (uid != null) {
+                val donorBody = DonorBody(uid, nominalState.value.toDouble(), isAnonymous)
+                userRepository.giveNewDonation(donorBody, donationId).collect {
+                    _giveDonationResponse.value = it
+                }
+            }
+        }
+    }
+
+
 }

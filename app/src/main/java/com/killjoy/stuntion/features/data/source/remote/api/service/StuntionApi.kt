@@ -22,6 +22,7 @@ import com.killjoy.stuntion.features.data.source.remote.api.response.task.TaskRe
 import com.killjoy.stuntion.features.data.source.remote.api.response.task.UserTaskBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserAvatarBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBalanceBody
+import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBalanceResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserGeneralInfoBody
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserResponse
@@ -68,6 +69,11 @@ interface StuntionApi {
     suspend fun updateUserLevel(
         @Path("uid") uid: String,
     ): BaseResponse<String>
+
+    @GET("/user/{uid}/wallet")
+    suspend fun fetchUserBalance(
+        @Path("uid") uid: String,
+    ): BaseResponse<UserBalanceResponse>
 
     // Article
     @GET("/article")

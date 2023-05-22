@@ -196,9 +196,9 @@ fun SupportPaymentSection(
                 color = LightGray
             )
             StuntionSwitch(
-                selected = viewModel.isToggleSelected.value,
+                selected = viewModel.isAnonymous.value,
                 onSelectedChange = {
-                    viewModel.isToggleSelected.value = it
+                    viewModel.isAnonymous.value = it
                 },
             )
         }

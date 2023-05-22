@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentSharedViewModel
+import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionButton
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
@@ -72,7 +73,13 @@ fun SupportPaymentStatusScreen(
         // Top bar
         StuntionTopBar(
             title = "Payment Status",
-            onBackPressed = { navController.popBackStack() },
+            onBackPressed = {
+                navController.navigate(Screen.SupportScreen.route) {
+                    popUpTo(Screen.SupportPaymentStatusScreen.route) {
+                        inclusive = true
+                    }
+                }
+            },
             isWithDivider = true
         )
 

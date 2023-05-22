@@ -50,11 +50,11 @@ fun PaymentBottomSheet(
         // Text Field
         StuntionBasicTextField(
             placeHolder = "0",
-            value = sharedViewModel.selectedNominal.value.toString(),
+            value = sharedViewModel.selectedNominal.value.toInt().toString(),
             isWithBorder = false,
             textStyle = Type.titleLarge(),
             onValueChange = {
-                sharedViewModel.selectedNominal.value = it.toInt()
+                sharedViewModel.selectedNominal.value = it.toDouble()
             },
             leadingIcon = {
                 StuntionText(
@@ -86,10 +86,11 @@ fun PaymentBottomSheet(
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
             for (i in 0..2) {
                 WalletNominalSelector(
-                    selected = sharedViewModel.selectedNominal.value == sharedViewModel.listOfNominal[i],
+                    selected = sharedViewModel.selectedNominal.value.toInt() == sharedViewModel.listOfNominal[i],
                     nominal = sharedViewModel.listOfNominal[i].toString(),
                     onSelected = {
-                        sharedViewModel.selectedNominal.value = sharedViewModel.listOfNominal[i]
+                        sharedViewModel.selectedNominal.value =
+                            sharedViewModel.listOfNominal[i].toDouble()
                     })
             }
         }
@@ -101,10 +102,11 @@ fun PaymentBottomSheet(
         ) {
             for (i in 3..5) {
                 WalletNominalSelector(
-                    selected = sharedViewModel.selectedNominal.value == sharedViewModel.listOfNominal[i],
+                    selected = sharedViewModel.selectedNominal.value.toInt() == sharedViewModel.listOfNominal[i],
                     nominal = sharedViewModel.listOfNominal[i].toString(),
                     onSelected = {
-                        sharedViewModel.selectedNominal.value = sharedViewModel.listOfNominal[i]
+                        sharedViewModel.selectedNominal.value =
+                            sharedViewModel.listOfNominal[i].toDouble()
                     })
             }
         }

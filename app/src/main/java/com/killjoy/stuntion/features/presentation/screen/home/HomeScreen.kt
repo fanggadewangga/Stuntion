@@ -272,7 +272,7 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                         // Wallet
                         user.value.data?.let { it1 ->
                             Wallet(
-                                balance = it1.balance,
+                                balance = it1.balance.toInt(),
                                 onTopUpClicked = {
                                     coroutineScope.launch {
                                         if (modalBottomSheetState.isVisible)

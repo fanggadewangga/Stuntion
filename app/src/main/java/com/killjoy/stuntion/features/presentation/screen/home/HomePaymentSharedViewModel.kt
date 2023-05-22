@@ -10,7 +10,7 @@ class HomePaymentSharedViewModel @Inject constructor() : ViewModel() {
     val isHasSelectedAPayment = mutableStateOf(false)
     val selectedPaymentNameState = mutableStateOf("")
     val selectedPaymentImageUrlState = mutableStateOf("")
-    val selectedNominal = mutableStateOf(0)
+    val selectedNominal = mutableStateOf(0.0)
     val listOfNominal = listOf(
         50000,
         100000,
