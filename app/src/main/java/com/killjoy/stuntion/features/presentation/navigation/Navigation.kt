@@ -52,6 +52,8 @@ import com.killjoy.stuntion.features.presentation.screen.request_help.title.Titl
 import com.killjoy.stuntion.features.presentation.screen.reward.RewardScreen
 import com.killjoy.stuntion.features.presentation.screen.splash.SplashScreen
 import com.killjoy.stuntion.features.presentation.screen.support.detail.SupportDetailScreen
+import com.killjoy.stuntion.features.presentation.screen.support.food.AdditionalFoodScreen
+import com.killjoy.stuntion.features.presentation.screen.support.food.details.AdditionalFoodDetailScreen
 import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentMethodScreen
 import com.killjoy.stuntion.features.presentation.screen.support.payment.SupportPaymentSharedViewModel
 import com.killjoy.stuntion.features.presentation.screen.support.status.SupportPaymentStatusScreen
@@ -372,6 +374,14 @@ fun Navigation() {
                 key = "donationId"
             )
             donationId?.let { it1 -> DonorScreen(navController = navController, donationId = it1) }
+        }
+
+        // Additional food
+        composable(route = Screen.AdditionalFoodScreen.route) {
+            AdditionalFoodScreen(navController = navController)
+        }
+        composable(route = Screen.AdditionalFoodDetailScreen.route) {
+            AdditionalFoodDetailScreen(navController = navController)
         }
     }
 }

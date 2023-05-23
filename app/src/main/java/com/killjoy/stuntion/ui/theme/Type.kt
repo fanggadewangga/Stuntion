@@ -55,6 +55,12 @@ object Type {
         lineHeight = 24.sp
     )
 
+    fun titleBold() = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    )
+
     fun titleSmall() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_bold)),
         fontSize = 14.sp,

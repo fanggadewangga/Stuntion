@@ -1,5 +1,7 @@
 package com.killjoy.stuntion.features.presentation.screen.support.detail
 
+import android.content.Context
+import android.location.Geocoder
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.runtime.derivedStateOf
@@ -44,6 +46,13 @@ class SupportDetailViewModel @Inject constructor(private val donationRepository:
     )
     val sheetState = mutableStateOf(ModalBottomSheetValue.Hidden)
     val isAnonymous = mutableStateOf(false)
+    val userLatState = mutableStateOf(0.0)
+    val userLonState = mutableStateOf(0.0)
+    val userAddress = mutableStateOf("")
+    val isUserAddressFieldClicked = mutableStateOf(false)
+    val isUserAddressValid = derivedStateOf {
+        userAddress.value != "" || !isUserAddressFieldClicked.value
+    }
 
     private val _donationResponse =
         MutableStateFlow<Resource<DonationResponse?>>(Resource.Loading())
@@ -96,5 +105,12 @@ class SupportDetailViewModel @Inject constructor(private val donationRepository:
         }
     }
 
-
+    @Suppress("DEPRECATION")
+    fun getAddressFromCoordinate(context: Context) {
+        viewModelScope.launch {
+            val geoCoder = Geocoder(context)
+            val address = geoCoder.getFromLocation(userLatState.value, userLonState.value, 1)
+            userAddress.value = address?.get(0)?.getAddressLine(0).toString()
+        }
+    }
 }

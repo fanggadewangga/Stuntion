@@ -110,6 +110,11 @@ fun SupportDetailScreen(
             viewModel.isPermissionGranted.value = isGranted
             if (isGranted) {
                 getCurrentLocation(context) {
+                    viewModel.apply {
+                        userLatState.value = it.latitude
+                        userLonState.value = it.longitude
+                        getAddressFromCoordinate(context)
+                    }
                     cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 10f)
                     userMarkerState.position = it
                 }
@@ -123,6 +128,11 @@ fun SupportDetailScreen(
         -> {
             viewModel.isPermissionGranted.value = true
             getCurrentLocation(context) {
+                viewModel.apply {
+                    userLatState.value = it.latitude
+                    userLonState.value = it.longitude
+                    getAddressFromCoordinate(context)
+                }
                 cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 10f)
                 userMarkerState.position = it
             }
@@ -175,13 +185,20 @@ fun SupportDetailScreen(
                             viewModel = viewModel,
                             donationId = donationId,
                             showErrorToast = {
-                                Toasty.error(context, "Your balance is insufficient", Toast.LENGTH_SHORT).show()
+                                Toasty.error(
+                                    context,
+                                    "Your balance is insufficient",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             },
                             navigateToSupportPaymentScreen = {
                                 navController.navigate(Screen.SupportPaymentScreen.route)
                             },
                             navigateToSupportPaymentStatusScreen = {
                                 navController.navigate(Screen.SupportPaymentStatusScreen.route)
+                            },
+                            navigateToAdditionalFoodScreen = {
+                                navController.navigate(Screen.AdditionalFoodScreen.route)
                             },
                             sharedViewModel = sharedViewModel,
                             modifier = Modifier

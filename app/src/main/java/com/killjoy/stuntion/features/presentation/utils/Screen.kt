@@ -108,4 +108,8 @@ sealed class Screen(val route: String) {
 
     // Donor
     object DonorScreen: Screen("donor_screen")
+
+    // Food Support
+    object AdditionalFoodScreen: Screen("additional_food_screen")
+    object AdditionalFoodDetailScreen: Screen("additional_food_screen")
 }

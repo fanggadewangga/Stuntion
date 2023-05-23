@@ -87,16 +87,33 @@ fun SupportTypeSection(
         // Instruction
         Row(
             horizontalArrangement = Arrangement.spacedBy(2.dp),
-            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(
                 start = 16.dp,
                 end = 16.dp,
-                bottom = (LocalConfiguration.current.screenHeightDp / 8).dp
             )
         ) {
             StuntionText(text = "*", color = LightGray, textStyle = Type.bodySmall())
             StuntionText(
                 text = "To choose support with additional food, it is expected that your location is no more than 10 kilometers",
+                color = LightGray,
+                textStyle = Type.bodySmall()
+            )
+        }
+
+        // Instruction
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = (LocalConfiguration.current.screenHeightDp / 8).dp
+                )
+        ) {
+            StuntionText(text = "*", color = LightGray, textStyle = Type.bodySmall())
+            StuntionText(
+                text = "Our team will deliver your additional food donation",
                 color = LightGray,
                 textStyle = Type.bodySmall()
             )
