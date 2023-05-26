@@ -112,4 +112,7 @@ sealed class Screen(val route: String) {
     // Food Support
     object AdditionalFoodScreen: Screen("additional_food_screen")
     object AdditionalFoodDetailScreen: Screen("additional_food_screen")
+
+    // Maintenance
+    object MaintenanceScreen: Screen("maintenance_screen")
 }
