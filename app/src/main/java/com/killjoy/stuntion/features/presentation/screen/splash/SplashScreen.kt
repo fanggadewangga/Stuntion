@@ -8,64 +8,41 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.killjoy.stuntion.R
+import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Constants.TIME_SPLASH
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
-
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val viewModel = hiltViewModel<SplashViewModel>()
-    val uid = viewModel.uid.collectAsState()
-    val isHaveCreatedAccount = viewModel.isHaveCreatedAccount.collectAsState()
-    val isHaveRunAppBefore = viewModel.isHaveRunAppBefore.collectAsState()
+    val user = viewModel.userResponse.collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = true) {
-        viewModel.apply {
-            readUid()
-            readHaveCreatedAccount()
+    LaunchedEffect(user.value) {
+        when(user.value) {
+            is Resource.Loading -> {}
+            is Resource.Success -> {
+                if (!user.value.data!!.name.isNullOrEmpty() || user.value.data!!.name == "Anonymous")
+                    viewModel.saveUserIndex(1)
+                else if (!user.value.data!!.name.isNullOrEmpty() && user.value.data!!.name != "Anonymous" )
+                    viewModel.saveUserIndex(3)
+                else
+                    viewModel.saveUserIndex(0)
+            }
+            is Resource.Empty -> { viewModel.saveUserIndex(0) }
+            is Resource.Error -> {}
         }
         delay(TIME_SPLASH)
-        if (uid.value.isNullOrEmpty() && isHaveCreatedAccount.value) {
-            navController.navigate(Screen.LoginScreen.route) {
-                popUpTo(Screen.SplashScreen.route) {
-                    inclusive = true
-                }
-            }
-        }
-        else {
-            if (isHaveCreatedAccount.value)
-                navController.navigate(Screen.HomeScreen.route) {
-                    popUpTo(Screen.SplashScreen.route) {
-                        inclusive = true
-                    }
-                }
-            else {
-                if (isHaveRunAppBefore.value)
-                    navController.navigate(Screen.GeneralInformationScreen.route) {
-                        popUpTo(Screen.SplashScreen.route) {
-                            inclusive = true
-                        }
-                    }
-                else
-                    navController.navigate(Screen.OnboardScreen.route) {
-                        popUpTo(Screen.SplashScreen.route) {
-                            inclusive = true
-                        }
-                    }
-            }
-        }
+        navController.navigate(Screen.HomeScreen.route)
     }
 
     Box(

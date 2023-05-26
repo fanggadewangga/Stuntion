@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,14 +23,13 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.killjoy.stuntion.features.domain.model.registration.RegistrationStep
-import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
 fun RegistrationProgress(
     modifier: Modifier = Modifier,
-    totalRegistrationSteps: Int = 5,
+    totalRegistrationSteps: Int = 4,
     currentRegistrationStep: Int,
     registrationStep: RegistrationStep,
     progressBarWidth: Dp,

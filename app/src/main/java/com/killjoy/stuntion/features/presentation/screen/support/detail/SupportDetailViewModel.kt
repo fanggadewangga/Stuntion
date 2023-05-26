@@ -53,6 +53,7 @@ class SupportDetailViewModel @Inject constructor(private val donationRepository:
     val isUserAddressValid = derivedStateOf {
         userAddress.value != "" || !isUserAddressFieldClicked.value
     }
+    val currentRegistrationState = mutableStateOf(0)
 
     private val _donationResponse =
         MutableStateFlow<Resource<DonationResponse?>>(Resource.Loading())
@@ -112,5 +113,16 @@ class SupportDetailViewModel @Inject constructor(private val donationRepository:
             val address = geoCoder.getFromLocation(userLatState.value, userLonState.value, 1)
             userAddress.value = address?.get(0)?.getAddressLine(0).toString()
         }
+    }
+
+    private fun getUserRegisterProgressIndex() {
+        viewModelScope.launch {
+            val progressIndex = userRepository.readRegisterProgressIndex().first()
+            currentRegistrationState.value = progressIndex
+        }
+    }
+
+    init {
+        getUserRegisterProgressIndex()
     }
 }

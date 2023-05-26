@@ -53,4 +53,8 @@ class GeneralInformationViewModel @Inject constructor(private val repository: Us
             }
         }
     }
+
+    suspend fun saveUserIndex(index: Int) {
+        repository.saveRegisterProgressIndex(index)
+    }
 }

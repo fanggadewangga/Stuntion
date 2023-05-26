@@ -50,7 +50,7 @@ fun GeneralInformationScreen(navController: NavController) {
             is Resource.Error -> Log.d("Update general information", "Error")
             is Resource.Empty -> Log.d("Update general information", "Empty")
             is Resource.Success -> {
-                Log.d("Update general information", "Success")
+                viewModel.saveUserIndex(3)
                 navController.navigate(Screen.LocationPermissionScreen.route) {
                     popUpTo(Screen.GeneralInformationScreen.route) {
                         inclusive = true

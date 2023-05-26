@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.maps.model.LatLng
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
@@ -56,7 +58,7 @@ fun SupportScreen(navController: NavController) {
     val viewModel = hiltViewModel<SupportViewModel>()
     val donations = viewModel.donationResponse.collectAsStateWithLifecycle()
     val context = LocalContext.current
-
+    val systemUiController = rememberSystemUiController()
     val permissionLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             viewModel.isPermissionGranted.value = isGranted
@@ -88,6 +90,13 @@ fun SupportScreen(navController: NavController) {
             SideEffect {
                 permissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
             }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        systemUiController.apply {
+            setStatusBarColor(color = Color.Transparent, darkIcons = true)
+            setNavigationBarColor(color = Color.White, darkIcons = true)
         }
     }
 
@@ -153,7 +162,10 @@ fun SupportScreen(navController: NavController) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-                                    navController.navigate(Screen.SupportRequestTutorialScreen.route)
+                                    if (viewModel.currentRegistrationState.value == 0)
+                                        navController.navigate(Screen.RedirectScreen.route)
+                                    else
+                                        navController.navigate(Screen.SupportRequestTutorialScreen.route)
                                 }
                                 .shadow(
                                     elevation = 32.dp,
@@ -339,7 +351,7 @@ fun SupportScreen(navController: NavController) {
                         textStyle = Type.labelMedium(),
                         color = PrimaryBlue,
                         modifier = Modifier.clickable {
-                            navController.navigate(Screen.SupportScreen.route)
+
                         }
                     )
                 }
@@ -367,7 +379,10 @@ fun SupportScreen(navController: NavController) {
                             .sortedBy {
                                 countDistanceBetweenLocation(
                                     LatLng(it.lat, it.lon),
-                                    LatLng(viewModel.userLatState.value, viewModel.userLonState.value)
+                                    LatLng(
+                                        viewModel.userLatState.value,
+                                        viewModel.userLonState.value
+                                    )
                                 )
                             }
                     ) { donation ->

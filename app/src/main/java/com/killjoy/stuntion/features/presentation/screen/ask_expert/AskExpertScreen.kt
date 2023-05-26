@@ -44,7 +44,12 @@ fun AskExpertScreen(navController: NavController) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Screen.AddQuestionScreen.route)
+                    navController.navigate(
+                        if (viewModel.currentRegistrationState.value != 0)
+                            Screen.AddQuestionScreen.route
+                        else
+                            Screen.RedirectScreen.route
+                    )
                 },
                 shape = CircleShape,
                 backgroundColor = PrimaryBlue

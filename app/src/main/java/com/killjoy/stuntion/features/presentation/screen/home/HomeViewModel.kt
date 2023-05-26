@@ -30,16 +30,15 @@ class HomeViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
 ) : ViewModel() {
     val listOfBanner =
-        listOf(R.drawable.iv_banner_1, R.drawable.iv_banner_2, R.drawable.iv_banner_3)
+        listOf(R.drawable.iv_banner_3, R.drawable.iv_banner_1, R.drawable.iv_banner_2)
 
     val listOfRegistrationStep = listOf(
         RegistrationStep(title = "Login or create your account", subtitle = "Login to access all features"),
         RegistrationStep(title = "Next, complete your personal data", subtitle = "Personal data to make your account verified"),
-        RegistrationStep(title = "Next, choose your avatar", subtitle = "Avatar that will be displayed throughout the application"),
         RegistrationStep(title = "Next, enable your location", subtitle = "We need your location if you need help fulfilling stunting nutrition"),
     )
 
-    val currentRegistrationState = mutableStateOf(1)
+    val currentRegistrationState = mutableStateOf(0)
 
     private val _userResponse = MutableStateFlow<Resource<UserResponse?>>(Resource.Loading())
     val userResponse = _userResponse.asStateFlow()
@@ -57,9 +56,11 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchUserDetail() {
         viewModelScope.launch {
-            val uid = userRepository.readUid().first()!!
-            userRepository.fetchUserDetail(uid).collect {
-                _userResponse.value = it
+            val uid = userRepository.readUid().first()
+            if (uid != null) {
+                userRepository.fetchUserDetail(uid).collect {
+                    _userResponse.value = it
+                }
             }
         }
     }

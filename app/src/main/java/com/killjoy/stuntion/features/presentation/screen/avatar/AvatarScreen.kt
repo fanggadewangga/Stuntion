@@ -120,7 +120,6 @@ fun AvatarScreen(navController: NavController) {
                     onClick = {
                         viewModel.updateUserAvatar()
                         coroutineScope.launch {
-                            viewModel.saveHaveCreatedAccount()
                         }
                     }, modifier = Modifier.fillMaxWidth()
                 ) {

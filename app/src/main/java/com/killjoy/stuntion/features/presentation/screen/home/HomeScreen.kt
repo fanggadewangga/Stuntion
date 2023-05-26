@@ -66,7 +66,10 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePaymentSharedViewModel) {
+fun HomeScreen(
+    navController: NavController,
+    homePaymentSharedViewModel: HomePaymentSharedViewModel,
+) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val systemUiController = rememberSystemUiController()
     systemUiController.apply {
@@ -204,39 +207,46 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                                 textStyle = Type.bodyLarge(),
                                 color = Color.White
                             )
-                            when (user.value) {
-                                is Resource.Loading -> {
-                                    StuntionText(
-                                        text = "This is user name",
-                                        textStyle = Type.titleMedium(),
-                                        color = Color.White,
-                                        modifier = Modifier
-                                            .placeholder(
-                                                visible = true,
-                                                color = Color.LightGray,
-                                                shape = RoundedCornerShape(16.dp),
-                                                highlight = PlaceholderHighlight
-                                                    .shimmer(highlightColor = Color.White),
-                                            )
-                                    )
+                            if (viewModel.currentRegistrationState.value != 0)
+                                when (user.value) {
+                                    is Resource.Loading -> {
+                                        StuntionText(
+                                            text = "This is user name",
+                                            textStyle = Type.titleMedium(),
+                                            color = Color.White,
+                                            modifier = Modifier
+                                                .placeholder(
+                                                    visible = true,
+                                                    color = Color.LightGray,
+                                                    shape = RoundedCornerShape(16.dp),
+                                                    highlight = PlaceholderHighlight
+                                                        .shimmer(highlightColor = Color.White),
+                                                )
+                                        )
+                                    }
+
+                                    is Resource.Success -> {
+                                        StuntionText(
+                                            text = "${user.value.data?.name}",
+                                            textStyle = Type.titleMedium(),
+                                            color = Color.White,
+                                        )
+                                    }
+
+                                    is Resource.Empty -> {
+
+                                    }
+
+                                    is Resource.Error -> {
+
+                                    }
                                 }
-
-                                is Resource.Success -> {
-                                    StuntionText(
-                                        text = "${user.value.data?.name}",
-                                        textStyle = Type.titleMedium(),
-                                        color = Color.White,
-                                    )
-                                }
-
-                                is Resource.Empty -> {
-
-                                }
-
-                                is Resource.Error -> {
-
-                                }
-                            }
+                            else
+                                StuntionText(
+                                    text = "Guest",
+                                    textStyle = Type.titleMedium(),
+                                    color = Color.White,
+                                )
                         }
 
                         // Check text
@@ -272,38 +282,48 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                         }
 
                         // Wallet
-                        user.value.data?.let { it1 ->
+                        if (viewModel.currentRegistrationState.value != 0)
+                            user.value.data?.let { it1 ->
+                                Wallet(
+                                    balance = it1.balance.toInt(),
+                                    onTopUpClicked = {
+                                        coroutineScope.launch {
+                                            if (modalBottomSheetState.isVisible)
+                                                modalBottomSheetState.hide()
+                                            else
+                                                modalBottomSheetState.animateTo(
+                                                    ModalBottomSheetValue.Expanded
+                                                )
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+                        else
                             Wallet(
-                                balance = it1.balance.toInt(),
+                                balance = 0,
                                 onTopUpClicked = {
-                                    coroutineScope.launch {
-                                        if (modalBottomSheetState.isVisible)
-                                            modalBottomSheetState.hide()
-                                        else
-                                            modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
-                                    }
+                                    navController.navigate(Screen.RedirectScreen.route)
                                 },
                                 modifier = Modifier.fillMaxWidth()
                             )
-                        }
                     }
                 }
 
-                if (viewModel.currentRegistrationState.value < 4) {
+                if (viewModel.currentRegistrationState.value < 3) {
                     // Registration Progress
                     Spacer(modifier = Modifier.height(16.dp))
                     RegistrationProgress(
                         currentRegistrationStep = viewModel.currentRegistrationState.value,
-                        registrationStep = viewModel.listOfRegistrationStep[viewModel.currentRegistrationState.value - 1],
-                        progressBarWidth = (LocalConfiguration.current.screenWidthDp * 0.75 / 4).dp,
+                        registrationStep = viewModel.listOfRegistrationStep[viewModel.currentRegistrationState.value],
+                        progressBarWidth = (LocalConfiguration.current.screenWidthDp * 0.75 / 3).dp,
                         progressBarShape = RoundedCornerShape(100.dp),
                         progressBarHeight = 8.dp,
                         onClick = {
                             when (viewModel.currentRegistrationState.value) {
-                                1 -> navController.navigate(Screen.SignupScreen.route)
-                                2 -> navController.navigate(Screen.GeneralInformationScreen.route)
-                                3 -> navController.navigate(Screen.AvatarScreen.route)
-                                4 -> navController.navigate(Screen.LocationPermissionScreen.route)
+                                0 -> navController.navigate(Screen.SignupScreen.route) // no login or registration yet
+                                1 -> navController.navigate(Screen.GeneralInformationScreen.route) // no name yet
+                                2 -> navController.navigate(Screen.LocationPermissionScreen.route) // no location
                             }
                         },
                         modifier = Modifier
@@ -324,7 +344,12 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                         elevation = 4.dp,
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.clickable {
-                            navController.navigate(Screen.ChildNotesScreen.route)
+                            navController.navigate(
+                                if (viewModel.currentRegistrationState.value != 0)
+                                    Screen.ChildNotesScreen.route
+                                else
+                                    Screen.RedirectScreen.route
+                            )
                         }
                     ) {
                         Row(
@@ -359,7 +384,12 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                         elevation = 4.dp,
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.clickable {
-                            navController.navigate(Screen.ActivityListScreen.route)
+                            navController.navigate(
+                                if (viewModel.currentRegistrationState.value != 0)
+                                    Screen.ActivityListScreen.route
+                                else
+                                    Screen.RedirectScreen.route
+                            )
                         }
                     ) {
                         Row(
@@ -390,135 +420,142 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                     }
                 }
 
-                // My Healthy Tips
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
+                if (viewModel.currentRegistrationState.value != 0) {
+                    // My Healthy Tips
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
                     ) {
-                        StuntionText(text = "My Healthy Tips", textStyle = Type.titleMedium())
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            StuntionText(text = "My Healthy Tips", textStyle = Type.titleMedium())
+                            StuntionText(
+                                text = "View All",
+                                textStyle = Type.labelMedium(),
+                                color = PrimaryBlue,
+                                modifier = Modifier.clickable {
+                                    navController.navigate(Screen.MyHealthyTipsScreen.route)
+                                }
+                            )
+                        }
+
                         StuntionText(
-                            text = "View All",
-                            textStyle = Type.labelMedium(),
-                            color = PrimaryBlue,
-                            modifier = Modifier.clickable {
-                                navController.navigate(Screen.MyHealthyTipsScreen.route)
-                            }
+                            text = "The healthy tips are based on your baby's nutritional calculations",
+                            textStyle = Type.bodySmall(),
+                            color = LightGray
                         )
                     }
 
-                    StuntionText(
-                        text = "The healthy tips are based on your baby's nutritional calculations",
-                        textStyle = Type.bodySmall(),
-                        color = LightGray
-                    )
-                }
 
-                task.value.data.let { data ->
-                    Card(
-                        elevation = 3.dp,
-                        shape = RoundedCornerShape(16.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                            .clickable {
-                                if (data != null) {
-                                    navController.currentBackStackEntry?.savedStateHandle?.set(
-                                        key = "taskId",
-                                        value = data.taskId
-                                    )
-                                    navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                                }
-                            }
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.padding(bottom = 6.dp)
-                        ) {
-
-                            // Tips card
-                            Box(modifier = Modifier.fillMaxWidth()) {
-                                AsyncImage(
-                                    model = data?.imageUrl,
-                                    contentDescription = "Tips image",
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(220.dp)
-                                        .background(
-                                            brush = Brush.verticalGradient(
-                                                colors = listOf(Color.Transparent, Color.Black),
-                                                startY = 220.toFloat()/3,
-                                                endY = 220.toFloat()
-                                            )
+                    task.value.data.let { data ->
+                        Card(
+                            elevation = 3.dp,
+                            shape = RoundedCornerShape(16.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                                .clickable {
+                                    if (data != null) {
+                                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                                            key = "taskId",
+                                            value = data.taskId
                                         )
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .padding(top = 16.dp)
-                                        .background(
-                                            shape = RoundedCornerShape(
-                                                topStart = 16.dp,
-                                                bottomStart = 16.dp
-                                            ),
-                                            color = PrimaryBlue
-                                        )
-                                        .align(Alignment.TopEnd)
-                                ) {
-                                    StuntionText(
-                                        text = "Take Action",
-                                        textStyle = Type.labelMedium(),
-                                        color = Color.White,
-                                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-                                    )
-                                }
-                                data?.let { data ->
-                                    StuntionText(
-                                        text = data.task,
-                                        textStyle = Type.titleSmall(),
-                                        color = Color.White,
-                                        modifier = Modifier
-                                            .align(Alignment.BottomStart)
-                                            .padding(start = 16.dp, end = 24.dp, bottom = 16.dp)
-                                    )
-                                }
-                            }
-
-                            // Indicator
-                            Row(
-                                horizontalArrangement = Arrangement.SpaceEvenly,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 12.dp)
-                            ) {
-                                if (data != null) {
-                                    for (i in 1..data.instructions.size) {
-                                        Divider(
-                                            thickness = 8.dp,
-                                            color = if (i <= 1) PrimaryBlue else Color.LightGray,
-                                            modifier = Modifier
-                                                .width((LocalConfiguration.current.screenWidthDp * 0.8 / data.instructions.size).dp)
-                                                .clip(RoundedCornerShape(8.dp))
-                                        )
-                                        Spacer(modifier = Modifier.width(1.dp))
+                                        navController.navigate(Screen.HealthyTipsDetailScreen.route)
                                     }
                                 }
-                            }
+                        ) {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
+                                modifier = Modifier.padding(bottom = 6.dp)
+                            ) {
 
-                            StuntionText(
-                                text = "1 out of ${data?.instructions?.size} actions",
-                                textStyle = Type.bodySmall(),
-                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                            )
+                                // Tips card
+                                Box(modifier = Modifier.fillMaxWidth()) {
+                                    AsyncImage(
+                                        model = data?.imageUrl,
+                                        contentDescription = "Tips image",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(220.dp)
+                                            .background(
+                                                brush = Brush.verticalGradient(
+                                                    colors = listOf(Color.Transparent, Color.Black),
+                                                    startY = 220.toFloat() / 3,
+                                                    endY = 220.toFloat()
+                                                )
+                                            )
+                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(top = 16.dp)
+                                            .background(
+                                                shape = RoundedCornerShape(
+                                                    topStart = 16.dp,
+                                                    bottomStart = 16.dp
+                                                ),
+                                                color = PrimaryBlue
+                                            )
+                                            .align(Alignment.TopEnd)
+                                    ) {
+                                        StuntionText(
+                                            text = "Take Action",
+                                            textStyle = Type.labelMedium(),
+                                            color = Color.White,
+                                            modifier = Modifier.padding(
+                                                horizontal = 16.dp,
+                                                vertical = 4.dp
+                                            )
+                                        )
+                                    }
+                                    data?.let { data ->
+                                        StuntionText(
+                                            text = data.task,
+                                            textStyle = Type.titleSmall(),
+                                            color = Color.White,
+                                            modifier = Modifier
+                                                .align(Alignment.BottomStart)
+                                                .padding(start = 16.dp, end = 24.dp, bottom = 16.dp)
+                                        )
+                                    }
+                                }
+
+                                // Indicator
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceEvenly,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 12.dp)
+                                ) {
+                                    if (data != null) {
+                                        for (i in 1..data.instructions.size) {
+                                            Divider(
+                                                thickness = 8.dp,
+                                                color = if (i <= 1) PrimaryBlue else Color.LightGray,
+                                                modifier = Modifier
+                                                    .width((LocalConfiguration.current.screenWidthDp * 0.8 / data.instructions.size).dp)
+                                                    .clip(RoundedCornerShape(8.dp))
+                                            )
+                                            Spacer(modifier = Modifier.width(1.dp))
+                                        }
+                                    }
+                                }
+
+                                StuntionText(
+                                    text = "1 out of ${data?.instructions?.size} actions",
+                                    textStyle = Type.bodySmall(),
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                                )
+                            }
                         }
                     }
                 }
+
 
                 // Donation
                 StuntionText(
@@ -656,7 +693,11 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                             contentScale = ContentScale.FillBounds,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(160.dp)
+                                .height(200.dp)
+                                .clickable {
+                                    if (it == 0)
+                                        navController.navigate(Screen.CheckTutorialScreen.route)
+                                }
                         )
                     }
                 }

@@ -38,4 +38,8 @@ class LoginViewModel @Inject constructor(
                 }
         }
     }
+
+    suspend fun saveUserIndex(index: Int) {
+        userRepository.saveRegisterProgressIndex(index)
+    }
 }

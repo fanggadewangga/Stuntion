@@ -54,6 +54,12 @@ fun ProfileScreen(navController: NavController) {
             setStatusBarColor(color = PrimaryBlue, darkIcons = true)
             setNavigationBarColor(color = Color.White, darkIcons = true)
         }
+        if (viewModel.currentRegistrationState.value == 0)
+            navController.navigate(Screen.RedirectScreen.route) {
+                popUpTo(Screen.ProfileScreen.route) {
+                    inclusive = true
+                }
+            }
     }
 
     Scaffold(

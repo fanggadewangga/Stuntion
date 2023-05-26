@@ -71,7 +71,11 @@ fun AccountManagementScreen(navController: NavController) {
             description = "Are you sure? You’ll have to log in again once you’re back.",
             onClick = {
                 viewModel.logout()
-                navController.navigate(Screen.LoginScreen.route)
+                navController.navigate(Screen.LoginScreen.route) {
+                    popUpTo(Screen.ProfileScreen.route) {
+                        inclusive = true
+                    }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()

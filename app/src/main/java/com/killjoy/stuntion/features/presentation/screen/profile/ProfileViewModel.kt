@@ -1,5 +1,6 @@
 package com.killjoy.stuntion.features.presentation.screen.profile
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.killjoy.stuntion.features.data.repository.user.UserRepository
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
+    val currentRegistrationState = mutableStateOf(0)
     private val _userResponse = MutableStateFlow<Resource<UserResponse?>>(Resource.Loading())
     val userResponse = _userResponse.asStateFlow()
     private fun fetchUserDetail() {
@@ -27,7 +29,15 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
         }
     }
 
+    private fun getUserRegisterProgressIndex() {
+        viewModelScope.launch {
+            val progressIndex = repository.readRegisterProgressIndex().first()
+            currentRegistrationState.value = progressIndex
+        }
+    }
+
     init {
+        getUserRegisterProgressIndex()
         fetchUserDetail()
     }
 }

@@ -42,7 +42,12 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
     LaunchedEffect(postNoteResponse.value) {
         when (postNoteResponse.value) {
             is Resource.Loading -> {}
-            is Resource.Error -> Toasty.error(context, postNoteResponse.value.message.toString(), Toast.LENGTH_SHORT).show()
+            is Resource.Error -> Toasty.error(
+                context,
+                postNoteResponse.value.message.toString(),
+                Toast.LENGTH_SHORT
+            ).show()
+
             is Resource.Empty -> {}
             is Resource.Success -> {
                 Toasty.success(context, "Successfully added child note!", Toast.LENGTH_SHORT).show()
@@ -257,13 +262,16 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                     backgroundColor = PrimaryBlue,
                     contentPadding = PaddingValues(vertical = 12.dp),
                     onClick = {
-                        viewModel.postNewNote(
-                            childName = child.name,
-                            gender = child.gender,
-                            height = child.height,
-                            weight = child.weight,
-                            birthday = child.birthDate
-                        )
+                        if (viewModel.currentRegistrationState.value != 0)
+                            viewModel.postNewNote(
+                                childName = child.name,
+                                gender = child.gender,
+                                height = child.height,
+                                weight = child.weight,
+                                birthday = child.birthDate
+                            )
+                        else
+                            navController.navigate(Screen.RedirectScreen.route)
                     },
                     modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.44).dp)
                 ) {
@@ -380,14 +388,17 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                                 HealthyTipsItemShimmer()
                             }
                         }
+
                         is Resource.Error -> Log.d(
                             "FETCH TASK",
                             taskResponse.value.message.toString()
                         )
+
                         is Resource.Empty -> Log.d(
                             "FETCH TASK",
                             taskResponse.value.message.toString()
                         )
+
                         is Resource.Success -> {
                             Log.d("FETCH TASK", "SUCCESS")
                             Column {

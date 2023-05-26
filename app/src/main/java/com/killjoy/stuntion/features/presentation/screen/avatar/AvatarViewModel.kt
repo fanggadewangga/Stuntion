@@ -69,5 +69,4 @@ class AvatarViewModel @Inject constructor(private val repository: UserRepository
             }
         }
     }
-    suspend fun saveHaveCreatedAccount() = repository.saveHaveCreatedAccountSuccessfully(true)
 }

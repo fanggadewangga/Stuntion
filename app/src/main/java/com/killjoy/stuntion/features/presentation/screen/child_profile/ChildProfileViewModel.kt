@@ -13,7 +13,6 @@ import com.killjoy.stuntion.features.data.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,6 +30,7 @@ class ChildProfileViewModel @Inject constructor(
     val idealHeight = mutableStateOf(0.0)
     val heightDescription = mutableStateOf("")
     val weightDescription = mutableStateOf("")
+    val currentRegistrationState = mutableStateOf(0)
 
     private val _postNoteResponse = MutableStateFlow<Resource<String>>(Resource.Empty())
     val postNoteResponse = _postNoteResponse.asStateFlow()
@@ -79,5 +79,16 @@ class ChildProfileViewModel @Inject constructor(
                     _fetchTaskResponse.value = it
                 }
         }
+    }
+
+    private fun getUserRegisterProgressIndex() {
+        viewModelScope.launch {
+            val progressIndex = userRepository.readRegisterProgressIndex().first()
+            currentRegistrationState.value = progressIndex
+        }
+    }
+
+    init {
+        getUserRegisterProgressIndex()
     }
 }

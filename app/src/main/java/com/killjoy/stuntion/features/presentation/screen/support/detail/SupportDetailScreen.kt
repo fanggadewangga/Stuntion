@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.location.Location
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -217,16 +216,19 @@ fun SupportDetailScreen(
                         bottomBar = {
                             StuntionButton(
                                 onClick = {
-                                    coroutineScope.launch {
-                                        if (modalBottomSheetState.isVisible)
-                                            modalBottomSheetState.hide()
-                                        else {
-                                            viewModel.sheetState.value =
-                                                ModalBottomSheetValue.Expanded
-                                            modalBottomSheetState.animateTo(viewModel.sheetState.value)
-                                        }
+                                    if (viewModel.currentRegistrationState.value == 0)
+                                        navController.navigate(Screen.RedirectScreen.route)
+                                    else
+                                        coroutineScope.launch {
+                                            if (modalBottomSheetState.isVisible)
+                                                modalBottomSheetState.hide()
+                                            else {
+                                                viewModel.sheetState.value =
+                                                    ModalBottomSheetValue.Expanded
+                                                modalBottomSheetState.animateTo(viewModel.sheetState.value)
+                                            }
 
-                                    }
+                                        }
                                 },
                                 contentPadding = PaddingValues(vertical = 8.dp),
                                 modifier = Modifier

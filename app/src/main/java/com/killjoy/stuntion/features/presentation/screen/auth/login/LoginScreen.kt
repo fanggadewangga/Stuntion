@@ -69,17 +69,13 @@ fun LoginScreen(navController: NavController) {
             is Resource.Empty -> {}
             is Resource.Success -> {
                 Toasty.success(context, "Login success!", Toast.LENGTH_SHORT).show()
-                if (userResponse.value.data!!.gender != null) {
-                    navController.navigate(Screen.HomeScreen.route) {
-                        popUpTo(Screen.LoginScreen.route) {
-                            inclusive = true
-                        }
-                    }
-                } else {
-                    navController.navigate(Screen.GeneralInformationScreen.route) {
-                        popUpTo(Screen.LoginScreen.route) {
-                            inclusive = true
-                        }
+                if (userResponse.value.data!!.name != null && userResponse.value.data!!.name != "Anonymous")
+                    viewModel.saveUserIndex(3)
+                else
+                    viewModel.saveUserIndex(1)
+                navController.navigate(Screen.HomeScreen.route) {
+                    popUpTo(Screen.LoginScreen.route) {
+                        inclusive = true
                     }
                 }
             }
