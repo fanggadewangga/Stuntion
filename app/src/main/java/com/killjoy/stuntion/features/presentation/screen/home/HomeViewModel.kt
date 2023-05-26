@@ -6,9 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.repository.article.ArticleRepository
 import com.killjoy.stuntion.features.data.repository.donation.DonationRepository
+import com.killjoy.stuntion.features.data.repository.task.TaskRepository
 import com.killjoy.stuntion.features.data.repository.user.UserRepository
+import com.killjoy.stuntion.features.data.source.Dummy
 import com.killjoy.stuntion.features.data.source.remote.api.response.article.ArticleListResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.donation.DonationListResponse
+import com.killjoy.stuntion.features.data.source.remote.api.response.task.TaskResponse
 import com.killjoy.stuntion.features.data.source.remote.api.response.user.UserResponse
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.domain.model.registration.RegistrationStep
@@ -24,6 +27,7 @@ class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val donationRepository: DonationRepository,
     private val articleRepository: ArticleRepository,
+    private val taskRepository: TaskRepository,
 ) : ViewModel() {
     val listOfBanner =
         listOf(R.drawable.iv_banner_1, R.drawable.iv_banner_2, R.drawable.iv_banner_3)
@@ -47,6 +51,9 @@ class HomeViewModel @Inject constructor(
     private val _smartstunResponse =
         MutableStateFlow<Resource<List<ArticleListResponse>>>(Resource.Loading())
     val smartstunResponse = _smartstunResponse.asStateFlow()
+
+    private val _taskResponse = MutableStateFlow<Resource<TaskResponse>>(Resource.Loading())
+    val taskResponse = _taskResponse.asStateFlow()
 
     private fun fetchUserDetail() {
         viewModelScope.launch {
@@ -79,10 +86,23 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun fetchTaskDetail() {
+        viewModelScope.launch {
+            val uid = userRepository.readUid().first()
+            val randomTaskId = Dummy.listOfTaskId.random()
+            if (uid != null) {
+                taskRepository.fetchTaskDetail(uid = uid, taskId = randomTaskId).collect {
+                    _taskResponse.value = it
+                }
+            }
+        }
+    }
+
     init {
         fetchUserDetail()
         fetchDonations()
         fetchSmartstuns()
         getUserRegisterProgressIndex()
+        fetchTaskDetail()
     }
 }

@@ -1,6 +1,10 @@
 package com.killjoy.stuntion.features.presentation.screen.support.supports
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -24,19 +29,23 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.google.android.gms.maps.model.LatLng
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.navigation.BottomNavigationBar
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.*
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.countDistanceBetweenLocation
+import com.killjoy.stuntion.features.presentation.utils.getCurrentLocation
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -46,6 +55,41 @@ import com.killjoy.stuntion.ui.theme.Type
 fun SupportScreen(navController: NavController) {
     val viewModel = hiltViewModel<SupportViewModel>()
     val donations = viewModel.donationResponse.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    val permissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            viewModel.isPermissionGranted.value = isGranted
+            if (isGranted) {
+                getCurrentLocation(context) {
+                    viewModel.apply {
+                        userLatState.value = it.latitude
+                        userLonState.value = it.longitude
+                    }
+                }
+            }
+        }
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ),
+        -> {
+            viewModel.isPermissionGranted.value = true
+            getCurrentLocation(context) {
+                viewModel.apply {
+                    userLatState.value = it.latitude
+                    userLonState.value = it.longitude
+                }
+            }
+        }
+
+        else -> {
+            SideEffect {
+                permissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+            }
+        }
+    }
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) },
@@ -319,8 +363,13 @@ fun SupportScreen(navController: NavController) {
                 is Resource.Success -> {
                     items(
                         donations.value.data!!
-                            .shuffled()
                             .take(2)
+                            .sortedBy {
+                                countDistanceBetweenLocation(
+                                    LatLng(it.lat, it.lon),
+                                    LatLng(viewModel.userLatState.value, viewModel.userLonState.value)
+                                )
+                            }
                     ) { donation ->
                         SuitableDonationItem(
                             donation = donation,

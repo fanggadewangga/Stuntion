@@ -2,6 +2,7 @@ package com.killjoy.stuntion.features.presentation.screen.add_question
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,14 +41,27 @@ import kotlinx.coroutines.launch
 fun AddQuestionScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<AddQuestionViewModel>()
-    val coroutineScope = rememberCoroutineScope()
-    val sheetState = rememberBottomSheetScaffoldState()
     val questionResponse = viewModel.questionResponse.collectAsState()
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val modalBottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
+        skipHalfExpanded = true
+    )
+
+    BackHandler(modalBottomSheetState.isVisible) {
+        coroutineScope.launch { modalBottomSheetState.hide() }
+    }
 
     LaunchedEffect(questionResponse.value) {
         when (questionResponse.value) {
-            is Resource.Error -> Toasty.error(context, questionResponse.value.message.toString(), Toast.LENGTH_SHORT).show()
+            is Resource.Error -> Toasty.error(
+                context,
+                questionResponse.value.message.toString(),
+                Toast.LENGTH_SHORT
+            ).show()
+
             is Resource.Empty -> {}
             is Resource.Loading -> {}
             is Resource.Success -> {
@@ -61,59 +75,58 @@ fun AddQuestionScreen(navController: NavController) {
         }
     }
 
-
-    Scaffold(
-        content = {
-            BottomSheetScaffold(
-                scaffoldState = sheetState,
-                sheetPeekHeight = 0.dp,
-                sheetGesturesEnabled = false,
-                sheetElevation = 16.dp,
-                sheetShape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-                sheetContent = {
-                    Column(Modifier.fillMaxWidth()) {
-
-                        // Line
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Box(modifier = Modifier.fillMaxWidth()) {
-                            Divider(
-                                thickness = 3.dp,
-                                color = Color.Gray,
-                                modifier = Modifier
-                                    .width(32.dp)
-                                    .clip(
-                                        RoundedCornerShape(100.dp)
-                                    )
-                                    .align(Alignment.TopCenter)
-                            )
-                        }
-
-                        // Question Category
-                        Spacer(modifier = Modifier.height(16.dp))
-                        StuntionText(
-                            text = "Question Category",
-                            textStyle = Type.titleMedium(),
-                            modifier = Modifier.padding(start = 20.dp)
-                        )
-
-                        // Categories
-                        Spacer(modifier = Modifier.height(8.dp))
-                        viewModel.categories.forEach {
-                            CategoryItem(
-                                title = it,
-                                onSelected = {
-                                    viewModel.selectedCategoryItems.add(it)
-                                },
-                                onUnselected = {
-                                    viewModel.selectedCategoryItems.remove(it)
-                                }
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
-                }
+    ModalBottomSheetLayout(
+        sheetState = modalBottomSheetState,
+        sheetShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+        sheetContent = {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = (LocalConfiguration.current.screenHeightDp / 15).dp)
             ) {
 
+                // Line
+                Spacer(modifier = Modifier.height(16.dp))
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Divider(
+                        thickness = 3.dp,
+                        color = Color.Gray,
+                        modifier = Modifier
+                            .width(32.dp)
+                            .clip(
+                                RoundedCornerShape(100.dp)
+                            )
+                            .align(Alignment.TopCenter)
+                    )
+                }
+
+                // Question Category
+                Spacer(modifier = Modifier.height(16.dp))
+                StuntionText(
+                    text = "Question Category",
+                    textStyle = Type.titleMedium(),
+                    modifier = Modifier.padding(start = 20.dp)
+                )
+
+                // Categories
+                Spacer(modifier = Modifier.height(8.dp))
+                viewModel.categories.forEach {
+                    CategoryItem(
+                        title = it,
+                        onSelected = {
+                            viewModel.selectedCategoryItems.add(it)
+                        },
+                        onUnselected = {
+                            viewModel.selectedCategoryItems.remove(it)
+                        }
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    ) {
+        Scaffold(
+            content = {
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -121,7 +134,10 @@ fun AddQuestionScreen(navController: NavController) {
                         .padding(vertical = 24.dp)
                 ) {
                     // Top Bar
-                    StuntionTopBar(title = "Ask Expert", onBackPressed = { })
+                    StuntionTopBar(
+                        title = "Ask Expert",
+                        onBackPressed = { navController.popBackStack() }
+                    )
 
                     // Consider
                     Spacer(modifier = Modifier.height(24.dp))
@@ -226,10 +242,10 @@ fun AddQuestionScreen(navController: NavController) {
                                 )
                                 .clickable {
                                     coroutineScope.launch {
-                                        if (sheetState.bottomSheetState.isCollapsed)
-                                            sheetState.bottomSheetState.expand()
+                                        if (modalBottomSheetState.isVisible)
+                                            modalBottomSheetState.hide()
                                         else
-                                            sheetState.bottomSheetState.collapse()
+                                            modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
                                     }
                                 }
                         ) {
@@ -249,10 +265,12 @@ fun AddQuestionScreen(navController: NavController) {
                                     .padding(end = 16.dp)
                                     .clickable {
                                         coroutineScope.launch {
-                                            if (sheetState.bottomSheetState.isCollapsed)
-                                                sheetState.bottomSheetState.expand()
+                                            if (modalBottomSheetState.isVisible)
+                                                modalBottomSheetState.hide()
                                             else
-                                                sheetState.bottomSheetState.collapse()
+                                                modalBottomSheetState.animateTo(
+                                                    ModalBottomSheetValue.Expanded
+                                                )
                                         }
                                     }
                             )
@@ -361,8 +379,8 @@ fun AddQuestionScreen(navController: NavController) {
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
-            }
-        },
-        modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 15).dp)
-    )
+            },
+            modifier = Modifier.padding(bottom = (LocalConfiguration.current.screenHeightDp / 15).dp)
+        )
+    }
 }

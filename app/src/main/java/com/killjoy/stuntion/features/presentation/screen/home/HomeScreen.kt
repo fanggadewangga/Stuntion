@@ -23,17 +23,18 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -72,9 +73,10 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
         setStatusBarColor(color = PrimaryBlue, darkIcons = true)
         setNavigationBarColor(color = Color.White, darkIcons = true)
     }
-    val user = viewModel.userResponse.collectAsState()
-    val donations = viewModel.donationResponse.collectAsState()
-    val smartstuns = viewModel.smartstunResponse.collectAsState()
+    val user = viewModel.userResponse.collectAsStateWithLifecycle()
+    val donations = viewModel.donationResponse.collectAsStateWithLifecycle()
+    val smartstuns = viewModel.smartstunResponse.collectAsStateWithLifecycle()
+    val task = viewModel.taskResponse.collectAsStateWithLifecycle()
     val pages = viewModel.listOfBanner
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -90,7 +92,7 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(2500L)
+            delay(4500L)
             tween<Float>(500)
             pagerState.animateScrollToPage(
                 page = (pagerState.currentPage + 1) % (pagerState.pageCount)
@@ -418,84 +420,103 @@ fun HomeScreen(navController: NavController, homePaymentSharedViewModel: HomePay
                     )
                 }
 
-                Card(
-                    elevation = 3.dp,
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .clickable {
-                            navController.navigate(Screen.HealthyTipsDetailScreen.route)
-                        }
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.padding(bottom = 6.dp)
+                task.value.data.let { data ->
+                    Card(
+                        elevation = 3.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .clickable {
+                                if (data != null) {
+                                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                                        key = "taskId",
+                                        value = data.taskId
+                                    )
+                                    navController.navigate(Screen.HealthyTipsDetailScreen.route)
+                                }
+                            }
                     ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.padding(bottom = 6.dp)
+                        ) {
 
-                        // Tips card
-                        Box(modifier = Modifier.fillMaxWidth()) {
-                            AsyncImage(
-                                model = R.drawable.iv_home_task,
-                                contentDescription = "Tips image",
-                                contentScale = ContentScale.Crop,
+                            // Tips card
+                            Box(modifier = Modifier.fillMaxWidth()) {
+                                AsyncImage(
+                                    model = data?.imageUrl,
+                                    contentDescription = "Tips image",
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(220.dp)
+                                        .background(
+                                            brush = Brush.verticalGradient(
+                                                colors = listOf(Color.Transparent, Color.Black),
+                                                startY = 220.toFloat()/3,
+                                                endY = 220.toFloat()
+                                            )
+                                        )
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .padding(top = 16.dp)
+                                        .background(
+                                            shape = RoundedCornerShape(
+                                                topStart = 16.dp,
+                                                bottomStart = 16.dp
+                                            ),
+                                            color = PrimaryBlue
+                                        )
+                                        .align(Alignment.TopEnd)
+                                ) {
+                                    StuntionText(
+                                        text = "Take Action",
+                                        textStyle = Type.labelMedium(),
+                                        color = Color.White,
+                                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                                    )
+                                }
+                                data?.let { data ->
+                                    StuntionText(
+                                        text = data.task,
+                                        textStyle = Type.titleSmall(),
+                                        color = Color.White,
+                                        modifier = Modifier
+                                            .align(Alignment.BottomStart)
+                                            .padding(start = 16.dp, end = 24.dp, bottom = 16.dp)
+                                    )
+                                }
+                            }
+
+                            // Indicator
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceEvenly,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(220.dp)
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .padding(top = 16.dp)
-                                    .background(
-                                        shape = RoundedCornerShape(
-                                            topStart = 16.dp,
-                                            bottomStart = 16.dp
-                                        ),
-                                        color = PrimaryBlue
-                                    )
-                                    .align(Alignment.TopEnd)
+                                    .padding(horizontal = 12.dp)
                             ) {
-                                StuntionText(
-                                    text = "Take Action",
-                                    textStyle = Type.labelMedium(),
-                                    color = Color.White,
-                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-                                )
+                                if (data != null) {
+                                    for (i in 1..data.instructions.size) {
+                                        Divider(
+                                            thickness = 8.dp,
+                                            color = if (i <= 1) PrimaryBlue else Color.LightGray,
+                                            modifier = Modifier
+                                                .width((LocalConfiguration.current.screenWidthDp * 0.8 / data.instructions.size).dp)
+                                                .clip(RoundedCornerShape(8.dp))
+                                        )
+                                        Spacer(modifier = Modifier.width(1.dp))
+                                    }
+                                }
                             }
+
                             StuntionText(
-                                text = "If the child can walk, train and accompany the child when climbing the stairs",
-                                textStyle = Type.titleSmall(),
-                                color = Color.White,
-                                modifier = Modifier
-                                    .align(Alignment.BottomStart)
-                                    .padding(start = 16.dp, end = 24.dp, bottom = 16.dp)
+                                text = "1 out of ${data?.instructions?.size} actions",
+                                textStyle = Type.bodySmall(),
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                             )
                         }
-
-                        // Indicator
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 12.dp)
-                        ) {
-                            for (i in 1..5) {
-                                Divider(
-                                    thickness = 8.dp,
-                                    color = if (i <= 1) PrimaryBlue else Color.LightGray,
-                                    modifier = Modifier
-                                        .width((LocalConfiguration.current.screenWidthDp * 0.8 / 5).dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                )
-                                Spacer(modifier = Modifier.width(1.dp))
-                            }
-                        }
-
-                        StuntionText(
-                            text = "1 out of 5 actions",
-                            textStyle = Type.bodySmall(),
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                        )
                     }
                 }
 

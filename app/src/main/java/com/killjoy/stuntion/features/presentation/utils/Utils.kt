@@ -243,3 +243,15 @@ fun getCurrentLocation(
         e.printStackTrace()
     }
 }
+
+fun countDistanceBetweenLocation(startLocation: LatLng, endLocation: LatLng): Float {
+    val result = FloatArray(1)
+     Location.distanceBetween(
+        startLocation.latitude,
+        startLocation.longitude,
+        endLocation.latitude,
+        endLocation.longitude,
+        result
+    )
+    return result[0]
+}

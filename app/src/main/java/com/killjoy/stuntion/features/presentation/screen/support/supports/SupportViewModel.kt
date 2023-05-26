@@ -15,6 +15,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SupportViewModel @Inject constructor(private val repository: DonationRepository): ViewModel() {
     val searchState = mutableStateOf("")
+    val isPermissionGranted = mutableStateOf(false)
+    val userLatState = mutableStateOf(0.0)
+    val userLonState = mutableStateOf(0.0)
     private val _donationResponse =
         MutableStateFlow<Resource<List<DonationListResponse>>>(Resource.Loading())
     val donationResponse = _donationResponse.asStateFlow()
