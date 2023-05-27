@@ -153,8 +153,8 @@ fun countZScoreByHeight(
     }
 
     if (zScore != null) {
-        if (zScore!! < -3.0) return HeightCategory.SeverelyUnderweight.description
-        else if (zScore!! >= -3.0 && zScore!! < -2.0) return HeightCategory.Underweight.description
+        if (zScore!! < -3.0) return HeightCategory.SeverelyUnderheight.description
+        else if (zScore!! >= -3.0 && zScore!! < -2.0) return HeightCategory.Underheight.description
         else if (zScore!! >= -2.0 && zScore!! < 1.0) return HeightCategory.Normal.description
         else if (zScore!! > 1.0) return HeightCategory.High.description
     }

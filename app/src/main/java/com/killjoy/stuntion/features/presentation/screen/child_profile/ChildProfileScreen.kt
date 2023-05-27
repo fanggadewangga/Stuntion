@@ -60,7 +60,10 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
         }
 
         viewModel.apply {
-            fetchTask()
+            if (viewModel.currentRegistrationState.value != 0)
+                fetchTaskByUid()
+            else
+                fetchAllTask()
 
             ageInYear.value = countPeriod(child.birthDate)
             ageInMonth.value = countPeriod(child.birthDate, showMonth = true)
@@ -407,11 +410,15 @@ fun ChildProfileScreen(navController: NavController, child: Child) {
                                     HealthyTipsItem(
                                         tips = it,
                                         onClick = {
-                                            navController.currentBackStackEntry?.savedStateHandle?.set(
-                                                key = "taskId",
-                                                value = it.taskId
-                                            )
-                                            navController.navigate(Screen.HealthyTipsDetailScreen.route)
+                                            if (viewModel.currentRegistrationState.value != 0) {
+                                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                                    key = "taskId",
+                                                    value = it.taskId
+                                                )
+                                                navController.navigate(Screen.HealthyTipsDetailScreen.route)
+                                            }
+                                            else
+                                                navController.navigate(Screen.RedirectScreen.route)
                                         },
                                     )
                                 }

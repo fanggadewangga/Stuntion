@@ -13,6 +13,7 @@ import com.killjoy.stuntion.features.data.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -71,13 +72,21 @@ class ChildProfileViewModel @Inject constructor(
         }
     }
 
-    fun fetchTask() {
+    fun fetchTaskByUid() {
         viewModelScope.launch {
             val uid = userRepository.readUid().first()
             if (uid != null)
                 taskRepository.fetchTaskByUser(uid).collect {
                     _fetchTaskResponse.value = it
                 }
+        }
+    }
+
+    fun fetchAllTask() {
+        viewModelScope.launch {
+            taskRepository.fetchAllTasks().collect {
+                _fetchTaskResponse.value = it
+            }
         }
     }
 

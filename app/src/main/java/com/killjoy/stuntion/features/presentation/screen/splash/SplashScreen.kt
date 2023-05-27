@@ -42,7 +42,18 @@ fun SplashScreen(navController: NavController) {
             is Resource.Error -> {}
         }
         delay(TIME_SPLASH)
-        navController.navigate(Screen.HomeScreen.route)
+        if (viewModel.isHaveRunAppBefore.value)
+            navController.navigate(Screen.HomeScreen.route) {
+                popUpTo(Screen.SplashScreen.route) {
+                    inclusive = true
+                }
+            }
+        else
+            navController.navigate(Screen.OnboardScreen.route) {
+                popUpTo(Screen.SplashScreen.route) {
+                    inclusive = true
+                }
+            }
     }
 
     Box(

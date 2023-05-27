@@ -29,6 +29,20 @@ class TaskRepository @Inject constructor(private val stuntionApi: StuntionApi) :
             }
         }.flowOn(Dispatchers.IO)
 
+    override suspend fun fetchAllTasks(): Flow<Resource<List<TaskListResponse>>> =
+        flow {
+            emit(Resource.Loading())
+            try {
+                val response = stuntionApi.fetchAllTasks()
+                if (!response.isError) {
+                    emit(Resource.Success(response.data))
+                } else
+                    emit(Resource.Error(response.message))
+            } catch (e: Error) {
+                emit(Resource.Error(e.message.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
     override suspend fun fetchTaskByUser(uid: String): Flow<Resource<List<TaskListResponse>>> =
         flow {
             emit(Resource.Loading())

@@ -158,6 +158,9 @@ interface StuntionApi {
         @Body body: UserTaskBody,
     ): BaseResponse<String>
 
+    @GET("/task")
+    suspend fun fetchAllTasks(): BaseResponse<List<TaskListResponse>>
+
     @GET("/task/{uid}")
     suspend fun fetchTaskByUser(@Path("uid") uid: String): BaseResponse<List<TaskListResponse>>
 

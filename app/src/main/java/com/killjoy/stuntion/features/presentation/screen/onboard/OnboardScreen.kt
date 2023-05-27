@@ -80,7 +80,10 @@ fun OnboardScreen(navController: NavController) {
                 color = PrimaryBlue,
                 textStyle = Type.labelLarge(),
                 modifier = Modifier.clickable {
-                    navController.navigate(Screen.SignupScreen.route)
+                    coroutineScope.launch {
+                        viewModel.saveHaveRunAppBefore()
+                    }
+                    navController.navigate(Screen.HomeScreen.route)
                 }
             )
 

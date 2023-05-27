@@ -17,6 +17,7 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
 
     val uid = MutableStateFlow<String?>(null)
+    val isHaveRunAppBefore = MutableStateFlow(false)
     private val _userResponse = MutableStateFlow<Resource<UserResponse?>>(Resource.Empty())
     val userResponse = _userResponse.asStateFlow()
     private fun fetchUserDetail() {
@@ -30,12 +31,18 @@ class SplashViewModel @Inject constructor(private val repository: UserRepository
         }
     }
 
+    private fun readHaveRunAppBefore() = viewModelScope.launch {
+        repository.readHaveRunAppBefore().collect {
+            isHaveRunAppBefore.value = it
+        }
+    }
     suspend fun saveUserIndex(index: Int) {
         Log.d("Index", index.toString())
         repository.saveRegisterProgressIndex(index)
     }
 
     init {
+        readHaveRunAppBefore()
         fetchUserDetail()
     }
 }

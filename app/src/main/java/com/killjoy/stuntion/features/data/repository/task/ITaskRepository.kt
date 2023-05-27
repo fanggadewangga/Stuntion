@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ITaskRepository {
     suspend fun postNewUserTask(uid: String, body: UserTaskBody): Flow<Resource<String>>
+    suspend fun fetchAllTasks(): Flow<Resource<List<TaskListResponse>>>
     suspend fun fetchTaskByUser(uid: String): Flow<Resource<List<TaskListResponse>>>
     suspend fun fetchTaskDetail(uid: String, taskId: String): Flow<Resource<TaskResponse>>
 }
