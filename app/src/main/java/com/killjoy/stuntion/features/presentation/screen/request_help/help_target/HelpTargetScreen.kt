@@ -151,13 +151,13 @@ fun HelpTargetScreen() {
             // Name
             Row(modifier = Modifier.padding(bottom = 8.dp)) {
                 StuntionText(
-                    text = "Determine The Approximate Food Needed",
+                    text = "Determine The Approximate Child's needs",
                     textStyle = Type.labelLarge()
                 )
                 StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
             }
             StuntionBasicTextField(
-                placeHolder = "Enter the need for additional food",
+                placeHolder = "Enter the child's needs",
                 value = viewModel.foodState.value.toString(),
                 onValueChange = {
                     viewModel.isFoodFieldClicked.value = true
@@ -177,13 +177,13 @@ fun HelpTargetScreen() {
             Spacer(modifier = Modifier.height(16.dp))
             Row(modifier = Modifier.padding(bottom = 8.dp)) {
                 StuntionText(
-                    text = "Determine the estimated cost of the food needed",
+                    text = "Determine the estimated cost of the child's needs",
                     textStyle = Type.labelLarge()
                 )
                 StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)
             }
             StuntionBasicTextField(
-                placeHolder = "Enter the cost of the food",
+                placeHolder = "Enter the cost of the needs",
                 value = viewModel.costState.value.toString(),
                 onValueChange = {
                     viewModel.isCostFieldClicked.value = true

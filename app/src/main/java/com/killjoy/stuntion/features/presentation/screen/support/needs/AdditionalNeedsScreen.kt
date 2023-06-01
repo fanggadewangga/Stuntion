@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.support.food
+package com.killjoy.stuntion.features.presentation.screen.support.needs
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -49,7 +49,7 @@ import com.killjoy.stuntion.ui.theme.Type
 fun AdditionalFoodScreen(
     navController: NavController,
 ) {
-    val viewModel = hiltViewModel<AdditionalFoodViewModel>()
+    val viewModel = hiltViewModel<AdditionalNeedsViewModel>()
     val systemUiController = rememberSystemUiController()
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -100,7 +100,7 @@ fun AdditionalFoodScreen(
 
             // Top bar
             StuntionTopBar(
-                title = "Additional Food",
+                title = "Additional Needs",
                 onBackPressed = { navController.popBackStack() },
                 isWithDivider = true
             )
@@ -120,11 +120,11 @@ fun AdditionalFoodScreen(
 
             // Title
             StuntionText(
-                text = "The quantity of food", textStyle = Type.labelLarge(),
+                text = "The quantity of needs", textStyle = Type.labelLarge(),
                 modifier = Modifier.padding(16.dp)
             )
             StuntionBasicTextField(
-                placeHolder = "Enter the quantity of food",
+                placeHolder = "Enter the quantity of needs",
                 value = viewModel.foodQuantityState.value.toString(),
                 onValueChange = {
                     viewModel.isFoodFieldClicked.value = true
@@ -144,7 +144,7 @@ fun AdditionalFoodScreen(
             Spacer(modifier = Modifier.height(16.dp))
             Row(modifier = Modifier.padding(horizontal = 16.dp)) {
                 StuntionText(
-                    text = "Upload a photo of the food to be donated",
+                    text = "Upload a photo of the child's needs to be donated",
                     textStyle = Type.labelLarge()
                 )
                 StuntionText(text = " *", textStyle = Type.labelLarge(), color = Color.Red)

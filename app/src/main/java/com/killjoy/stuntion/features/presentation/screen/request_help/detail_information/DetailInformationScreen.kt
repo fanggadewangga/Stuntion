@@ -106,7 +106,7 @@ fun DetailInformationScreen() {
                     viewModel.storyState.value = it
                 },
                 shape = RoundedCornerShape(32.dp),
-                singleLine = true,
+                singleLine = false,
                 isError = !viewModel.isValidStory.value,
                 showWarningMessage = !viewModel.isValidStory.value,
                 warningMessage = "Field could not be empty.",

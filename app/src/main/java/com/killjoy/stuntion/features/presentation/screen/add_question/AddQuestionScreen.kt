@@ -323,6 +323,7 @@ fun AddQuestionScreen(navController: NavController) {
                             onValueChange = {
                                 viewModel.questionDescriptionState.value = it
                             },
+                            singleLine = false,
                             textFieldHeight = 240.dp,
                             textStyle = Type.bodyLarge(),
                             shape = RoundedCornerShape(32.dp),

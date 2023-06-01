@@ -3,16 +3,21 @@ package com.killjoy.stuntion.features.presentation.screen.avatar
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,13 +33,11 @@ import com.killjoy.stuntion.features.presentation.utils.components.StuntionButto
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
-import kotlinx.coroutines.launch
 
 @Composable
 fun AvatarScreen(navController: NavController) {
     val viewModel = hiltViewModel<AvatarViewModel>()
     val listOfAvatar: List<Avatar> = viewModel.listOfAvatar
-    val coroutineScope = rememberCoroutineScope()
     val updateAvatarResponse = viewModel.updateAvatarResponse.collectAsState()
 
     LaunchedEffect(updateAvatarResponse.value) {
@@ -57,7 +60,6 @@ fun AvatarScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(PrimaryBlue)
-            .verticalScroll(rememberScrollState())
     ) {
         // Avatar Text
         Spacer(modifier = Modifier.height(72.dp))
@@ -119,8 +121,6 @@ fun AvatarScreen(navController: NavController) {
                 StuntionButton(
                     onClick = {
                         viewModel.updateUserAvatar()
-                        coroutineScope.launch {
-                        }
                     }, modifier = Modifier.fillMaxWidth()
                 ) {
                     StuntionText(

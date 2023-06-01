@@ -66,7 +66,7 @@ fun SupportTypeSection(
             backgroundColor = Color(0xFFE6E1E5),
             content = {
                 StuntionText(
-                    text = "Support with additional foods",
+                    text = "Support with child's additional needs",
                     textStyle = Type.bodyMedium()
                 )
             },
@@ -94,7 +94,7 @@ fun SupportTypeSection(
         ) {
             StuntionText(text = "*", color = LightGray, textStyle = Type.bodySmall())
             StuntionText(
-                text = "To choose support with additional food, it is expected that your location is no more than 10 kilometers",
+                text = "To choose support with additional needs, it is expected that your location is no more than 10 kilometers",
                 color = LightGray,
                 textStyle = Type.bodySmall()
             )
@@ -113,7 +113,7 @@ fun SupportTypeSection(
         ) {
             StuntionText(text = "*", color = LightGray, textStyle = Type.bodySmall())
             StuntionText(
-                text = "Our team will deliver your additional food donation",
+                text = "Our team will deliver your additional needs donation",
                 color = LightGray,
                 textStyle = Type.bodySmall()
             )

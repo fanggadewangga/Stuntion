@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.support.food
+package com.killjoy.stuntion.features.presentation.screen.support.needs
 
 import android.net.Uri
 import androidx.compose.runtime.derivedStateOf
@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AdditionalFoodViewModel @Inject constructor(): ViewModel() {
+class AdditionalNeedsViewModel @Inject constructor(): ViewModel() {
     var selectedImageUri = mutableStateOf<Uri?>(null)
     val foodQuantityState = mutableStateOf(0)
     val isFoodFieldClicked = mutableStateOf(false)

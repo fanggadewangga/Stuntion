@@ -54,7 +54,7 @@ fun ConsultationScreen(navController: NavController) {
         ) {
 
             // Top Bar
-            StuntionTopBar(title = "Consultation", onBackPressed = {}, isWithDivider = false)
+            StuntionTopBar(title = "Consultation", onBackPressed = { navController.popBackStack() }, isWithDivider = false)
 
             // Tab Row
             TabRow(

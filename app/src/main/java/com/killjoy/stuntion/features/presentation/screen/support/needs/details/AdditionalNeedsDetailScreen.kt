@@ -1,4 +1,4 @@
-package com.killjoy.stuntion.features.presentation.screen.support.food.details
+package com.killjoy.stuntion.features.presentation.screen.support.needs.details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,7 +39,7 @@ import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
 
 @Composable
-fun AdditionalFoodDetailScreen(navController: NavController) {
+fun AdditionalNeedsDetailScreen(navController: NavController) {
 
     val systemUiController = rememberSystemUiController()
     LaunchedEffect(Unit) {
@@ -92,16 +92,16 @@ fun AdditionalFoodDetailScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(start = 24.dp, top = 24.dp, end = 24.dp)
             ) {
-                // Food status
+                // Donation status
                 StuntionText(
-                    text = "Your food is validated",
+                    text = "Your donation is validated",
                     textStyle = Type.titleLarge(),
                     color = Color.White
                 )
 
                 // Description
                 StuntionText(
-                    text = "Please wait for our team to collect your food",
+                    text = "Please wait for our team to collect your donation",
                     textStyle = Type.bodyMedium(),
                     textAlign = TextAlign.Center,
                     color = Color.White
@@ -151,7 +151,7 @@ fun AdditionalFoodDetailScreen(navController: NavController) {
                             )
                         }
                         StuntionText(
-                            text = "Food donations will be taken soon",
+                            text = "Donations will be taken soon",
                             textStyle = Type.titleBold()
                         )
                     }
@@ -180,7 +180,7 @@ fun AdditionalFoodDetailScreen(navController: NavController) {
                             )
                         }
                         StuntionText(
-                            text = "Food donations is being delivered",
+                            text = "Donations is being delivered",
                             textStyle = Type.titleBold()
                         )
                     }
@@ -198,11 +198,11 @@ fun AdditionalFoodDetailScreen(navController: NavController) {
                         }
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             StuntionText(
-                                text = "Food donations is received",
+                                text = "Donations is received",
                                 textStyle = Type.titleBold()
                             )
                             StuntionText(
-                                text = "Additional food has been received by the requester for support",
+                                text = "Additional needs has been received by the requester for support",
                                 textStyle = Type.bodyMedium(),
                                 color = LightGray
                             )
