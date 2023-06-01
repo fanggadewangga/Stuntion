@@ -31,7 +31,7 @@ fun SplashScreen(navController: NavController) {
         when(user.value) {
             is Resource.Loading -> {}
             is Resource.Success -> {
-                if (!user.value.data!!.name.isNullOrEmpty() || user.value.data!!.name == "Anonymous")
+                if (user.value.data!!.name.isNullOrEmpty() || user.value.data!!.name == "Anonymous")
                     viewModel.saveUserIndex(1)
                 else if (!user.value.data!!.name.isNullOrEmpty() && user.value.data!!.name != "Anonymous" )
                     viewModel.saveUserIndex(3)
