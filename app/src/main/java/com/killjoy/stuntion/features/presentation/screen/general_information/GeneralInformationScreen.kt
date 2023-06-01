@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -133,7 +134,7 @@ fun GeneralInformationScreen(navController: NavController) {
 
                 // Please complete
                 StuntionText(
-                    text = "Please complete your personal data!",
+                    text = "You can complete your data later",
                     textStyle = Type.bodyMedium(),
                     color = Color.Gray
                 )
@@ -250,7 +251,9 @@ fun GeneralInformationScreen(navController: NavController) {
                         text = "Skip",
                         color = PrimaryBlue,
                         textStyle = Type.bodyMedium(),
-                        modifier = Modifier.clickable { navController.navigate(Screen.AvatarScreen.route) }
+                        modifier = Modifier
+                            .clickable { navController.navigate(Screen.HomeScreen.route) }
+                            .padding(bottom = (LocalConfiguration.current.screenHeightDp / 17).dp)
                     )
                 }
             }

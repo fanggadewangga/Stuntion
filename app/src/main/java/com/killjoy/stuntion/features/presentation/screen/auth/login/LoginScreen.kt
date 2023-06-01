@@ -73,7 +73,7 @@ fun LoginScreen(navController: NavController) {
                     viewModel.saveUserIndex(3)
                 else
                     viewModel.saveUserIndex(1)
-                navController.navigate(Screen.HomeScreen.route) {
+                navController.navigate(Screen.GeneralInformationScreen.route) {
                     popUpTo(Screen.LoginScreen.route) {
                         inclusive = true
                     }

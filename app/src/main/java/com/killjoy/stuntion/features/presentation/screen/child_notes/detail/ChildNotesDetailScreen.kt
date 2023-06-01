@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,15 +25,18 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.killjoy.stuntion.R
 import com.killjoy.stuntion.features.data.util.Resource
 import com.killjoy.stuntion.features.presentation.utils.Screen
 import com.killjoy.stuntion.features.presentation.utils.components.ChildProfileSectionItem
 import com.killjoy.stuntion.features.presentation.utils.components.ErrorLayout
+import com.killjoy.stuntion.features.presentation.utils.components.HealthyTipsItem
+import com.killjoy.stuntion.features.presentation.utils.components.HealthyTipsItemShimmer
 import com.killjoy.stuntion.features.presentation.utils.components.LoadingAnimation
-import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
 import com.killjoy.stuntion.features.presentation.utils.components.StuntionText
+import com.killjoy.stuntion.features.presentation.utils.components.StuntionTopBar
 import com.killjoy.stuntion.ui.theme.LightBlue
 import com.killjoy.stuntion.ui.theme.PrimaryBlue
 import com.killjoy.stuntion.ui.theme.Type
@@ -42,7 +44,8 @@ import com.killjoy.stuntion.ui.theme.Type
 @Composable
 fun ChildNotesDetailScreen(navController: NavController, noteId: String) {
     val viewModel = hiltViewModel<ChildNotesDetailViewModel>()
-    val noteResponse = viewModel.noteResponse.collectAsState()
+    val noteResponse = viewModel.noteResponse.collectAsStateWithLifecycle()
+    val taskResponse = viewModel.fetchTaskResponse.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = true) {
         viewModel.fetchNoteDetail(noteId)
@@ -336,7 +339,43 @@ fun ChildNotesDetailScreen(navController: NavController, noteId: String) {
                             }
                         },
                         invisibleContent = {
+                            when (taskResponse.value) {
+                                is Resource.Loading -> {
+                                    Log.d("FETCH TASK", "LOADING")
+                                    for (i in 1..5) {
+                                        HealthyTipsItemShimmer()
+                                    }
+                                }
 
+                                is Resource.Error -> Log.d(
+                                    "FETCH TASK",
+                                    taskResponse.value.message.toString()
+                                )
+
+                                is Resource.Empty -> Log.d(
+                                    "FETCH TASK",
+                                    taskResponse.value.message.toString()
+                                )
+
+                                is Resource.Success -> {
+                                    Log.d("FETCH TASK", "SUCCESS")
+                                    Column {
+                                        val taskList = taskResponse.value.data!!.take(5)
+                                        taskList.forEach {
+                                            HealthyTipsItem(
+                                                tips = it,
+                                                onClick = {
+                                                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                                                        key = "taskId",
+                                                        value = it.taskId
+                                                    )
+                                                    navController.navigate(Screen.HealthyTipsDetailScreen.route)
+                                                },
+                                            )
+                                        }
+                                    }
+                                }
+                            }
                         },
                         modifier = Modifier
                             .fillMaxWidth()

@@ -41,10 +41,7 @@ fun AvatarScreen(navController: NavController) {
     val updateAvatarResponse = viewModel.updateAvatarResponse.collectAsState()
 
     LaunchedEffect(updateAvatarResponse.value) {
-        when (updateAvatarResponse.value) {
-            is Resource.Loading -> Log.d("Update Avatar", "Loading")
-            is Resource.Error -> Log.d("Update Avatar", updateAvatarResponse.value.message.toString())
-            is Resource.Empty -> Log.d("Update Avatar", "Empty")
+        when (val response = updateAvatarResponse.value) {
             is Resource.Success -> {
                 Log.d("Update Avatar", "Success")
                 navController.navigate(Screen.LocationPermissionScreen.route) {
@@ -53,6 +50,9 @@ fun AvatarScreen(navController: NavController) {
                     }
                 }
             }
+            is Resource.Loading -> Log.d("Update Avatar", "Loading")
+            is Resource.Error -> Log.d("Update Avatar", response.message.toString())
+            is Resource.Empty -> Log.d("Update Avatar", "Empty")
         }
     }
 
